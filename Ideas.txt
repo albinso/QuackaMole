@@ -1,1 +1,53 @@
-QuackaMole-gameplay
+Beskrivning:
+QuackaMole är ett multiplayer spel där mullvadar slåss mot varandra under jorden. Spelplanen 
+är fylld av jord som går att gräva gångar igenom (men inte skjuta). Det finns stenar som går 
+att flytta på genom att man knuffar. Det finns lådor utplacerade på banan som kan innehålla 
+buffar, vapen eller health-kit. Varje mullvad har HP som är tillräckligt för att man inte ska 
+dö av ett skott. De har dessutom en pistol som startvapen som gör tillräckligt med skada för 
+att döda motståndaren med fyra skott. Det går lika fort att gräva tunnlar som det tar att 
+öppna lådor. Bland buffar så finns det skadesköld, odödlighet på begränsad tid, snabbare att 
+gräva tunnlar och öppna lådor på begränsad tid.
+
+Klass samt Metod-förslag:
+- QuackaMole (JFrame)
+ * Start game
+ * Pause game
+ * Options
+ * Quit
+- GameField (JPanel)
+ * actionPerformed
+ * init
+ * createMap (from File)
+- Mole (Player)
+ * shoot
+ * addBuff
+ * addWeapon
+ * move
+ * setMovement (booleans 4 directions)
+- Dirt (Block)
+ * crack (when digging)
+ * isDestroyed
+ * getBounds (4 corners)
+- Stone (Block)
+ * move (4 directions)
+- Box (Block)
+ * crack (when opening)
+ * isDestroyed
+ * getBounds (4 corners)
+ * dropItem (when opened)
+- SpawnPoint (Block)
+ * spawn player
+- Weapon (Item)
+ * createProjectile
+- Buff (Item)
+ * buffAction
+- Projectile (Item)
+ * getDamage
+ * getBounds
+ 
+Svårigheter:
+- Klasshantering av buffar och vapen
+- Projectiles vs Players (checking)
+- Hantering av SpawnPoint
+- Layout för spelmenyn (knappar etc)
+- Inställningar (val av plan, antal spelare)
