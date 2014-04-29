@@ -1,5 +1,8 @@
 import java.awt.*;
 
+/**
+ * The field on which the game is played
+ */
 interface Gamefield {
 	/**
 	 * Initiates the players and the game
