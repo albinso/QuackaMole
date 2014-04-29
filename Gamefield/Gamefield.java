@@ -7,5 +7,5 @@ interface Gamefield {
 
 	void startGame();
 
-	void paintComponent(Graphics g);
+	void draw(Graphics g);
 }
