@@ -1,8 +1,14 @@
 import java.awt.*;
 
+/**
+ * The obstacles are used to be in the way for the player
+ */
 public class Obstacle {
 	private int x, y, width, height;
 
+	/**
+	 * Initiates position and size of the obstacle
+	 */
 	Obstacle(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
