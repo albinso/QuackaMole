@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Obstacle {
 	private int x, y, width, height;
 
@@ -27,5 +29,9 @@ public class Obstacle {
 	boolean inBounds(int x, int y) {
 		return this.x <= x && x < (this.x + width) && 
 				this.y <= y && y < (this.y + height);
+	}
+
+	void draw(Graphics g) {
+		super.paintComponent(g);
 	}
 }
