@@ -25,4 +25,9 @@ interface Player {
 	* Should only ever be used with the constant direction variables in Player.
 	*/
 	void setDirection(double angle);
+
+	/**
+	* Draws the player on the given Graphics object.
+	*/
+	void draw(Graphics g);
 }
