@@ -11,7 +11,13 @@ interface Gamefield {
 	 */
 	void initField();
 
+	/**
+	 * Starts the game (the timer)
+	 */
 	void startGame();
 
+	/**
+	 * Draws the gamefield with all its objects
+	 */
 	void draw(Graphics g);
 }
