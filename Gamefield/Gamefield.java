@@ -1,13 +1,6 @@
-import javax.swing.*;
+import java.awt.*;
 
-interface Gamefield extends JPanel {
-	private int width, height;
-
-	Gamefield(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
-
+interface Gamefield {
 	void intiGame();
 
 	void initField();

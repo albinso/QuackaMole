@@ -1,4 +1,4 @@
-interface Obstacle {
+public class Obstacle {
 	private int x, y, width, height;
 
 	Obstacle(int x, int y, int width, int height) {
