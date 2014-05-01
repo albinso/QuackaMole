@@ -1,9 +1,10 @@
 import java.awt.*;
+import java.io.*;
 
 interface Gamefield {
-	void intiGame();
+	void initGame();
 
-	void initField();
+	void initField(File mapFile);
 
 	void startGame();
 
