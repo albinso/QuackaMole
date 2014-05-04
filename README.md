@@ -1,4 +1,0 @@
-QuackaMole
-==========
-
-Lord of Moles!
