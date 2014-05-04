@@ -2,5 +2,5 @@ interface Weapon {
 	/**
 	* Shoots a bullet in the current facing direction.
 	*/
-	Bullet shootBullet();
+	Bullet shootBullet(int bulletx, int bullety, int bulletDirection);
 }
