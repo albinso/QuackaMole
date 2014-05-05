@@ -27,7 +27,12 @@ public class TestClient extends Socket {
 		inputStream = new ObjectInputStream(getInputStream());
 		outputStream = new ObjectOutputStream(getOutputStream());
 
-		id = (int)(inputStream.readObject()); // possibly cast Integer
+		try {
+			id = (int)(inputStream.readObject()); // possibly cast Integer
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(2);
+		}
 	}
 
 // 	public void run() {
