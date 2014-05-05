@@ -7,8 +7,7 @@ import java.net.SocketAddress;
 
 import java.io.*; // DEBUGG
 
-// TODO rename to KeyListenBackendClient
-public class TestClient extends Socket {
+public class KeyListenBackendClient extends Socket {
 	private ObjectOutputStream outputStream;
 	private ObjectInputStream inputStream;
 	private String name;
@@ -16,7 +15,7 @@ public class TestClient extends Socket {
 	// DEBUGG
 	private int id;
 
-	public TestClient(SocketAddress adr, String name) throws IOException {
+	public KeyListenBackendClient(SocketAddress adr, String name) throws IOException {
 		this.name = name;
 		try {
 			connect(adr);
