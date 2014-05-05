@@ -67,7 +67,7 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 	}
 
 	public void keyPressed(KeyEvent e) {
-		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode());
+		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), true);
 		client.sendObject(p);
 	}
 
@@ -76,22 +76,23 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 	}
 
 	public void keyReleased(KeyEvent e) {
-
+		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), false);
+		client.sendObject(p);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		KeyListenPackage p = null;
 		if(e.getSource() == up) {
-			p = new KeyListenPackage(0, KeyEvent.VK_UP);	
+			p = new KeyListenPackage(0, KeyEvent.VK_UP, true);	
 		}
 		if(e.getSource() == down) {
-			p = new KeyListenPackage(0, KeyEvent.VK_DOWN);
+			p = new KeyListenPackage(0, KeyEvent.VK_DOWN, true);
 		}
 		if(e.getSource() == left) {
-			p = new KeyListenPackage(0, KeyEvent.VK_LEFT);
+			p = new KeyListenPackage(0, KeyEvent.VK_LEFT, true);
 		}
 		if(e.getSource() == right) {
-			p = new KeyListenPackage(0, KeyEvent.VK_RIGHT);
+			p = new KeyListenPackage(0, KeyEvent.VK_RIGHT, true);
 		}
 		client.sendObject(p);
 	}
