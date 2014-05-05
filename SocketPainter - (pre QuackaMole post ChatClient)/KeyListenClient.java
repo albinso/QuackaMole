@@ -9,8 +9,7 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 	TestClient client;
 	JButton up, down, left, right, nothing;
 	KeyListenPlayer field = null;
-	public KeyListenClient() throws IOException{
-		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8080);
+	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new TestClient(adr, "Rick Astley");
 		up = new JButton("up");
 		down = new JButton("down");
@@ -43,9 +42,13 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Send key inputs");
+		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8080);
 		frame.setSize(600, 400);
+		if(args.length == 2) {
+			adr = new InetSocketAddress(args[0], Integer.parseInt(args[1]));
+		}
 		try {
-			frame.add(new KeyListenClient());
+			frame.add(new KeyListenClient(adr));
 		} catch(IOException e) {
 			System.exit(1);
 		}
