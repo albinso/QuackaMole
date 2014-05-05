@@ -5,27 +5,11 @@ import java.net.*;
 import java.io.*;
 import java.io.Serializable;
 
-public class KeyListenClient extends JPanel implements KeyListener, ActionListener, Serializable {
+public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	TestClient client;
-	JButton up, down, left, right, nothing;
 	KeyListenPlayer field = null;
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new TestClient(adr, "Rick Astley");
-		up = new JButton("up");
-		down = new JButton("down");
-		left = new JButton("left");
-		right = new JButton("right");
-		nothing = new JButton("null");
-		up.addActionListener(this);
-		down.addActionListener(this);
-		left.addActionListener(this);
-		right.addActionListener(this);
-		nothing.addActionListener(this);
-		add(up);
-		add(down);
-		add(left);
-		add(right);
-		add(nothing);
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
@@ -77,23 +61,6 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 
 	public void keyReleased(KeyEvent e) {
 		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), false);
-		client.sendObject(p);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		KeyListenPackage p = null;
-		if(e.getSource() == up) {
-			p = new KeyListenPackage(0, KeyEvent.VK_UP, true);	
-		}
-		if(e.getSource() == down) {
-			p = new KeyListenPackage(0, KeyEvent.VK_DOWN, true);
-		}
-		if(e.getSource() == left) {
-			p = new KeyListenPackage(0, KeyEvent.VK_LEFT, true);
-		}
-		if(e.getSource() == right) {
-			p = new KeyListenPackage(0, KeyEvent.VK_RIGHT, true);
-		}
 		client.sendObject(p);
 	}
 }
