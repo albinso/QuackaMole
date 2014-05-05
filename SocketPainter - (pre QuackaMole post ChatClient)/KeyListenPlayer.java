@@ -43,6 +43,13 @@ public class KeyListenPlayer implements Serializable {
 		right = true;
 	}
 
+	public void stopMoving() {
+		up = false;
+		down = false;
+		left = false;
+		right = false;
+	}
+
 	public void move() {
 		if (up)
 			y--;

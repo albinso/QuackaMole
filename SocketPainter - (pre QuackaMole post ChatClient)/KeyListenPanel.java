@@ -58,7 +58,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 	public void actionHandling(KeyListenPackage pack) {
 		System.out.println(pack.getPlayerID() + " " + pack.getContent());
-
+		// Use KeyEvent.VK_UP etc.
 		if (pack.getContent() == 37)
 			players.get(0).goLeft();
 		if (pack.getContent() == 38)
@@ -67,6 +67,9 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 			players.get(0).goDown();
 		if (pack.getContent() == 39)
 			players.get(0).goRight();
+		if(!pack.isPressing()) {
+			players.get(0).stopMoving();
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
