@@ -38,7 +38,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyPressed(KeyEvent e) {
-		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), true);
+		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), true);
 		client.sendObject(p);
 	}
 
@@ -47,7 +47,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyReleased(KeyEvent e) {
-		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), false);
+		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), false);
 		client.sendObject(p);
 	}
 
