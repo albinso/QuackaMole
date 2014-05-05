@@ -21,6 +21,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 		final KeyListenPanel panel = this;
 
+		// a new thread that handles the server
 		new Thread() {
 			public void run() {
 				int port = 8080; // the port used for the server
@@ -33,14 +34,22 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		}.start();
 	}
 
+	// called by the server when a new player has connected
 	public void addPlayer() {
+		// if the game hasen't started yet
+		// TODO start timer when all players are ready?
 		if (players.size() == 0)
 			timer.start();
 
+		// creates a player (with random coordinates)
+		// TODO set position realtive to the map
 		int x = (int)(Math.random() * width);
 		int y = (int)(Math.random() * height);
 		players.add(new KeyListenPlayer(x, y));
+
+		// DEBUGG
 		System.out.println("Player added");
+
 		repaint();
 	}
 
@@ -48,6 +57,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		return players.get(index);
 	}
 
+	// if not updated return false
+	// if updated, set updated to false and return true
 	public boolean updated() {
 		if (!updated)
 			return false;
@@ -56,24 +67,34 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		return true;
 	}
 
+	/**
+	 * When an action is performed in one of the clients they 
+	 *  this method which will put the action in play on the 
+	 *  panel
+	 */
 	public void actionHandling(KeyListenPackage pack) {
+		// DEBUGG - remove when done
 		System.out.println(pack.getPlayerID() + " " + pack.getContent());
-		// Use KeyEvent.VK_UP etc.
+
+		int index = pack.getPlayerID();
+
+		// TODO Use KeyEvent.VK_UP etc.
 		if (pack.getContent() == 37)
-			players.get(0).goLeft();
+			players.get(index).goLeft();
 		if (pack.getContent() == 38)
-			players.get(0).goUp();
+			players.get(index).goUp();
 		if (pack.getContent() == 40)
-			players.get(0).goDown();
+			players.get(index).goDown();
 		if (pack.getContent() == 39)
-			players.get(0).goRight();
+			players.get(index).goRight();
 		if(!pack.isPressing()) {
-			players.get(0).stopMoving();
+			players.get(index).stopMoving();
 		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		players.get(0).move();
+		for (KeyListenPlayer player : players)
+			player.move();
 
 		updated = true;
 		repaint();
