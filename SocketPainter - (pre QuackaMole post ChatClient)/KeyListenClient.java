@@ -8,8 +8,10 @@ import java.io.Serializable;
 public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	TestClient client;
 	KeyListenPlayer player = null;
+	int playerID;
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new TestClient(adr, "Rick Astley");
+		this.playerID = client.getID();
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();

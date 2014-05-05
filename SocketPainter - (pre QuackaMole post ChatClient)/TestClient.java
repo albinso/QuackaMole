@@ -70,6 +70,10 @@ public class TestClient extends Socket {
 		}
 	}
 
+	public int getID() {
+		return id;
+	}
+
 /*	public static void main(String[] args) throws IOException {
 		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8087);
 
