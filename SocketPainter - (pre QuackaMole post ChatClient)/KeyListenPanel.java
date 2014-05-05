@@ -35,7 +35,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 	}
 
 	// called by the server when a new player has connected
-	public void addPlayer() {
+	public int addPlayer() {
 		// if the game hasen't started yet
 		// TODO start timer when all players are ready?
 		if (players.size() == 0)
@@ -51,6 +51,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		System.out.println("Player added");
 
 		repaint();
+
+		return players.size() - 1;
 	}
 
 	public KeyListenPlayer getPlayer(int index) {

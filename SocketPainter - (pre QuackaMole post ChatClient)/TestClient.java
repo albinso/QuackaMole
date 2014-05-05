@@ -12,6 +12,9 @@ public class TestClient extends Socket {
 	private ObjectInputStream inputStream;
 	private String name;
 
+	// DEBUGG
+	private int id;
+
 	public TestClient(SocketAddress adr, String name) throws IOException {
 		this.name = name;
 		try {
@@ -23,6 +26,8 @@ public class TestClient extends Socket {
 
 		inputStream = new ObjectInputStream(getInputStream());
 		outputStream = new ObjectOutputStream(getOutputStream());
+
+		id = (int)(inputStream.readObject()); // possibly cast Integer
 	}
 
 // 	public void run() {

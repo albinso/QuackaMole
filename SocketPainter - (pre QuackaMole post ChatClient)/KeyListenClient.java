@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	TestClient client;
-	KeyListenPlayer field = null;
+	KeyListenPlayer player = null;
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new TestClient(adr, "Rick Astley");
 		addKeyListener(this);
@@ -17,11 +17,36 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		new Thread() {
 			public void run() {
 				while(true) {
-					field = (KeyListenPlayer)(client.getObject());
+					player = (KeyListenPlayer)(client.getObject());
 				}
 			}
 		}.start();
 		repaint();
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		if(player != null) {
+			player.paint(g);
+		}
+
+		requestFocus();
+		repaint();
+	}
+
+	public void keyPressed(KeyEvent e) {
+		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), true);
+		client.sendObject(p);
+	}
+
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	public void keyReleased(KeyEvent e) {
+		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), false);
+		client.sendObject(p);
 	}
 
 	public static void main(String[] args) {
@@ -39,28 +64,5 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.requestFocus();
-	}
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if(field != null) {
-			field.paint(g);
-		}
-		requestFocus();
-		repaint();
-	}
-
-	public void keyPressed(KeyEvent e) {
-		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), true);
-		client.sendObject(p);
-	}
-
-	public void keyTyped(KeyEvent e) {
-
-	}
-
-	public void keyReleased(KeyEvent e) {
-		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode(), false);
-		client.sendObject(p);
 	}
 }
