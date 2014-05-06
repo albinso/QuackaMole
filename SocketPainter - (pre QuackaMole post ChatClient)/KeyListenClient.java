@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	KeyListenBackendClient client;
-	KeyListenPlayer player = null;
 	int playerID;
+	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
@@ -19,7 +19,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		new Thread() {
 			public void run() {
 				while(true) {
-					player = (KeyListenPlayer)(client.getObject());
+					Integer index = (Integer)(client.getObject());
+					players[index] = (KeyListenPlayer)(client.getObject());
 				}
 			}
 		}.start();
@@ -29,7 +30,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if(player != null) {
+		for(KeyListenPlayer player : players) {
+			if(player == null) {
+				continue;
+			}
 			player.paint(g);
 		}
 
