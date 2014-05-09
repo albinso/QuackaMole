@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	KeyListenBackendClient client;
 	int playerID;
+	boolean isMoving = true;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
@@ -42,6 +43,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyPressed(KeyEvent e) {
+		if(isMoving) {
+			return;
+		}
+		isMoving = true;
 		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), true);
 		client.sendObject(p);
 	}
@@ -51,6 +56,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyReleased(KeyEvent e) {
+		if(!isMoving) {
+			return;
+		}
+		isMoving = false;
 		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), false);
 		client.sendObject(p);
 	}

@@ -16,7 +16,7 @@ public class QuackGamefield extends JPanel implements Gamefield, ActionListener,
 	private LinkedList<Obstacle> obstacles;
 
 	public QuackGamefield(int obstacleSize, File mapFile) {
-		timer = new Timer(5, this);
+		timer = new Timer(1000, this);
 		this.mapFile = mapFile;
 
 		this.obstacleSize = obstacleSize;
@@ -88,35 +88,26 @@ public class QuackGamefield extends JPanel implements Gamefield, ActionListener,
 	// every time the timer ticks
 	public void actionPerformed(ActionEvent e) {
 		player.move();
-
+		System.out.println(timer);
 		repaint();
 	}
 
 	// => vi behöver ha det på detta sättet (enligt min modell) för att det ska gå att spela utan "lagg"
 	private void keyPressHelper(KeyEvent e, boolean press) {
+		player.down = false;
+		player.up = false;
+		player.left = false;
+		player.right = false;
 		if (e.getKeyChar() == 'd') {
 			player.right = press;
-			player.down = false;
-			player.left = false;
-			player.up = false;
 		}
 		if (e.getKeyChar() == 's') {
-			player.right = false;
 			player.down = press;
-			player.left = false;
-			player.up = false;
 		}
 		if (e.getKeyChar() == 'a') {
-			player.right = false;
-			player.down = false;
 			player.left = press;
-			player.up = false;
 		}
-
 		if (e.getKeyChar() == 'w') {
-			player.right = false;
-			player.down = false;
-			player.left = false;
 			player.up = press;
 		}
 	}
