@@ -5,30 +5,29 @@ import java.net.*;
 import java.io.*;
 import java.io.Serializable;
 
-<<<<<<< HEAD
-public class KeyListenClient extends JPanel implements KeyListener, ActionListener, Serializable {
-	TestClient client;
-	JButton up, down, left, right, nothing;
-	KeyListenPlayer field = null;
-	public KeyListenClient() throws IOException{
-		InetSocketAddress adr = new InetSocketAddress("192.168.0.103", 8080);
-		this.client = new TestClient(adr, "Rick Astley");
-		up = new JButton("up");
-		down = new JButton("down");
-		left = new JButton("left");
-		right = new JButton("right");
-		nothing = new JButton("null");
-		up.addActionListener(this);
-		down.addActionListener(this);
-		left.addActionListener(this);
-		right.addActionListener(this);
-		nothing.addActionListener(this);
-		add(up);
-		add(down);
-		add(left);
-		add(right);
-		add(nothing);
-=======
+// public class KeyListenClient extends JPanel implements KeyListener, ActionListener, Serializable {
+// 	TestClient client;
+// 	JButton up, down, left, right, nothing;
+// 	KeyListenPlayer field = null;
+// 	public KeyListenClient() throws IOException{
+// 		InetSocketAddress adr = new InetSocketAddress("192.168.0.103", 8080);
+// 		this.client = new TestClient(adr, "Rick Astley");
+// 		up = new JButton("up");
+// 		down = new JButton("down");
+// 		left = new JButton("left");
+// 		right = new JButton("right");
+// 		nothing = new JButton("null");
+// 		up.addActionListener(this);
+// 		down.addActionListener(this);
+// 		left.addActionListener(this);
+// 		right.addActionListener(this);
+// 		nothing.addActionListener(this);
+// 		add(up);
+// 		add(down);
+// 		add(left);
+// 		add(right);
+// 		add(nothing);
+
 public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	KeyListenBackendClient client;
 	int playerID;
@@ -37,7 +36,6 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
->>>>>>> 6624ea2516be8642752ce3fa6a704a46ca38f874
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
