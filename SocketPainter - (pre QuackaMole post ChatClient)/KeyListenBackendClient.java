@@ -1,18 +1,20 @@
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import java.io.*; // DEBUGG
-
-public class TestClient extends Socket {
+public class KeyListenBackendClient extends Socket {
 	private ObjectOutputStream outputStream;
 	private ObjectInputStream inputStream;
 	private String name;
 
-	public TestClient(SocketAddress adr, String name) throws IOException {
+	// DEBUGG
+	private int id;
+
+	public KeyListenBackendClient(SocketAddress adr, String name) throws IOException {
 		this.name = name;
 		try {
 			connect(adr);
@@ -23,6 +25,13 @@ public class TestClient extends Socket {
 
 		inputStream = new ObjectInputStream(getInputStream());
 		outputStream = new ObjectOutputStream(getOutputStream());
+
+		try {
+			id = (int)(inputStream.readObject()); // possibly cast Integer
+		} catch(ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(2);
+		}
 	}
 
 // 	public void run() {
@@ -46,8 +55,10 @@ public class TestClient extends Socket {
 			o = inputStream.readObject();
 		} catch(IOException e) {
 			e.printStackTrace();
+			System.exit(3);
 		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
+			System.exit(4);
 		}
 		return o;
 	}
@@ -57,7 +68,12 @@ public class TestClient extends Socket {
 			outputStream.writeObject(o);
 		} catch(IOException e) {
 			e.printStackTrace();
+			System.exit(5);
 		}
+	}
+
+	public int getID() {
+		return id;
 	}
 
 /*	public static void main(String[] args) throws IOException {

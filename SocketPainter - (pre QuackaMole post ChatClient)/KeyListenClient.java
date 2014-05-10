@@ -5,12 +5,13 @@ import java.net.*;
 import java.io.*;
 import java.io.Serializable;
 
+<<<<<<< HEAD
 public class KeyListenClient extends JPanel implements KeyListener, ActionListener, Serializable {
 	TestClient client;
 	JButton up, down, left, right, nothing;
 	KeyListenPlayer field = null;
 	public KeyListenClient() throws IOException{
-		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8080);
+		InetSocketAddress adr = new InetSocketAddress("192.168.0.103", 8080);
 		this.client = new TestClient(adr, "Rick Astley");
 		up = new JButton("up");
 		down = new JButton("down");
@@ -27,6 +28,16 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 		add(left);
 		add(right);
 		add(nothing);
+=======
+public class KeyListenClient extends JPanel implements KeyListener, Serializable {
+	KeyListenBackendClient client;
+	int playerID;
+	boolean isMoving = true;
+	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
+	public KeyListenClient(InetSocketAddress adr) throws IOException{
+		this.client = new KeyListenBackendClient(adr, "Rick Astley");
+		this.playerID = client.getID();
+>>>>>>> 6624ea2516be8642752ce3fa6a704a46ca38f874
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
@@ -34,37 +45,34 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 		new Thread() {
 			public void run() {
 				while(true) {
-					field = (KeyListenPlayer)(client.getObject());
+					Integer index = (Integer)(client.getObject());
+					players[index] = (KeyListenPlayer)(client.getObject());
 				}
 			}
 		}.start();
 		repaint();
 	}
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Send key inputs");
-		frame.setSize(600, 400);
-		try {
-			frame.add(new KeyListenClient());
-		} catch(IOException e) {
-			System.exit(1);
-		}
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.requestFocus();
-	}
-
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(field != null) {
-			field.paint(g);
+
+		for(KeyListenPlayer player : players) {
+			if(player == null) {
+				continue;
+			}
+			player.paint(g);
 		}
+
 		requestFocus();
 		repaint();
 	}
 
 	public void keyPressed(KeyEvent e) {
-		KeyListenPackage p = new KeyListenPackage(0, e.getKeyCode());
+		if(isMoving) {
+			return;
+		}
+		isMoving = true;
+		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), true);
 		client.sendObject(p);
 	}
 
@@ -73,23 +81,28 @@ public class KeyListenClient extends JPanel implements KeyListener, ActionListen
 	}
 
 	public void keyReleased(KeyEvent e) {
-
+		if(!isMoving) {
+			return;
+		}
+		isMoving = false;
+		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), false);
+		client.sendObject(p);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		KeyListenPackage p = null;
-		if(e.getSource() == up) {
-			p = new KeyListenPackage(0, KeyEvent.VK_UP);	
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Send key inputs");
+		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8080);
+		frame.setSize(600, 400);
+		if(args.length == 2) {
+			adr = new InetSocketAddress(args[0], Integer.parseInt(args[1]));
 		}
-		if(e.getSource() == down) {
-			p = new KeyListenPackage(0, KeyEvent.VK_DOWN);
+		try {
+			frame.add(new KeyListenClient(adr));
+		} catch(IOException e) {
+			System.exit(1);
 		}
-		if(e.getSource() == left) {
-			p = new KeyListenPackage(0, KeyEvent.VK_LEFT);
-		}
-		if(e.getSource() == right) {
-			p = new KeyListenPackage(0, KeyEvent.VK_RIGHT);
-		}
-		client.sendObject(p);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.requestFocus();
 	}
 }

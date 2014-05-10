@@ -21,7 +21,8 @@ public class KeyListenLobby extends Thread implements Serializable {
 	public void addClient(final Socket socket) {
 		try {
 			outputList.add(new ObjectOutputStream(socket.getOutputStream()));
-/*DEBUGG*/	panel.addPlayer();
+/*DEBUGG*/	Integer id = panel.addPlayer();
+			outputList.get(outputList.size() - 1).writeObject(id); // TODO: Make this look good.
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +55,10 @@ public class KeyListenLobby extends Thread implements Serializable {
 					try {
 						for (int i = 0 ; i < outputList.size() ; i++) {
 							outputList.get(i).reset();
-							outputList.get(i).writeObject(panel.getPlayer(0));
+							for(int n = 0; n < outputList.size(); n++) {
+								outputList.get(i).writeObject(new Integer(n));
+								outputList.get(i).writeObject(panel.getPlayer(n));
+							}
 							System.out.println(panel.getPlayer(0).x);
 							outputList.get(i).flush();
 						}

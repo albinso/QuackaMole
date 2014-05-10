@@ -67,15 +67,15 @@ public class QuackPlayer implements Player {
 			direction = Player.RIGHT;
 			x += movementSpeed;
 		}
-		else if (up) {
+		if (up) {
 			direction = Player.UP;
 			y -= movementSpeed;
 		}
-		else if (left) {
+		if (left) {
 			direction = Player.LEFT;
 			x -= movementSpeed;
 		}
-		else if (down) {
+		if (down) {
 			direction = Player.DOWN;
 			y += movementSpeed;
 		}
