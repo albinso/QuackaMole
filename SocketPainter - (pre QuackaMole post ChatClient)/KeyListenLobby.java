@@ -50,8 +50,8 @@ public class KeyListenLobby extends Thread implements Serializable {
 		new Thread() {
 			public void run() {
 				while (true) {
-					if (!panel.updated())
-						continue;
+					if (!panel.updated()) 
+						//continue; CHECK IT OUT DUDE! Removing this row makes the clientside movement a lot smoother. :D
 					try {
 						for (int i = 0 ; i < outputList.size() ; i++) {
 							outputList.get(i).reset();
