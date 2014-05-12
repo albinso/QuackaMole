@@ -1,5 +1,9 @@
 import java.awt.*;
 import java.util.*;
+import quack.player.Player;
+import quack.player.Weapon;
+import quack.player.Bullet;
+import quack.player.Buff;
 
 public class QuackPlayer implements Player {
 	private final int movementSpeed = 1;

@@ -1,4 +1,6 @@
-interface Bullet {
+package quack.player;
+
+public interface Bullet {
 	public static int width = 10;
 	public static int depth = 6;
 

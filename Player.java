@@ -1,6 +1,7 @@
+package quack.player;
 import java.awt.*;
 
-interface Player {
+public interface Player {
 	public static int size = 30;
 //	public final double UP = -Math.PI/2, LEFT = Math.PI, DOWN = Math.PI/2, RIGHT = 0;
 	public static final int UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3;

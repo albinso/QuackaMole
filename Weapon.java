@@ -1,4 +1,6 @@
-interface Weapon {
+package quack.player;
+
+public interface Weapon {
 	/**
 	* Shoots a bullet in the current facing direction.
 	*/

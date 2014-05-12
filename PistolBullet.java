@@ -1,3 +1,5 @@
+import quack.player.Bullet;
+
 public class PistolBullet implements Bullet {
 	private final int damage = 1;
 	private int x, y;

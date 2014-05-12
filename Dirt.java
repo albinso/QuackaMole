@@ -1,4 +1,5 @@
 import java.awt.*;
+import quack.block.Obstacle;
 
 public class Dirt extends Obstacle {
 	public Dirt(int x, int y) {

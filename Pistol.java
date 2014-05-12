@@ -1,3 +1,6 @@
+import quack.player.Weapon;
+import quack.player.Bullet;
+
 public class Pistol implements Weapon{
 	private int bullets;
 

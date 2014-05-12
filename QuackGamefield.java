@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.Scanner;
 import javax.swing.*;
+import quack.block.Obstacle;
+import quack.player.Player;
 
 public class QuackGamefield extends JPanel implements Gamefield, ActionListener, KeyListener {
 	private Timer timer;

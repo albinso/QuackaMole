@@ -1,3 +1,4 @@
+package quack.block;
 import java.awt.*;
 
 public class Obstacle {
