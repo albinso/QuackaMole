@@ -9,13 +9,13 @@ import java.util.*; // DEBUGG
 
 public class KeyListenLobby extends Thread implements Serializable {
 	private ArrayList<ObjectOutputStream> outputList;
-	private Queue<KeyListenPackage> queue;
+	private Queue<Object> queue;
 /*DEBUGG*/private KeyListenPanel panel;
 
 	public KeyListenLobby(KeyListenPanel panel) {
 /*DEBUGG*/this.panel = panel;
 		outputList = new ArrayList<ObjectOutputStream>();
-		queue = new LinkedList<KeyListenPackage>();
+		queue = new LinkedList<Object>();
 	}
 
 	public void addClient(final Socket socket) {
@@ -23,6 +23,8 @@ public class KeyListenLobby extends Thread implements Serializable {
 			outputList.add(new ObjectOutputStream(socket.getOutputStream()));
 /*DEBUGG*/	Integer id = panel.addPlayer();
 			outputList.get(outputList.size() - 1).writeObject(id); // TODO: Make this look good.
+			outputList.get(outputList.size() - 1).writeObject(panel);
+			queue.add(panel.getPlayer(id));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -69,13 +71,19 @@ public class KeyListenLobby extends Thread implements Serializable {
 					}
 				}
 			}
-		}.start();
+		};
 
 		while(true) {
 			System.out.print(""); // BUGG-CODE
 			while (queue.peek() != null) {
-				KeyListenPackage poll = queue.poll();
-/*DEBUGG*/		panel.actionHandling(poll);
+				Object poll = queue.poll();
+/*DEBUGG*/		for(int i = 0; i < outputList.size(); i++) {
+					try {
+						outputList.get(i).writeObject(poll);
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
  			}
  		}
  	}

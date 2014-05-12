@@ -4,15 +4,17 @@ import java.io.Serializable;
 
 public class KeyListenPlayer implements Serializable {
 	public int x, y;
+	public int id;
 	private transient boolean up, down, left, right;
 
-	public KeyListenPlayer(int x, int y) {
+	public KeyListenPlayer(int x, int y, int id) {
 		this.x = x;
 		this.y = y;
 		up = false;
 		down = false;
 		left = false;
 		right = false;
+		this.id = id;
 	}
 
 	public void goUp() {
