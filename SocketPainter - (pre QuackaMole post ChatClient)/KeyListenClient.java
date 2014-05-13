@@ -132,19 +132,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if(!isMoving) {
-			return;
-		}
 		isMoving = false;
-		int direction = 3;
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			direction = 0;
-		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-			direction = 1;
-		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			direction = 2;
-		} 
-		MovePackage p = new MovePackage(playerID, direction);
+		StopPackage p = new StopPackage(playerID);
 		client.sendObject(p);
 	}
 
