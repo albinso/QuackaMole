@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
+	public static final long serialVersionUID = 50L;
 	private final int width = 500;
 	private final int height = 300;
 	private LinkedList<KeyListenPlayer> players;
