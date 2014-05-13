@@ -69,4 +69,17 @@ public class KeyListenPlayer implements Serializable {
 		g.setColor(Color.black);
 		g.drawRect(x, y, 20, 20);
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 }

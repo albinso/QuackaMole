@@ -133,7 +133,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 
 	public void keyReleased(KeyEvent e) {
 		isMoving = false;
-		StopPackage p = new StopPackage(playerID);
+		StopPackage p = new StopPackage(playerID, players[playerID]);
 		client.sendObject(p);
 	}
 
