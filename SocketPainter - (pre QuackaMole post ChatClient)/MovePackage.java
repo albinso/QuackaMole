@@ -1,4 +1,5 @@
 public class MovePackage extends KeyListenPackage {
+	static final long serialVersionUID = 43L;
 	private int direction;
 	public MovePackage(int playerID, int direction) {
 		super(playerID);
