@@ -98,6 +98,13 @@ public class KeyListenPlayer implements Serializable {
 		return id;
 	}
 
+	/**
+	* @return true if player is currently colliding with the given obstacle.
+	*/
+	public boolean collided(Obstacle block) {
+		return block.inBounds(x, y);
+	}
+
 	public void paint(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect(x, y, 20, 20);
