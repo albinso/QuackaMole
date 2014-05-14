@@ -2,9 +2,9 @@ public class BreakableObstacle extends Obstacle {
 	protected final Image[] BREAK_STAGES;
 	private int durability;
 
-	public BreakableObstacle(int x, int y, int durability, Image[] imgs) {
+	public BreakableObstacle(int x, int y, Image[] imgs) {
 		super(x, y);
-		this.durability = durability;
+		this.durability = imgs.length;
 		BREAK_STAGES = imgs;
 	}
 
