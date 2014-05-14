@@ -8,29 +8,6 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-// public class KeyListenClient extends JPanel implements KeyListener, ActionListener, Serializable {
-// 	TestClient client;
-// 	JButton up, down, left, right, nothing;
-// 	KeyListenPlayer field = null;
-// 	public KeyListenClient() throws IOException{
-// 		InetSocketAddress adr = new InetSocketAddress("192.168.0.103", 8080);
-// 		this.client = new TestClient(adr, "Rick Astley");
-// 		up = new JButton("up");
-// 		down = new JButton("down");
-// 		left = new JButton("left");
-// 		right = new JButton("right");
-// 		nothing = new JButton("null");
-// 		up.addActionListener(this);
-// 		down.addActionListener(this);
-// 		left.addActionListener(this);
-// 		right.addActionListener(this);
-// 		nothing.addActionListener(this);
-// 		add(up);
-// 		add(down);
-// 		add(left);
-// 		add(right);
-// 		add(nothing);
-
 public class KeyListenClient extends JPanel implements KeyListener, Serializable {
 	KeyListenBackendClient client;
 	int playerID;
