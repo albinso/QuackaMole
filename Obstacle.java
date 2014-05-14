@@ -4,6 +4,7 @@ import java.awt.*;
 public class Obstacle {
 	public static final int SIZE = 30; // default-value
 	protected Color color;
+	private Image image;
 	protected int x, y;
 
 	public Obstacle(int x, int y) {
@@ -36,5 +37,6 @@ public class Obstacle {
 	public void draw(Graphics g) {
 		g.setColor(color);
 		g.fillRect(x, y, SIZE, SIZE);
+		g.drawImage(image, x, y, SIZE, SIZE, null);
 	}
 }
