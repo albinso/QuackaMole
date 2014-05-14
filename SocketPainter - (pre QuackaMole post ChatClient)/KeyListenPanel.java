@@ -1,24 +1,31 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*; // TODO
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.Scanner;
+import java.io.File;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
 	public static final long serialVersionUID = 50L;
-	private final int width = 500;
-	private final int height = 300;
+	private int width;
+	private int height;
 	private LinkedList<KeyListenPlayer> players;
+	private LinkedList<Obstacle> obstacles;
 	private Timer timer;
 	private boolean updated;
 
 	public KeyListenPanel() {
 		players = new LinkedList<KeyListenPlayer>();
+		obstacles = new LinkedList<Obstacle>();
 		timer = new Timer(10, this);
 		updated = false;
+
+		initMap();
 
 		final KeyListenPanel panel = this;
 
@@ -33,6 +40,36 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 				}
 			}
 		}.start();
+	}
+
+	public void initMap() {
+		Scanner fileScanner = null;
+		try {
+			fileScanner = new Scanner(new File("map.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		int y = 0;
+		int x = 0;
+		while(fileScanner.hasNext()) {
+			x = 0;
+			Scanner lineScanner = new Scanner(fileScanner.nextLine());
+			while(lineScanner.hasNext()) {
+				String token = lineScanner.next();
+				if (token.equals("1")) {
+					obstacles.add(new KeyListenDirt(x, y));
+				} else if (token.equals("2")) {
+					obstacles.add(new KeyListenStone(x, y));
+				}
+				x += Obstacle.SIZE;
+			}
+			y += Obstacle.SIZE;
+		}
+
+		width = x;
+		height = y;
 	}
 
 	// called by the server when a new player has connected
@@ -74,7 +111,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 	public void actionPerformed(ActionEvent e) {
 		for (KeyListenPlayer player : players)
-			player.move();
+			player.move(); // TODO: kollar movement mot hinder
 
 		updated = true;
 		repaint();
@@ -88,5 +125,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 		for (KeyListenPlayer player : players)
 			player.paint(g);
+		for (Obstacle obstacle : obstacles)
+			obstacle.paint(g);
 	}
 }
