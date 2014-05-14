@@ -13,7 +13,9 @@ public class KeyListenPlayer implements Serializable {
 	private transient boolean up, down, left, right;
 
 	public KeyListenPlayer(int x, int y, int id) {
-		setPosition(x, y);
+//		setPosition(x, y);
+			this.x = x;
+			this.y = y;
 		up = false;
 		down = false;
 		left = false;
@@ -23,8 +25,8 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public void setPosition(int x, int y) {
-		this.x = x;
-		this.y = y;
+//		this.x = x;
+//		this.y = y;
 	}
 
 	public void setBuff(Buff buff) {
@@ -136,7 +138,7 @@ public class KeyListenPlayer implements Serializable {
 
 		int xDiff = Math.abs(left) < right ? left : right;
 		int yDiff = Math.abs(up) < down ? up : down;
-		if(Math.abs(xDiff) < Math.abs(yDiff) && xDiff != 0) { // test xDiff != 0
+		if(Math.abs(xDiff) < Math.abs(yDiff)) { // test xDiff != 0
 			x += xDiff;
 		} else {
 			y += yDiff;
