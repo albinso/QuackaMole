@@ -37,7 +37,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	KeyListenPanel panel;
 	Queue<KeyListenPackage> actions;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
-	public KeyListenClient(InetSocketAddress adr) throws IOException{
+	public KeyListenClient(InetSocketAddress adr) throws IOException {
 		actions = new LinkedList<KeyListenPackage>();
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
@@ -47,7 +47,17 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		setFocusable(true);
 		requestFocus();
 
-		new Thread() {
+		receiver().start();
+
+		actionHandler.start();
+
+		moveHandler.start();
+		
+		repaint();
+	}
+
+	public Thread receiver() {
+		return new Thread() {
 			public void run() {
 				while(true) {
 					Object temp = client.getObject();
@@ -59,9 +69,11 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					}
 				}
 			}
-		}.start();
+		};
+	}
 
-		new Thread() {
+	public Thread actionHandler(long pause) {
+		return new Thread() {
 			public void run() {
 				while(true) {
 					KeyListenPackage poll = actions.poll();
@@ -69,15 +81,17 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						poll.doAction(players[poll.getPlayerID()]);
 					}
 					try {
-						sleep(10);
+						sleep(pause);
 					} catch(InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
 			}
-		}.start();
+		};
+	}
 
-		new Thread() {
+	public Thread moveHandler() {
+		return new Thread() {
 			public void run() {
 				while(true) {
 					for(KeyListenPlayer p : players) {
@@ -92,8 +106,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					}
 				}
 			}
-		}.start();
-		repaint();
+		};
 	}
 
 	public void paintComponent(Graphics g) {
