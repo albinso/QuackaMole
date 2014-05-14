@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.Image;
+import java.io.Serializable;
 
-public class Obstacle {
+public class Obstacle implements Serializable{
+	public static final long serialVersionUID = 20L;
 	public static final int SIZE = 30; // default-value
 	private Image image;
 	protected int x, y;
