@@ -22,5 +22,7 @@ public class StartPlace implements Serializable {
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
 		g.drawOval(x + 5, y + 5, diameter, diameter);
+		g.drawLine(x + 5, y + 5 + diameter / 2, x + 5 + diameter, y + 5 + diameter / 2);
+		g.drawLine(x + 5 + diameter / 2, y + 5, x + 5 + diameter / 2, y + 5 + diameter);
 	}
 }
