@@ -20,7 +20,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		actions = new LinkedList<KeyListenPackage>();
 		buffs = new LinkedList<Buff>();
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
-		this.playerID = client.getID();
+		this.playerID = (int)client.getObject();
 		System.out.println(playerID);
 		addKeyListener(this);
 		setFocusable(true);

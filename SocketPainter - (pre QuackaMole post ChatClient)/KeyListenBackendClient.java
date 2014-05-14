@@ -25,30 +25,11 @@ public class KeyListenBackendClient extends Socket {
 
 		inputStream = new ObjectInputStream(getInputStream());
 		outputStream = new ObjectOutputStream(getOutputStream());
-
-		try {
-			id = (int)(inputStream.readObject()); // possibly cast Integer
-		} catch(ClassNotFoundException e) {
-			e.printStackTrace();
-			System.exit(2);
-		}
 	}
 
-// 	public void run() {
-// 		while(true) {
-// 			try {
-// 				String s = new BufferedReader(new InputStreamReader(System.in)).readLine();
-// 				outputStream.writeObject(name + ": " + s);
-// //				Thread.sleep(1000);
-// 			} catch(IOException e) {
-// 				e.printStackTrace();
-// 				System.exit(-1);
-// //			} catch(InterruptedException e) {
-// //				e.printStackTrace();
-// 			}
-// 		}
-// 	}
-
+	/**
+	* Gets the next object that is sent from the server.
+	*/
 	public Object getObject() {
 		Object o = null;
 		try {
@@ -63,6 +44,9 @@ public class KeyListenBackendClient extends Socket {
 		return o;
 	}
 
+	/**
+	* Sends an object to the server. If nothing goes wrong it will be distributed between all other clients.
+	*/
 	public void sendObject(Object o) {
 		try {
 			outputStream.writeObject(o);
@@ -70,10 +54,6 @@ public class KeyListenBackendClient extends Socket {
 			e.printStackTrace();
 			System.exit(5);
 		}
-	}
-
-	public int getID() {
-		return id;
 	}
 
 /*	public static void main(String[] args) throws IOException {
