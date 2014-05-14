@@ -58,6 +58,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		repaint();
 	}
 
+	/**
+	* Receives actions and players from the Server. Will put them at appropriate places.
+	*/
 	public Thread receiver() {
 		return new Thread() {
 			public void run() {
@@ -74,6 +77,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		};
 	}
 
+	/**
+	* Creates a Thread that will iterate over all incoming actions and perform them.
+	* @param pause Amount of milliseconds that the Thread will sleep between each action. Needed to avoid certain sychronization issues.
+	*/
 	public Thread actionHandler(final long pause) {
 		return new Thread() {
 			public void run() {
@@ -92,7 +99,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		};
 	}
 
-	public Thread moveHandler() {
+	/**
+	* Creates a Thread that will handle all movement and subsequent collision detection for the client.
+	*/
+	private Thread moveHandler() {
 		return new Thread() {
 			public void run() {
 				while(true) {
