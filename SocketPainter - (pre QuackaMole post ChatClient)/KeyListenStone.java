@@ -8,6 +8,7 @@ public class KeyListenStone extends Obstacle {
 
 	public boolean takeDamage(int damage) {
 		// DO NOTHING (mohaha)
+		return false;
 	}
 
 	private static ImageIcon[] getImages() {
