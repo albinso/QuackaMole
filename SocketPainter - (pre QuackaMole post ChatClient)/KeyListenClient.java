@@ -37,9 +37,11 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	boolean isMoving = true;
 	Queue<KeyListenPackage> actions;
 	private LinkedList<Obstacle> obstacles;
+	private LinkedList<Buff> buffs;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 	public KeyListenClient(InetSocketAddress adr) throws IOException {
 		actions = new LinkedList<KeyListenPackage>();
+		buffs = new LinkedList<Buff>();
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
 		System.out.println(playerID);
@@ -102,11 +104,14 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						count++;
 						p.move();
 						for(int i = 0; i < obstacles.size(); i++) {
-							if(obstacles.get(i) != null) {
-								if (p.collided(obstacles.get(i)))
-									if(obstacles.get(i).takeDamage(1)) {
-										obstacles.set(i, null);
+							Obstacle block = obstacles.get(i);
+							if(block != null && p.collided(block)) {
+								if(block.takeDamage(1)) {
+									if(block instanceof KeyListenCrate) {
+										buffs.add(randomBuff(block.getLeftSide(), block.getUpSide()));
 									}
+									obstacles.set(i, null);
+								}
 							}
 						}
 					}
@@ -121,12 +126,25 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		};
 	}
 
+	/**
+	* Generates a random Buff at given coordinates.
+	*/
+	private Buff randomBuff(int x, int y) {
+		// TODO: Fix so it's random
+		return new Buff(x, y, 0);
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//panel.getImage().paintIcon(null, g, 0, 0);
 		for(Obstacle obstacle : obstacles) {
 			if(obstacle != null) {
 				obstacle.paint(g);
+			}
+		}
+		for(Buff buff : buffs) {
+			if(buff != null) {
+				buff.paint(g);
 			}
 		}
 		for(int i = 0; i < players.length; i++) {
