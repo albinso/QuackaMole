@@ -47,6 +47,8 @@ public class Obstacle implements Serializable {
 	}
 
 	public void paint(Graphics g) {
+		g.setColor(Color.black);
+		g.fillRect(x, y, 30, 30);
 		if (image != null)
 			image.paintIcon(null, g, x, y);
 	}
