@@ -6,6 +6,7 @@ public class MovePackage extends KeyListenPackage {
 		super(playerID);
 		this.direction = direction;
 	}
+	
 	@Override
 	public void doAction(KeyListenPlayer p) {
 		switch(direction) {

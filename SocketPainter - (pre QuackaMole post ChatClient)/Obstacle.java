@@ -22,6 +22,10 @@ public class Obstacle implements Serializable {
 			image = BREAK_STAGES[imgs.length - 1];
 	}
 
+	/**
+	* Called when a player collides with the block.
+	* @return true if durability drops to 0.
+	*/
 	public boolean takeDamage(int damage) {
 		durability -= durability >= damage ? damage : durability;
 		image = BREAK_STAGES[durability];
@@ -44,6 +48,9 @@ public class Obstacle implements Serializable {
 		return y + SIZE;
 	}
 
+	/**
+	* Tells if the given point is contained in the block.
+	*/
 	public boolean inBounds(int x, int y) {
 		return this.x <= x && x < getRightSide() && 
 				this.y <= y && y < getDownSide();
