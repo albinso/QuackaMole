@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 public class StartPlace implements Serializable {
 	private final int diameter = 20;
