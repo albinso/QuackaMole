@@ -144,5 +144,9 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 		for (KeyListenPlayer player : players)
 			player.paint(g);
+		for (Obstacle obstacle : obstacles)
+			obstacle.paint(g);
+		for (StartPlace startPlace : startPlaces)
+			startPlaces.paint(g);
 	}
 }
