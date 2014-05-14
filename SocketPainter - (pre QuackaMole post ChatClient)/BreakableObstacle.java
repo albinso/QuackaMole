@@ -2,13 +2,14 @@ public class BreakableObstacle extends Obstacle {
 	protected final Image[] BREAK_STAGES;
 	private int durability;
 
-	public BreakableObstacle(int x, int y, int durability) {
+	public BreakableObstacle(int x, int y, int durability, Image[] imgs) {
 		super(x, y);
 		this.durability = durability;
-		BREAK_STAGES = new Image[durability];
+		BREAK_STAGES = imgs;
 	}
 
-	public void takeDamage(int damage) {
-		this.hp -= hp < damage ? hp : damage;
+	public boolean takeDamage(int damage) {
+		this.hp -= damage;
+		return this.hp <= 0;
 	}
 }
