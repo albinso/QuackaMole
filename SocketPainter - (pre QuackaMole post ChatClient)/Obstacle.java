@@ -1,5 +1,5 @@
-package quack.block;
 import java.awt.*;
+import java.awt.Image;
 
 public class Obstacle {
 	public static final int SIZE = 30; // default-value
@@ -34,7 +34,7 @@ public class Obstacle {
 				this.y <= y && y < getDownSide();
 	}
 
-	public setImage(Image img) {
+	public void setImage(Image img) {
 		this.image = img;
 	}
 

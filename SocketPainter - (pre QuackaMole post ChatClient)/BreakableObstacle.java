@@ -9,8 +9,8 @@ public class BreakableObstacle extends Obstacle {
 	}
 
 	public boolean takeDamage(int damage) {
-		this.hp -= damage;
-		setImage(BREAK_STAGES[hp]);
-		return this.hp <= 0;
+		this.durability -= damage;
+		setImage(BREAK_STAGES[durability]);
+		return this.durability <= 0;
 	}
 }
