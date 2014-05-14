@@ -25,10 +25,7 @@ public class KeyListenPanel extends JPanel implements Serializable {
 	public KeyListenPanel() {
 		obstacles = new LinkedList<Obstacle>();
 		startPlaces = new LinkedList<StartPlace>();
-
 		updated = false;
-
-		
 
 		final KeyListenPanel panel = this;
 
@@ -45,6 +42,10 @@ public class KeyListenPanel extends JPanel implements Serializable {
 		}.start();
 	}
 
+	/**
+	* This is bad and should be removed.
+	* "Initialises" the map. This means an ImageIcon is retrieved and obstacles are generated from a map.
+	*/
 	public LinkedList<Obstacle> initMap() {
 		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("stripes.jpg");
@@ -86,9 +87,10 @@ public class KeyListenPanel extends JPanel implements Serializable {
 		height = y;
 		return obstacles;
 	}
-
-	// if not updated return false
-	// if updated, set updated to false and return true
+	/**
+	* if not updated return false
+	* if updated, set updated to false and return true
+	*/
 	public boolean updated() {
 		if (!updated)
 			return false;
