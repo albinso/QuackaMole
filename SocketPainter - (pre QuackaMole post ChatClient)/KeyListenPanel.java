@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*; // TODO
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.File;
@@ -45,9 +46,17 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 	public void initMap() {
 		File mapFile = new File("map.txt");
-		Scanner fileScanner = new Scanner(mapFile);
+		Scanner fileScanner = null;
 
-		int x, y = 0;
+		try {
+			fileScanner = new Scanner(mapFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-2);
+		}
+
+		int x = 0;
+		int y = 0;
 		while (fileScanner.hasNext()) {
 			Scanner lineScanner = new Scanner(fileScanner.nextLine());
 			x = 0;
