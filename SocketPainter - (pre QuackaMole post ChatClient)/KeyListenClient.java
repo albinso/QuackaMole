@@ -49,7 +49,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 
 		receiver().start();
 
-		actionHandler().start();
+		actionHandler(10).start();
 
 		moveHandler().start();
 		
@@ -72,7 +72,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		};
 	}
 
-	public Thread actionHandler(long pause) {
+	public Thread actionHandler(final long pause) {
 		return new Thread() {
 			public void run() {
 				while(true) {
