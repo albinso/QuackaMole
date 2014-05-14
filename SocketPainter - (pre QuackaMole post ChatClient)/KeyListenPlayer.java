@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
@@ -8,6 +10,7 @@ public class KeyListenPlayer implements Serializable {
 	public int digCooldown;
 	public int x, y;
 	private int id, health;
+	private ImageIcon image;
 	private Buff buff;
 	private transient boolean up, down, left, right;
 
@@ -19,6 +22,7 @@ public class KeyListenPlayer implements Serializable {
 		right = false;
 		this.id = id;
 		health = MAXIMALHEALTH;
+		image = new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png"));
 	}
 
 	public void setPosition(int x, int y) {
@@ -165,5 +169,6 @@ public class KeyListenPlayer implements Serializable {
 		g.fillRect(x, y, SIZE, SIZE);
 		g.setColor(Color.black);
 		g.drawRect(x, y, SIZE, SIZE);
+		image.paintIcon(null, g, x, y);
 	}
 }
