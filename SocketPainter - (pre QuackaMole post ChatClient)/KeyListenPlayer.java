@@ -95,7 +95,7 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	/**
-	* @return an id that is used to identify players in different locations.
+	* @return an id that is used to identify players in both server and client.
 	*/
 	public int getID() {
 		return id;

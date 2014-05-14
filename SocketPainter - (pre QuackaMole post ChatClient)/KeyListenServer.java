@@ -16,6 +16,9 @@ public class KeyListenServer extends ServerSocket implements Serializable {
 		findClient();
 	}
 
+	/**
+	* Waits for a client to connect, add it to the lobby and then repeats the process.
+	*/
 	public void findClient() throws IOException {
 		while(true) {
 			Socket s = accept(); // find a socket (client)
