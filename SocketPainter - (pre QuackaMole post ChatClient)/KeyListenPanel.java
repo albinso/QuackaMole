@@ -9,13 +9,14 @@ import java.io.Serializable;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Scanner;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
 	private int width;
 	private int height;
-	private Image gamefield;
+	private ImageIcon gamefield;
 	private LinkedList<KeyListenPlayer> players;
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<StartPlace> startPlaces;
@@ -48,7 +49,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 	}
 
 	public void initMap() {
-		gamefield = Toolkit.getDefaultToolkit().getImage("chickens.png");
+		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("chickens.png");
+		gamefield = new ImageIcon(gamefieldImage);
 
 		File mapFile = new File("map.txt");
 		Scanner fileScanner = null;
@@ -141,7 +143,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 //		g.setColor(Color.green);
 //		g.fillRect(0, 0, width, height);
-		g.drawImage(gamefield, 0, 0, null);
+//		g.drawImage(gamefield, 0, 0, null);
+		gamefield.paintIcon(null, g, 0, 0);
 
 		for (KeyListenPlayer player : players)
 			player.paint(g);
@@ -150,6 +153,6 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		for (StartPlace startPlace : startPlaces)
 			startPlace.paint(g);
 
-		repaint();
+//		repaint();
 	}
 }
