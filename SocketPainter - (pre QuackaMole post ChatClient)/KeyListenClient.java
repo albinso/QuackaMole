@@ -112,6 +112,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		for(Obstacle obstacle : panel.getObstacles()) {
+			obstacle.paint(g);
+		}
 		for(KeyListenPlayer player : players) {
 			if(player == null) {
 				continue;
