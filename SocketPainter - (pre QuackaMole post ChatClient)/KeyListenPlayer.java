@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
-	private final int 	SIZE = 24, MAXIMALHEALTH = 100; 
+	private final int 	SIZE = 24, MAXIMALHEALTH = 100;
 	public int digCooldown;
 	public int x, y;
 	private int id, health;

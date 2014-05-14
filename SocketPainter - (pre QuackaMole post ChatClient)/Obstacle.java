@@ -1,10 +1,11 @@
 import java.awt.*;
+import java.awt.BufferedImage;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 public class Obstacle implements Serializable {
 	public static final long serialVersionUID = 20L;
-	public static final int SIZE = 30; // default-value
+	public static final int SIZE = 48; // default-value
 
 	protected final ImageIcon[] BREAK_STAGES;
 
@@ -20,6 +21,7 @@ public class Obstacle implements Serializable {
 
 		if (imgs.length > 0)
 			image = BREAK_STAGES[imgs.length - 1];
+		image = resizeIcon(image, SIZE, SIZE);
 	}
 
 	/**
@@ -54,6 +56,13 @@ public class Obstacle implements Serializable {
 		return y + SIZE;
 	}
 
+	private static ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
+		Image img = icon.getImage();
+		BufferedImage buffImg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		bi.createGraphics().drawImage(buffImg, 0, 0, width, height, null);
+		return new ImageIcon(buffImg);
+	}
+
 	/**
 	* Tells if the given point is contained in the block.
 	*/
@@ -64,7 +73,7 @@ public class Obstacle implements Serializable {
 
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
-		g.drawRect(x, y, 30, 30);
+		g.drawRect(x, y, SIZE, SIZE);
 		if (image != null)
 			image.paintIcon(null, g, x, y);
 	}
