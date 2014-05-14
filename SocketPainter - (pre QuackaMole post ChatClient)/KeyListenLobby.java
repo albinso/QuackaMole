@@ -24,6 +24,14 @@ public class KeyListenLobby extends Thread implements Serializable {
 		players = new LinkedList<KeyListenPlayer>();
 	}
 
+	/**
+	* Adds a client to the system. 
+	* The client will be included in the "mailing list" that relays commands. 
+	* The server will also be listening to the client's commands and relay them.
+	* A player will be created and connected to the client.
+	* Additionally a playerID, list of obstacles and all other players will be sent to the client.
+	* Finally the client's player will be relayed to all clients, including the newly added one.
+	*/
 	public void addClient(final Socket socket) {
 		try {
 			outputList.add(new ObjectOutputStream(socket.getOutputStream()));
@@ -57,7 +65,10 @@ public class KeyListenLobby extends Thread implements Serializable {
 		}.start();
 	}
 
-	// called by the server when a new player has connected
+	/**
+	* Adds a player to the game.
+	* @return the player's unique ID.
+	*/
 	public int addPlayer() {
 		// if the game hasen't started yet
 		// TODO start timer when all players are ready?
@@ -84,6 +95,9 @@ public class KeyListenLobby extends Thread implements Serializable {
 		return id;
 	}
 
+	/**
+	* Relays commands to all clients.
+	*/
 	public void run() {
 		while(true) {
 			System.out.print(""); // BUGG-CODE
