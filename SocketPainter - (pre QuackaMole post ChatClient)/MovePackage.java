@@ -1,5 +1,6 @@
 public class MovePackage extends KeyListenPackage {
-	static final long serialVersionUID = 43L;
+	public static final int UP = 0, DOWN = 1, LEFT = 2; RIGHT = 3;
+	private static final long serialVersionUID = 43L;
 	private int direction;
 	public MovePackage(int playerID, int direction) {
 		super(playerID);
@@ -8,16 +9,16 @@ public class MovePackage extends KeyListenPackage {
 	@Override
 	public void doAction(KeyListenPlayer p) {
 		switch(direction) {
-			case 0:
+			case UP:
 				p.goUp();
 				break;
-			case 1:
+			case DOWN:
 				p.goDown();
 				break;
-			case 2:
+			case LEFT:
 				p.goLeft();
 				break;
-			case 3:
+			case RIGHT:
 				p.goRight();
 				break;
 		}

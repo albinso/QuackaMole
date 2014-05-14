@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.*; // DEBUGG
 
 public class KeyListenLobby extends Thread implements Serializable {
+	private static String IMG_PATH;
 	private ArrayList<ObjectOutputStream> outputList;
 	private Queue<Object> queue;
 /*DEBUGG*/private KeyListenPanel panel;
@@ -24,6 +25,11 @@ public class KeyListenLobby extends Thread implements Serializable {
 /*DEBUGG*/	Integer id = panel.addPlayer();
 			outputList.get(outputList.size() - 1).writeObject(id); // TODO: Make this look good.
 			outputList.get(outputList.size() - 1).writeObject(panel);
+			try {
+				Thread.sleep(10000);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
 			for(int i = 0; i < id; i++) {
 				outputList.get(id).writeObject(panel.getPlayer(i));
 			}
