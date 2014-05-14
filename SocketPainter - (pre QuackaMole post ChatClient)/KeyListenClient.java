@@ -65,7 +65,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						actions.add((KeyListenPackage)temp);
 					} else if (temp instanceof KeyListenPlayer){
 						KeyListenPlayer tempPlay = (KeyListenPlayer)temp;
-						players[tempPlay.id] = tempPlay;
+						players[tempPlay.getID()] = tempPlay;
 					}
 				}
 			}
@@ -83,7 +83,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						poll.doAction(players[poll.getPlayerID()]);
 					}
 					try {
-						sleep(30);
+						sleep(pause);
 					} catch(InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -98,6 +98,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 				while(true) {
 					for(KeyListenPlayer p : players) {
 						if(p != null) {
+							System.out.println("Moved " + p.getID());
 							p.move();
 						}
 					}
