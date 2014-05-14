@@ -49,9 +49,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 
 		receiver().start();
 
-		actionHandler.start();
+		actionHandler().start();
 
-		moveHandler.start();
+		moveHandler().start();
 		
 		repaint();
 	}
