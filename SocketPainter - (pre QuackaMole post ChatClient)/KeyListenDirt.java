@@ -1,11 +1,14 @@
-import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
-public class KeyListenDirt extends Obstacle{
+public class KeyListenDirt extends Obstacle {
 	public KeyListenDirt(int x, int y) {
 		super(x, y, getImages());
 	}
 
-	public static Image[] getImages() {
-		return new Image[0];
+	private static ImageIcon[] getImages() {
+		ImageIcon[] images = new ImageIcon[1];
+		images[0] = new ImageIcon(Toolkit.getDefaultToolkit().getImage("dirt.jpg"));
+		return new ImageIcon[0];
 	}
 }

@@ -1,11 +1,18 @@
-import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class KeyListenStone extends Obstacle {
 	public KeyListenStone(int x, int y) {
 		super(x, y, getImages());
 	}
 
-	public static Image[] getImages() {
-		return new Image[0];
+	public boolean takeDamage(int damage) {
+		// DO NOTHING (mohaha)
+	}
+
+	private static ImageIcon[] getImages() {
+		ImageIcon[] images = new ImageIcon[1];
+		images[0] = new ImageIcon(Toolkit.getDefaultToolkit().getImage("stone.jpg"));
+		return new ImageIcon[0];
 	}
 }
