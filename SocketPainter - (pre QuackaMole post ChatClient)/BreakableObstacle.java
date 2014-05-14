@@ -11,6 +11,4 @@ public class BreakableObstacle extends Obstacle {
 	public void takeDamage(int damage) {
 		this.hp -= hp < damage ? hp : damage;
 	}
-
-
 }
