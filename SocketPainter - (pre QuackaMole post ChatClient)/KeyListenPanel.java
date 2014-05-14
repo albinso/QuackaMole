@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.Scanner;
 
 public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
 	private int width;
@@ -57,7 +58,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 				else if (token.equals("2"))
 					obstacles.add(new KeyListenStone(x, y));
 				else if (token.equals("3"))
-					startPlaces.add(new KeyListenStartPlace(x, y));
+					startPlaces.add(new StartPlace(x, y));
 
 				x += Obstacle.SIZE;
 			}
@@ -101,31 +102,6 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 		updated = false;
 		return true;
-	}
-
-	/**
-	 * When an action is performed in one of the clients they 
-	 *  this method which will put the action in play on the 
-	 *  panel
-	 */
-	public void actionHandling(KeyListenPackage pack) {
-		// DEBUGG - remove when done
-		System.out.println(pack.getPlayerID() + " " + pack.getContent());
-
-		int index = pack.getPlayerID();
-
-		// TODO Use KeyEvent.VK_UP etc.
-		if (pack.getContent() == 37)
-			players.get(index).goLeft();
-		if (pack.getContent() == 38)
-			players.get(index).goUp();
-		if (pack.getContent() == 40)
-			players.get(index).goDown();
-		if (pack.getContent() == 39)
-			players.get(index).goRight();
-		if(!pack.isPressing()) {
-			players.get(index).stopMoving();
-		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
