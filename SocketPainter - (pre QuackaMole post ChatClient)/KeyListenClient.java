@@ -81,9 +81,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					if(poll != null) {
 
 						poll.doAction(players[poll.getPlayerID()]);
-						for(int i = 0; i < obstacles.length; i++) {
-							if(obstacles[i] != null) {
-								players[poll.getPlayerID()].collided();
+						for(int i = 0; i < panel.getObstacles().size(); i++) {
+							if(panel.getObstacles().get(i) != null) {
+								players[poll.getPlayerID()].collided(panel.getObstacles().get(i));
 							}
 						}
 					}
