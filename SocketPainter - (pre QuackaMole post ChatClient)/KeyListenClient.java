@@ -77,7 +77,6 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			public void run() {
 				while(true) {
 					KeyListenPackage poll = actions.poll();
-					System.out.println(poll);
 					if(poll != null) {
 
 						poll.doAction(players[poll.getPlayerID()]);
@@ -96,9 +95,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		return new Thread() {
 			public void run() {
 				while(true) {
+					int count = 0;
 					for(KeyListenPlayer p : players) {
 						if(p != null) {
-							System.out.println("Moved " + p.getID());
+							count++;
 							p.move();
 						}
 					}
@@ -107,6 +107,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					} catch(InterruptedException e) {
 						e.printStackTrace();
 					}
+					System.out.println(count);
 				}
 			}
 		};
@@ -114,11 +115,14 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		panel.getImage().paintIcon(null, g, 0, 0);
 		for(Obstacle obstacle : panel.getObstacles()) {
-			obstacle.paint(g);
+			if(obstacle != null) {
+				obstacle.paint(g);
+			}
 		}
-		for(KeyListenPlayer player : players) {
+		for(int i = 0; i < players.length; i++) {
+			KeyListenPlayer player = players[i];
 			if(player == null) {
 				continue;
 			}
