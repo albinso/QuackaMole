@@ -134,6 +134,10 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		return obstacles;
 	}
 
+	public ImageIcon getImage() {
+		return gamefield;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		for (KeyListenPlayer player : players)
 			player.move();
