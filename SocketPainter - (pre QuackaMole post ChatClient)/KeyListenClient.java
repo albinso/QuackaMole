@@ -103,7 +103,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						p.move();
 						for(int i = 0; i < obstacles.size(); i++) {
 							if(obstacles.get(i) != null) {
-								p.collided(obstacles.get(i));
+								if (p.collided(obstacles.get(i)))
+									if(obstacles.get(i).takeDamage(1)) {
+										obstacles.set(i, null);
+									}
 							}
 						}
 					}

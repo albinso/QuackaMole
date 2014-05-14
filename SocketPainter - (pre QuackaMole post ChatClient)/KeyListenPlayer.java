@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
-	private final int 	SIZE = 30,
+	private final int 	SIZE = 24,
 						MAXIMALHEALTH = 100; 
 
 	public int x, y;
