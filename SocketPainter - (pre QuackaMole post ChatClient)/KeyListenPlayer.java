@@ -103,16 +103,35 @@ public class KeyListenPlayer implements Serializable {
 	*/
 	public boolean collided(Obstacle block) {
 		if(block.inBounds(x, y)) {
-			
+			moveCornerOutsideBlock(block, x, y);
 		} 
 		if(block.inBounds(x + size, y)) {
-
-		}
+			moveCornerOutsideBlock(block, x + size, y);
+		} 
 		if(block.inBounds(x, y + size)) {
-
+			moveCornerOutsideBlock(block, x, y + size);
 		} 
 		if(block.inBounds(x + size, y + size)) {
-			
+			moveCornerOutsideBlock(block, x + size, y + size);
+		}
+	}
+
+	/**
+	* Helps identify which way to move the player and then adjusts the position accordingly.
+	*/
+	private void moveCornerOutsideBlock(Block block, int cornerX, int cornerY) {
+		int right = block.getRightSide() - cornerX;
+		int left = block.getLeftSide() - cornerX;
+		int up = block.getUpSide() - cornerY;
+		int down = block.getDownSide() - cornerY;
+
+		int xDiff = Math.abs(left) < right ? left : right;
+		int yDiff = Math.abs(up) < down ? up : down;
+
+		if(Math.abs(xDiff) < Math.abs(yDiff)) {
+			x += xDiff;
+		} else {
+			y += yDiff;
 		}
 	}
 
