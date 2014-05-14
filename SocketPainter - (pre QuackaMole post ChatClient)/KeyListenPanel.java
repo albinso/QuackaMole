@@ -8,17 +8,23 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
-	public static final long serialVersionUID = 50L;
-	private final int width = 500;
-	private final int height = 300;
+	private int width;
+	private int height;
 	private LinkedList<KeyListenPlayer> players;
+	private LinkedList<Obstacle> obstacles;
+	private LinkedList<StartPlace> startPlaces;
 	private Timer timer;
 	private boolean updated;
 
 	public KeyListenPanel() {
 		players = new LinkedList<KeyListenPlayer>();
+		obstacles = new LinkedList<Obstacle>();
+		startPlaces = new LinkedList<StartPlace>();
+
 		timer = new Timer(10, this);
 		updated = false;
+
+		initMap();
 
 		final KeyListenPanel panel = this;
 
@@ -35,6 +41,33 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		}.start();
 	}
 
+	public void initMap() {
+		File mapFile = new File("map.txt");
+		Scanner fileScanner = new Scanner(mapFile);
+
+		int x, y = 0;
+		while (fileScanner.hasNext()) {
+			Scanner lineScanner = new Scanner(fileScanner.nextLine());
+			x = 0;
+			while (lineScanner.hasNext()) {
+				String token = lineScanner.next();
+
+				if (token.equals("1"))
+					obstacles.add(new KeyListenDirt(x, y));
+				else if (token.equals("2"))
+					obstacles.add(new KeyListenStone(x, y));
+				else if (token.equals("3"))
+					startPlaces.add(new KeyListenStartPlace(x, y));
+
+				x += Obstacle.SIZE;
+			}
+			y += Obstacle.SIZE;
+		}
+
+		width = x;
+		height = y;
+	}
+
 	// called by the server when a new player has connected
 	public int addPlayer() {
 		// if the game hasen't started yet
@@ -46,15 +79,14 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		// TODO set position realtive to the map
 		int x = (int)(Math.random() * width);
 		int y = (int)(Math.random() * height);
-		int id = players.size();
-		players.add(new KeyListenPlayer(x, y, id));
+		players.add(new KeyListenPlayer(x, y));
 
 		// DEBUGG
 		System.out.println("Player added");
 
 		repaint();
 
-		return id;
+		return players.size() - 1;
 	}
 
 	public KeyListenPlayer getPlayer(int index) {
@@ -71,6 +103,30 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		return true;
 	}
 
+	/**
+	 * When an action is performed in one of the clients they 
+	 *  this method which will put the action in play on the 
+	 *  panel
+	 */
+	public void actionHandling(KeyListenPackage pack) {
+		// DEBUGG - remove when done
+		System.out.println(pack.getPlayerID() + " " + pack.getContent());
+
+		int index = pack.getPlayerID();
+
+		// TODO Use KeyEvent.VK_UP etc.
+		if (pack.getContent() == 37)
+			players.get(index).goLeft();
+		if (pack.getContent() == 38)
+			players.get(index).goUp();
+		if (pack.getContent() == 40)
+			players.get(index).goDown();
+		if (pack.getContent() == 39)
+			players.get(index).goRight();
+		if(!pack.isPressing()) {
+			players.get(index).stopMoving();
+		}
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		for (KeyListenPlayer player : players)
