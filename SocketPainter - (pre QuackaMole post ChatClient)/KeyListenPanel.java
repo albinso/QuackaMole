@@ -141,8 +141,6 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-//		g.setColor(Color.green);
-//		g.fillRect(0, 0, width, height);
 //		g.drawImage(gamefield, 0, 0, null);
 		gamefield.paintIcon(null, g, 0, 0);
 
