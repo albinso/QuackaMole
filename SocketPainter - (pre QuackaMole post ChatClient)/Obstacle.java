@@ -38,7 +38,7 @@ public class Obstacle {
 		this.image = img;
 	}
 
-	public void draw(Graphics g) {
+	public void paint(Graphics g) {
 		g.setColor(ballColor);
 		g.fillRect(x, y, SIZE, SIZE);
 		g.drawImage(image, x, y, SIZE, SIZE, null);
