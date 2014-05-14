@@ -1,18 +1,21 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.*; // TODO
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.File;
 import java.util.LinkedList;
+import java.util.Scanner;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.util.Scanner;
 
 public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
 	private int width;
 	private int height;
+	private Image gamefield;
 	private LinkedList<KeyListenPlayer> players;
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<StartPlace> startPlaces;
@@ -45,6 +48,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 	}
 
 	public void initMap() {
+		gamefield = Toolkit.getDefaultToolkit().getImage("chickens.png");
+
 		File mapFile = new File("map.txt");
 		Scanner fileScanner = null;
 
@@ -88,8 +93,16 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 		// creates a player (with random coordinates)
 		// TODO set position realtive to the map
-		int x = (int)(Math.random() * width);
-		int y = (int)(Math.random() * height);
+		int x = 0;
+		int y = 0;
+		if (startPlaces.size() > 0) {
+			StartPlace startPlace = startPlaces.remove(0);
+			x = startPlace.getX();
+			y = startPlace.getY();
+		} else {
+			x = (int)(Math.random() * width);
+			y = (int)(Math.random() * height);
+		}
 		players.add(new KeyListenPlayer(x, y, players.size()));
 
 		// DEBUGG
@@ -122,11 +135,13 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		repaint();
 	}
 
+	// TODO: bör inte ritas upp (egentligen)
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		g.setColor(Color.green);
-		g.fillRect(0, 0, width, height);
+//		g.setColor(Color.green);
+//		g.fillRect(0, 0, width, height);
+		g.drawImage(gamefield, 0, 0, null);
 
 		for (KeyListenPlayer player : players)
 			player.paint(g);
@@ -134,5 +149,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 			obstacle.paint(g);
 		for (StartPlace startPlace : startPlaces)
 			startPlace.paint(g);
+
+		repaint();
 	}
 }
