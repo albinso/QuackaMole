@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.net.*;
 import java.io.*;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.Queue;
 
 // public class KeyListenClient extends JPanel implements KeyListener, ActionListener, Serializable {
 // 	TestClient client;
@@ -32,10 +34,15 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	KeyListenBackendClient client;
 	int playerID;
 	boolean isMoving = true;
+	KeyListenPanel panel;
+	Queue<KeyListenPackage> actions;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 	public KeyListenClient(InetSocketAddress adr) throws IOException{
+		actions = new LinkedList<KeyListenPackage>();
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
+		System.out.println(playerID);
+		panel = (KeyListenPanel)(client.getObject());
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
@@ -43,8 +50,46 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		new Thread() {
 			public void run() {
 				while(true) {
-					Integer index = (Integer)(client.getObject());
-					players[index] = (KeyListenPlayer)(client.getObject());
+					Object temp = client.getObject();
+					if(temp instanceof KeyListenPackage) {
+						actions.add((KeyListenPackage)temp);
+					} else if (temp instanceof KeyListenPlayer){
+						KeyListenPlayer tempPlay = (KeyListenPlayer)temp;
+						players[tempPlay.id] = tempPlay;
+					}
+				}
+			}
+		}.start();
+
+		new Thread() {
+			public void run() {
+				while(true) {
+					KeyListenPackage poll = actions.poll();
+					if(poll != null) {
+						poll.doAction(players[poll.getPlayerID()]);
+					}
+					try {
+						sleep(10);
+					} catch(InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+
+		new Thread() {
+			public void run() {
+				while(true) {
+					for(KeyListenPlayer p : players) {
+						if(p != null) {
+							p.move();
+						}
+					}
+					try {
+						sleep(20);
+					} catch(InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}.start();
@@ -70,7 +115,15 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			return;
 		}
 		isMoving = true;
-		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), true);
+		int direction = 3;
+		if(e.getKeyCode() == KeyEvent.VK_UP) {
+			direction = 0;
+		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			direction = 1;
+		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			direction = 2;
+		} 
+		MovePackage p = new MovePackage(playerID, direction);
 		client.sendObject(p);
 	}
 
@@ -79,11 +132,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if(!isMoving) {
-			return;
-		}
 		isMoving = false;
-		KeyListenPackage p = new KeyListenPackage(playerID, e.getKeyCode(), false);
+		StopPackage p = new StopPackage(playerID, players[playerID]);
 		client.sendObject(p);
 	}
 

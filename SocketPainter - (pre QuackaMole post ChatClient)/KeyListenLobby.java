@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.*; // DEBUGG
 
 public class KeyListenLobby extends Thread implements Serializable {
+	private static String IMG_PATH;
 	private ArrayList<ObjectOutputStream> outputList;
-	private Queue<KeyListenPackage> queue;
+	private Queue<Object> queue;
 /*DEBUGG*/private KeyListenPanel panel;
 
 	public KeyListenLobby(KeyListenPanel panel) {
 /*DEBUGG*/this.panel = panel;
 		outputList = new ArrayList<ObjectOutputStream>();
-		queue = new LinkedList<KeyListenPackage>();
+		queue = new LinkedList<Object>();
 	}
 
 	public void addClient(final Socket socket) {
@@ -23,6 +24,16 @@ public class KeyListenLobby extends Thread implements Serializable {
 			outputList.add(new ObjectOutputStream(socket.getOutputStream()));
 /*DEBUGG*/	Integer id = panel.addPlayer();
 			outputList.get(outputList.size() - 1).writeObject(id); // TODO: Make this look good.
+			outputList.get(outputList.size() - 1).writeObject(panel);
+			try {
+				Thread.sleep(10000);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+			for(int i = 0; i < id; i++) {
+				outputList.get(id).writeObject(panel.getPlayer(i));
+			}
+			queue.add(panel.getPlayer(id));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,35 +58,19 @@ public class KeyListenLobby extends Thread implements Serializable {
 	}
 
 	public void run() {
-		new Thread() {
-			public void run() {
-				while (true) {
-					if (!panel.updated()) 
-						//continue; CHECK IT OUT DUDE! Removing this row makes the clientside movement a lot smoother. :D
-					try {
-						for (int i = 0 ; i < outputList.size() ; i++) {
-							outputList.get(i).reset();
-							for(int n = 0; n < outputList.size(); n++) {
-								outputList.get(i).writeObject(new Integer(n));
-								outputList.get(i).writeObject(panel.getPlayer(n));
-							}
-							System.out.println(panel.getPlayer(0).x);
-							outputList.get(i).flush();
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-	//				} catch (InterruptedException e) {
-	//					e.printStackTrace();
-					}
-				}
-			}
-		}.start();
-
 		while(true) {
 			System.out.print(""); // BUGG-CODE
 			while (queue.peek() != null) {
-				KeyListenPackage poll = queue.poll();
-/*DEBUGG*/		panel.actionHandling(poll);
+				Object poll = queue.poll();
+/*DEBUGG*/		for(int i = 0; i < outputList.size(); i++) {
+					try {
+						outputList.get(i).writeObject(poll);
+						System.out.println("Sent " + poll + " to " + i);
+						outputList.get(i).flush();
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
  			}
  		}
  	}

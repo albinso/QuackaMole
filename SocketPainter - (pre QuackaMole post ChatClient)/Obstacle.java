@@ -3,13 +3,13 @@ import java.awt.*;
 
 public class Obstacle {
 	public static final int SIZE = 30; // default-value
-	protected Color color;
+	protected Color ballColor;
 	protected int x, y;
 
 	public Obstacle(int x, int y) {
 		this.x = x;
 		this.y = y;
-		color = Color.black;
+		ballColor = Color.black;
 	}
 
 	public int getLeftSide() {
@@ -34,7 +34,7 @@ public class Obstacle {
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(color);
+		g.setColor(ballColor);
 		g.fillRect(x, y, SIZE, SIZE);
 	}
 }
