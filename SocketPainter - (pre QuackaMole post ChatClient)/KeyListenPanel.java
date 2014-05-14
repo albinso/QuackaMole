@@ -13,25 +13,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class KeyListenPanel extends JPanel implements ActionListener, Serializable {
-	private int width;
-	private int height;
+public class KeyListenPanel extends JPanel implements Serializable {
+	public int width;
+	public int height;
 	private ImageIcon gamefield;
-	private LinkedList<KeyListenPlayer> players;
+	
 	private LinkedList<Obstacle> obstacles;
-	private LinkedList<StartPlace> startPlaces;
-	private Timer timer;
+	public LinkedList<StartPlace> startPlaces;
 	private boolean updated;
 
 	public KeyListenPanel() {
-		players = new LinkedList<KeyListenPlayer>();
 		obstacles = new LinkedList<Obstacle>();
 		startPlaces = new LinkedList<StartPlace>();
 
-		timer = new Timer(10, this);
 		updated = false;
 
-		initMap();
+		
 
 		final KeyListenPanel panel = this;
 
@@ -48,7 +45,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		}.start();
 	}
 
-	public void initMap() {
+	public LinkedList<Obstacle> initMap() {
+		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("stripes.jpg");
 		gamefield = new ImageIcon(gamefieldImage);
 
@@ -86,40 +84,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 
 		width = x;
 		height = y;
-	}
-
-	// called by the server when a new player has connected
-	public int addPlayer() {
-		// if the game hasen't started yet
-		// TODO start timer when all players are ready?
-		if (players.size() == 0)
-			timer.start();
-
-		// creates a player (with random coordinates)
-		// TODO set position realtive to the map
-		int x = 0;
-		int y = 0;
-		int id = players.size();
-		if (startPlaces.size() > 0) {
-			StartPlace startPlace = startPlaces.remove(0);
-			x = startPlace.getX();
-			y = startPlace.getY();
-		} else {
-			x = (int)(Math.random() * width);
-			y = (int)(Math.random() * height);
-		}
-		players.add(new KeyListenPlayer(x, y, id));
-
-		// DEBUGG
-		System.out.println("Player added");
-
-		//repaint();
-
-		return id;
-	}
-
-	public KeyListenPlayer getPlayer(int index) {
-		return players.get(index);
+		return obstacles;
 	}
 
 	// if not updated return false
@@ -140,14 +105,6 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		return gamefield;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		for (KeyListenPlayer player : players)
-			player.move();
-
-		updated = true;
-		repaint();
-	}
-
 	// TODO: bör inte ritas upp (egentligen)
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -155,8 +112,6 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 //		g.drawImage(gamefield, 0, 0, null);
 		gamefield.paintIcon(null, g, 0, 0);
 
-		for (KeyListenPlayer player : players)
-			player.paint(g);
 		for (Obstacle obstacle : obstacles)
 			obstacle.paint(g);
 		for (StartPlace startPlace : startPlaces)

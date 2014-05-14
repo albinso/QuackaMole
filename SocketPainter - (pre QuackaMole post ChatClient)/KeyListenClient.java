@@ -35,19 +35,18 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	KeyListenBackendClient client;
 	int playerID;
 	boolean isMoving = true;
-	KeyListenPanel panel;
 	Queue<KeyListenPackage> actions;
+	private LinkedList<Obstacle> obstacles;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 	public KeyListenClient(InetSocketAddress adr) throws IOException {
 		actions = new LinkedList<KeyListenPackage>();
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
 		System.out.println(playerID);
-		panel = (KeyListenPanel)(client.getObject()); // TODO: Do something good here
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
-
+		obstacles = (LinkedList<Obstacle>) client.getObject();
 		receiver().start();
 
 		actionHandler(10).start();
@@ -102,9 +101,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						}
 						count++;
 						p.move();
-						for(int i = 0; i < panel.getObstacles().size(); i++) {
-							if(panel.getObstacles().get(i) != null) {
-								p.collided(panel.getObstacles().get(i));
+						for(int i = 0; i < obstacles.size(); i++) {
+							if(obstacles.get(i) != null) {
+								p.collided(obstacles.get(i));
 							}
 						}
 					}
@@ -121,8 +120,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		panel.getImage().paintIcon(null, g, 0, 0);
-		for(Obstacle obstacle : panel.getObstacles()) {
+		//panel.getImage().paintIcon(null, g, 0, 0);
+		for(Obstacle obstacle : obstacles) {
 			if(obstacle != null) {
 				obstacle.paint(g);
 			}
