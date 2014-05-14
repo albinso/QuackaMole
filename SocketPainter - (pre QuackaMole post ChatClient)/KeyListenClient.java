@@ -42,7 +42,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
 		System.out.println(playerID);
-		panel = (KeyListenPanel)(client.getObject());
+		panel = (KeyListenPanel)(client.getObject()); // TODO: Do something good here
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
@@ -65,7 +65,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						actions.add((KeyListenPackage)temp);
 					} else if (temp instanceof KeyListenPlayer){
 						KeyListenPlayer tempPlay = (KeyListenPlayer)temp;
-						players[tempPlay.id] = tempPlay;
+						players[tempPlay.getID()] = tempPlay;
 					}
 				}
 			}
@@ -77,7 +77,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			public void run() {
 				while(true) {
 					KeyListenPackage poll = actions.poll();
+					System.out.println(poll);
 					if(poll != null) {
+
 						poll.doAction(players[poll.getPlayerID()]);
 					}
 					try {
@@ -96,6 +98,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 				while(true) {
 					for(KeyListenPlayer p : players) {
 						if(p != null) {
+							System.out.println("Moved " + p.getID());
 							p.move();
 						}
 					}
@@ -112,6 +115,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		for(Obstacle obstacle : panel.getObstacles()) {
+			obstacle.paint(g);
+		}
 		for(KeyListenPlayer player : players) {
 			if(player == null) {
 				continue;
@@ -136,6 +142,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			direction = 2;
 		} 
+		System.out.println(playerID);
 		MovePackage p = new MovePackage(playerID, direction);
 		client.sendObject(p);
 	}
