@@ -129,6 +129,10 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		return true;
 	}
 
+	public LinkedList<Obstacle> getObstacles() {
+		return obstacles;
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		for (KeyListenPlayer player : players)
 			player.move();

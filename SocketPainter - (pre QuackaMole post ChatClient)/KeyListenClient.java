@@ -42,7 +42,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = client.getID();
 		System.out.println(playerID);
-		panel = (KeyListenPanel)(client.getObject());
+		panel = (KeyListenPanel)(client.getObject()); // TODO: Do something good here
 		addKeyListener(this);
 		setFocusable(true);
 		requestFocus();
