@@ -27,9 +27,10 @@ public class KeyListenPlayer implements Serializable {
 		this.buff = buff;
 	}
 
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// TODO: fri rörelse i fyra riktningar
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	/**
+	* Sets player direction to straight up.
+	* Equivalent methods for other directions exist.
+	*/
 	public void goUp() {
 		up = true;
 		down = false;
@@ -58,6 +59,9 @@ public class KeyListenPlayer implements Serializable {
 		right = true;
 	}
 
+	/**
+	* Stops all movement;
+	*/
 	public void stopMoving() {
 		up = false;
 		down = false;
@@ -65,6 +69,9 @@ public class KeyListenPlayer implements Serializable {
 		right = false;
 	}
 
+	/**
+	* Moves based on the direction variables.
+	*/
 	public void move() {
 		if (up)
 			y--;
@@ -84,6 +91,9 @@ public class KeyListenPlayer implements Serializable {
 		return y;
 	}
 
+	/**
+	* @return an id that is used to identify players in different locations.
+	*/
 	public int getID() {
 		return id;
 	}
