@@ -1,6 +1,6 @@
 import java.awt.Image;
 
-public class KeyListenDirt extends BreakableObstacle{
+public class KeyListenDirt extends Obstacle{
 	public KeyListenDirt(int x, int y) {
 		super(x, y, getImages());
 	}

@@ -76,6 +76,8 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 					obstacles.add(new KeyListenStone(x, y));
 				else if (token.equals("3"))
 					startPlaces.add(new StartPlace(x, y));
+				else if (token.equals("4"))
+					obstacles.add(new KeyListenCrate(x, y));
 
 				x += Obstacle.SIZE;
 			}
