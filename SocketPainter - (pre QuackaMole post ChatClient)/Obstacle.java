@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.awt.BufferedImage;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
@@ -58,9 +58,7 @@ public class Obstacle implements Serializable {
 
 	private static ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
 		Image img = icon.getImage();
-		BufferedImage buffImg = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		bi.createGraphics().drawImage(buffImg, 0, 0, width, height, null);
-		return new ImageIcon(buffImg);
+		return new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH));
 	}
 
 	/**
