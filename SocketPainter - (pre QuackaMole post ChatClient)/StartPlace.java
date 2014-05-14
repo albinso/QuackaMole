@@ -1,5 +1,5 @@
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 
 public class StartPlace  {
 	private final int diameter = 20;
