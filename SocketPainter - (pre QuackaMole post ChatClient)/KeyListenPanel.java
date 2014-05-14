@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.event.*; // TODO
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.File;
 import java.util.LinkedList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -80,7 +81,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		// TODO set position realtive to the map
 		int x = (int)(Math.random() * width);
 		int y = (int)(Math.random() * height);
-		players.add(new KeyListenPlayer(x, y));
+		players.add(new KeyListenPlayer(x, y, players.size()));
 
 		// DEBUGG
 		System.out.println("Player added");
@@ -123,6 +124,6 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		for (Obstacle obstacle : obstacles)
 			obstacle.paint(g);
 		for (StartPlace startPlace : startPlaces)
-			startPlaces.paint(g);
+			startPlace.paint(g);
 	}
 }
