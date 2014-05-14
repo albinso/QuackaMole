@@ -55,10 +55,4 @@ public class KeyListenBackendClient extends Socket {
 			System.exit(5);
 		}
 	}
-
-/*	public static void main(String[] args) throws IOException {
-		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8087);
-
-		new TestClient(adr, args[0]);
-	}*/
 }
