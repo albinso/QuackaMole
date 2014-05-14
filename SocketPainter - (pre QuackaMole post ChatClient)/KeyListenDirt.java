@@ -8,7 +8,7 @@ public class KeyListenDirt extends Obstacle {
 
 	private static ImageIcon[] getImages() {
 		ImageIcon[] images = new ImageIcon[1];
-		images[0] = new ImageIcon(Toolkit.getDefaultToolkit().getImage("dirt.jpg"));
-		return new ImageIcon[0];
+		images[0] = new ImageIcon(Toolkit.getDefaultToolkit().getImage("dirt_v2.png"));
+		return images;
 	}
 }

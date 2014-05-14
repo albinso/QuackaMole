@@ -17,6 +17,9 @@ public class Obstacle implements Serializable {
 		this.y = y;
 		this.durability = imgs.length;
 		BREAK_STAGES = imgs;
+
+		if (imgs.length > 0)
+			image = BREAK_STAGES[imgs.length - 1];
 	}
 
 	public boolean takeDamage(int damage) {
@@ -48,7 +51,7 @@ public class Obstacle implements Serializable {
 
 	public void paint(Graphics g) {
 		g.setColor(Color.black);
-		g.fillRect(x, y, 30, 30);
+		g.drawRect(x, y, 30, 30);
 		if (image != null)
 			image.paintIcon(null, g, x, y);
 	}

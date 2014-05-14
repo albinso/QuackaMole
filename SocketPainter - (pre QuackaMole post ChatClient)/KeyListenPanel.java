@@ -49,7 +49,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 	}
 
 	public void initMap() {
-		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("chickens.png");
+		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("stripes.jpg");
 		gamefield = new ImageIcon(gamefieldImage);
 
 		File mapFile = new File("map.txt");
