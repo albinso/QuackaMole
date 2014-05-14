@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
-	private final int 	SIZE = 24,
-						MAXIMALHEALTH = 100; 
+	private final int 	SIZE = 24, MAXIMALHEALTH = 100; 
 
 	public int x, y;
 	private int id, health;
@@ -103,9 +102,13 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	/**
+	* Determines whether or not the player is colliding with the given block.
+	* Will move the player in case collision is detected.
+	* @param block must always have a size larger than or equal to that of this. 
 	* @return true if player is currently colliding with the given obstacle.
 	*/
 	public boolean collided(Obstacle block) {
+		// TODO: Make it bloody work.
 		if(block.inBounds(x, y)) {
 			moveCornerOutsideBlock(block, x, y);
 			return true;
