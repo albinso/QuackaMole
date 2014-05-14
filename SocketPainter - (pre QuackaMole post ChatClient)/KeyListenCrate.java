@@ -5,7 +5,7 @@ public class KeyListenCrate extends BreakableObstacle {
 		super(x, y, getImages());
 	}
 
-	public Image[] getImages() {
+	public static Image[] getImages() {
 		return new Image[0];
 	}
 }

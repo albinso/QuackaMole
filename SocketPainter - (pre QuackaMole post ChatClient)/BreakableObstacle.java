@@ -1,3 +1,5 @@
+import java.awt.Image;
+
 public class BreakableObstacle extends Obstacle {
 	protected final Image[] BREAK_STAGES;
 	private int durability;

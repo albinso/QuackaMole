@@ -3,14 +3,12 @@ import java.awt.Image;
 
 public class Obstacle {
 	public static final int SIZE = 30; // default-value
-	protected Color ballColor;
 	private Image image;
 	protected int x, y;
 
 	public Obstacle(int x, int y) {
 		this.x = x;
 		this.y = y;
-		ballColor = Color.black;
 	}
 
 	public int getLeftSide() {
@@ -39,7 +37,6 @@ public class Obstacle {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(ballColor);
 		g.fillRect(x, y, SIZE, SIZE);
 		g.drawImage(image, x, y, SIZE, SIZE, null);
 	}
