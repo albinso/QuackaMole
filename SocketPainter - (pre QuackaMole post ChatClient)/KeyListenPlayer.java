@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
 	public int x, y;
+	private final int SIZE = 30;
 	private int id;
 	private Buff buff;
 	private transient boolean up, down, left, right;
@@ -104,22 +105,27 @@ public class KeyListenPlayer implements Serializable {
 	public boolean collided(Obstacle block) {
 		if(block.inBounds(x, y)) {
 			moveCornerOutsideBlock(block, x, y);
+			return true;
 		} 
-		if(block.inBounds(x + size, y)) {
-			moveCornerOutsideBlock(block, x + size, y);
+		if(block.inBounds(x + SIZE, y)) {
+			moveCornerOutsideBlock(block, x + SIZE, y);
+			return true;
 		} 
-		if(block.inBounds(x, y + size)) {
-			moveCornerOutsideBlock(block, x, y + size);
+		if(block.inBounds(x, y + SIZE)) {
+			moveCornerOutsideBlock(block, x, y + SIZE);
+			return true;
 		} 
-		if(block.inBounds(x + size, y + size)) {
-			moveCornerOutsideBlock(block, x + size, y + size);
+		if(block.inBounds(x + SIZE, y + SIZE)) {
+			moveCornerOutsideBlock(block, x + SIZE, y + SIZE);
+			return true;
 		}
+		return false;
 	}
 
 	/**
 	* Helps identify which way to move the player and then adjusts the position accordingly.
 	*/
-	private void moveCornerOutsideBlock(Block block, int cornerX, int cornerY) {
+	private void moveCornerOutsideBlock(Obstacle block, int cornerX, int cornerY) {
 		int right = block.getRightSide() - cornerX;
 		int left = block.getLeftSide() - cornerX;
 		int up = block.getUpSide() - cornerY;
@@ -137,8 +143,8 @@ public class KeyListenPlayer implements Serializable {
 
 	public void paint(Graphics g) {
 		g.setColor(Color.red);
-		g.fillRect(x, y, 20, 20);
+		g.fillRect(x, y, SIZE, SIZE);
 		g.setColor(Color.black);
-		g.drawRect(x, y, 20, 20);
+		g.drawRect(x, y, SIZE, SIZE);
 	}
 }
