@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
 	private final int 	SIZE = 24, MAXIMALHEALTH = 100; 
-
+	public int digCooldown;
 	public int x, y;
 	private int id, health;
 	private Buff buff;
@@ -28,6 +28,20 @@ public class KeyListenPlayer implements Serializable {
 
 	public void setBuff(Buff buff) {
 		this.buff = buff;
+	}
+
+	/**
+	* The damage the player will do to an object. 
+	* Has a cooldown between uses. If on cooldown damage returned will be 0.
+	*/
+	public int getDamage() {
+		if(digCooldown > 20) {
+			digCooldown = 0;
+			System.out.println("RETURNED DAMAGE");
+			return 1;
+		}
+		digCooldown++;
+		return 0;
 	}
 
 	/**

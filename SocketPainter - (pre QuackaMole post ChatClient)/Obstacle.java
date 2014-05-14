@@ -15,7 +15,7 @@ public class Obstacle implements Serializable {
 	public Obstacle(int x, int y, ImageIcon[] imgs) {
 		this.x = x;
 		this.y = y;
-		this.durability = imgs.length;
+		this.durability = imgs.length + 2;
 		BREAK_STAGES = imgs;
 
 		if (imgs.length > 0)
@@ -27,8 +27,14 @@ public class Obstacle implements Serializable {
 	* @return true if durability drops to 0.
 	*/
 	public boolean takeDamage(int damage) {
-		durability -= durability >= damage ? damage : durability;
-		image = BREAK_STAGES[durability];
+		//durability -= durability >= damage ? damage : durability;
+		durability -= damage;
+		if(durability < 0) {
+			durability = 0;
+		}
+		if(durability > 0) {
+			image = BREAK_STAGES[0];
+		}
 		return durability == 0;
 	}
 
