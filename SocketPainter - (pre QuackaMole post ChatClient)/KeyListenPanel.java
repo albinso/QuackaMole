@@ -97,6 +97,7 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 		// TODO set position realtive to the map
 		int x = 0;
 		int y = 0;
+		int id = players.size();
 		if (startPlaces.size() > 0) {
 			StartPlace startPlace = startPlaces.remove(0);
 			x = startPlace.getX();
@@ -105,14 +106,14 @@ public class KeyListenPanel extends JPanel implements ActionListener, Serializab
 			x = (int)(Math.random() * width);
 			y = (int)(Math.random() * height);
 		}
-		players.add(new KeyListenPlayer(x, y, players.size()));
+		players.add(new KeyListenPlayer(x, y, id));
 
 		// DEBUGG
 		System.out.println("Player added");
 
-		repaint();
+		//repaint();
 
-		return players.size() - 1;
+		return id;
 	}
 
 	public KeyListenPlayer getPlayer(int index) {
