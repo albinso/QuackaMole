@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 public class Buff implements Serializable{
 	public static final int SHIELD = 0,
