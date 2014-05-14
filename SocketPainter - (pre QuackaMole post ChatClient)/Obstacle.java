@@ -2,7 +2,7 @@ package quack.block;
 import java.awt.*;
 
 public class Obstacle {
-	public static int size = 10; // default-value
+	public static final int SIZE = 30; // default-value
 	protected Color ballColor;
 	protected int x, y;
 
@@ -17,7 +17,7 @@ public class Obstacle {
 	}
 
 	public int getRightSide() {
-		return x + size;
+		return x + SIZE;
 	}
 
 	public int getUpSide() {
@@ -25,16 +25,16 @@ public class Obstacle {
 	}
 
 	public int getDownSide() {
-		return y + size;
+		return y + SIZE;
 	}
 
 	public boolean inBounds(int x, int y) {
-		return this.x <= x && x < (this.x + size) && 
-				this.y <= y && y < (this.y + size);
+		return this.x <= x && x < getRightSide() && 
+				this.y <= y && y < getDownSide();
 	}
 
 	public void draw(Graphics g) {
 		g.setColor(ballColor);
-		g.fillRect(x, y, size, size);
+		g.fillRect(x, y, SIZE, SIZE);
 	}
 }
