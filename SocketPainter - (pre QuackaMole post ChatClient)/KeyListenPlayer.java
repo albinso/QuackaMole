@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
+	private final int 	SIZE = 30,
+						MAXIMALHEALTH = 100; 
+
 	public int x, y;
-	private final int SIZE = 30;
-	private int id;
+	private int id, health;
 	private Buff buff;
 	private transient boolean up, down, left, right;
 
@@ -17,6 +19,7 @@ public class KeyListenPlayer implements Serializable {
 		left = false;
 		right = false;
 		this.id = id;
+		health = MAXIMALHEALTH;
 	}
 
 	public void setPosition(int x, int y) {
@@ -133,7 +136,7 @@ public class KeyListenPlayer implements Serializable {
 
 		int xDiff = Math.abs(left) < right ? left : right;
 		int yDiff = Math.abs(up) < down ? up : down;
-		if(Math.abs(xDiff) < Math.abs(yDiff)) {
+		if(Math.abs(xDiff) < Math.abs(yDiff) && xDiff != 0) { // test xDiff != 0
 			x += xDiff;
 		} else {
 			y += yDiff;
