@@ -25,11 +25,6 @@ public class KeyListenLobby extends Thread implements Serializable {
 /*DEBUGG*/	Integer id = panel.addPlayer();
 			outputList.get(outputList.size() - 1).writeObject(id); // TODO: Make this look good.
 			outputList.get(outputList.size() - 1).writeObject(panel);
-			try {
-				Thread.sleep(10000);
-			} catch(InterruptedException e) {
-				e.printStackTrace();
-			}
 			for(int i = 0; i < id; i++) {
 				outputList.get(id).writeObject(panel.getPlayer(i));
 			}
