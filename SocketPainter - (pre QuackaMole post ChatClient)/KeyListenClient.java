@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Graphics;
@@ -80,6 +81,11 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					if(poll != null) {
 
 						poll.doAction(players[poll.getPlayerID()]);
+						for(int i = 0; i < obstacles.length; i++) {
+							if(obstacles[i] != null) {
+								players[poll.getPlayerID()].collided();
+							}
+						}
 					}
 					try {
 						sleep(pause);
