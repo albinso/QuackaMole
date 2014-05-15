@@ -56,9 +56,18 @@ public class Buff implements Serializable {
 	/**
 	 * @return if given coordinate is in bounds
 	 */
-	public boolean inBounds(int x, int y) {
-		return (this.x + adjust) < x && x < (this.x + adjust + diameter) && 
-				(this.y + adjust) < y && y < (this.y + adjust + diameter);
+	public boolean inBounds(int playerX, int playerY, int size) {
+		int x = this.x + adjust;
+		int y = this.y + adjust;
+		return coordinateInBounds(x, y, playerX, playerY, size)
+			&& coordinateInBounds(x + diameter, y, playerX, playerY, size)
+			&& coordinateInBounds(x, y + diameter, playerX, playerY, size)
+			&& coordinateInBounds(x + diameter, y + diameter, playerX, playerY, size);
+	}
+
+	private boolean coordinateInBounds(int x, int y, int playerX, int playerY, int size) {
+		return playerX < x && x < (playerX + size)
+			&& playerY < y && y < (playerY + size);
 	}
 
 	public void paint(Graphics g) {

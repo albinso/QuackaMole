@@ -211,10 +211,6 @@ public class KeyListenPlayer implements Serializable {
 				y = block.getUpSide() - SIZE;
 			return true;
 		}
-/*	if(block.inBounds(x + SIZE, y + SIZE)) {
-			moveCornerOutsideBlock(block, x + SIZE, y + SIZE);
-			return true;
-		}*/
 		return false;
 	}
 
@@ -224,8 +220,7 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public boolean collidedWithBuff(Buff buff) {
-		return buff.inBounds(x, y) || buff.inBounds(x + SIZE, y) || 
-			   buff.inBounds(x, y + SIZE) || buff.inBounds(x + SIZE, y + SIZE);
+		return buff.inBounds(x, y, size);
 	}
 
 	/**
@@ -249,7 +244,7 @@ public class KeyListenPlayer implements Serializable {
 
 	public boolean takeDamage(int damage) {
 		if (shield) {
-			buff.durate();			
+			buff.durate();
 			return false;
 		}
 
@@ -258,10 +253,6 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public void paint(Graphics g) {
-//		g.setColor(Color.red);
-//		g.fillRect(x, y, SIZE, SIZE);
-//		g.setColor(Color.black);
-//		g.drawRect(x, y, SIZE, SIZE);
 		image.paintIcon(null, g, x, y);
 
 		if (shield) {
