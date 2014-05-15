@@ -101,7 +101,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					for(int i = 0; i < bullets.size(); i++) {
 						Bullet b = bullets.get(i);
 						b.move();
-						checkObstacleBulletCollision(b);
+						checkBulletCollision(b);
 					}
 					try {
 						sleep(20);
@@ -127,15 +127,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 				obstacles.set(i, null);
 			}
 		}
-		for(int i = 0; i < bullets.size(); i++) {
-			Bullet bullet = bullets.get(i);
-			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
-				if(p.takeDamage(bullet.getDamage())) {
-					players[p.getID()] = null;
-				}
-				bullets.remove(bullet);
-			}
-		}
+
 		for(int i = 0; i < buffs.size(); i++) {
 			Buff buff = buffs.get(i);
 			if(buff != null && p.collidedWithBuff(buff)) {
@@ -145,12 +137,20 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		}
 	}
 
-	private void checkObstacleBulletCollision(Bullet bullet) {
+	private void checkBulletCollision(Bullet bullet) {
 		for(int i = 0; i < obstacles.size(); i++) {
 			Obstacle block = obstacles.get(i);
 			if(block != null && bullet.collidedWithBlock(block)) {
 				bullets.remove(bullet);
 			}
+		}
+
+		KeyListenPlayer p = players[playerID];
+		if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
+			if(p.takeDamage(bullet.getDamage())) {
+				client.sendObject(new PlayerDeath(playerID));
+			}
+			bullets.remove(bullet);
 		}
 	}
 
@@ -205,6 +205,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			client.sendObject(players[playerID].shoot());
 			return;
+		}
+		if(playerID != players[playerID].getID()) {
+			System.out.println(playerID + " : " + players[playerID].getID());
 		}
 		isMoving = true;
 
