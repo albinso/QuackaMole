@@ -95,6 +95,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						}
 						count++;
 						p.move();
+						p.handleBuff();
 						checkPlayerCollision(p);
 					}
 					for(int i = 0; i < bullets.size(); i++) {
@@ -128,8 +129,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		}
 		for(int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
-			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p) && p.takeDamage(bullet.getDamage())) {
-				players[p.getID()] = null;
+			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
+				if(p.takeDamage(bullet.getDamage())) {
+					players[p.getID()] = null;
+				}
 				bullets.remove(bullet);
 			}
 		}
