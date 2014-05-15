@@ -182,6 +182,11 @@ public class KeyListenPlayer implements Serializable {
 			   bullet.inBounds(x, y + SIZE) || bullet.inBounds(x + SIZE, y + SIZE);
 	}
 
+	public boolean collidedWithBuff(Buff buff) {
+		return buff.inBounds(x, y) || buff.inBounds(x + SIZE, y) || 
+			   buff.inBounds(x, y + SIZE) || buff.inBounds(x + SIZE, y + SIZE);
+	}
+
 	/**
 	* Helps identify which way to move the player and then adjusts the position accordingly.
 	*/

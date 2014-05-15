@@ -130,6 +130,14 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			Bullet bullet = bullets.get(i);
 			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p) && p.takeDamage(bullet.getDamage())) {
 				players[p.getID()] = null;
+				bullets.remove(bullet);
+			}
+		}
+		for(int i = 0; i < buffs.size(); i++) {
+			Buff buff = buffs.get(i);
+			if(buff != null && p.collidedWithBuff(buff)) {
+				players[p.getID()].setBuff(buff);
+				buffs.remove(buff);
 			}
 		}
 	}
