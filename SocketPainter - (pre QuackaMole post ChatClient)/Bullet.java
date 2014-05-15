@@ -6,6 +6,7 @@ public class Bullet implements Serializable {
 	private int x, y, ownerID;
 	private final int SIZE;
 	private final int SPEED = 2;
+	private int damage = 25;
 	public Bullet(int x, int y, boolean up, boolean down, boolean left, boolean right, int ownerID) {
 		this.up = up;
 		this.down = down;
@@ -67,7 +68,7 @@ public class Bullet implements Serializable {
 	}
 
 	public int getDamage() {
-		return 1000;
+		return damage;
 	}
 
 	public String toString() {
