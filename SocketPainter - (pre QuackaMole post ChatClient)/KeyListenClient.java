@@ -118,25 +118,17 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			Obstacle block = obstacles.get(i);
 			if(block != null && p.collidedWithBlock(block) && block.takeDamage(p.getDigDamage())) {
 				if(block instanceof KeyListenCrate) {
-					buffs.add(randomBuff(block.getLeftSide(), block.getUpSide()));
+					buffs.add((KeyListenCrate)block).destroyCrate());
 				}
 				obstacles.set(i, null);
 			}
 		}
 		for(int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
-			if(bullet != null && p.collidedWithBullet(bullet) && p.takeDamage(bullet.getDamage())) {
-				players[i] = null;
+			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p) && p.takeDamage(bullet.getDamage())) {
+				players[p.getID()] = null;
 			}
 		}
-	}
-
-	/**
-	* Generates a random Buff at given coordinates.
-	*/
-	private Buff randomBuff(int x, int y) {
-		// TODO: Fix so it's random
-		return new Buff(x, y, 0);
 	}
 
 	public void paintComponent(Graphics g) {

@@ -117,7 +117,7 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public Bullet shoot() {
-		return new Bullet(x, y, up, down, left, right);
+		return new Bullet(x, y, up, down, left, right, getID());
 	}
 
 	public int getX() {

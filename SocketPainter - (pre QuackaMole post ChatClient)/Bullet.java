@@ -2,10 +2,10 @@ import java.awt.Graphics;
 
 public class Bullet {
 	private final boolean up, down, left, right;
-	private int x, y;
+	private int x, y, ownerID;
 	private final int SIZE;
 	private final int SPEED = 2;
-	public Bullet(int x, int y, boolean up, boolean down, boolean left, boolean right) {
+	public Bullet(int x, int y, boolean up, boolean down, boolean left, boolean right, int ownerID) {
 		this.up = up;
 		this.down = down;
 		this.left = left;
@@ -31,13 +31,17 @@ public class Bullet {
 		return SIZE;
 	}
 
+	public boolean isOwner(KeyListenPlayer p) {
+		return p.getID() == ownerID;
+	}
+
 	/**
 	* Tells if the given point is contained in the bullet.
 	*/
 	public boolean inBounds(int x, int y) {
 		// TODO: Make test for this
-		return this.x <= x && x < x + SIZE && 
-				this.y <= y && y < y + SIZE;
+		return this.x <= x && x < this.x + SIZE && 
+				this.y <= y && y < this.y + SIZE;
 	}
 
 	public void move() {
@@ -56,6 +60,6 @@ public class Bullet {
 	}
 
 	public int getDamage() {
-		return 1;
+		return 1000;
 	}
 }
