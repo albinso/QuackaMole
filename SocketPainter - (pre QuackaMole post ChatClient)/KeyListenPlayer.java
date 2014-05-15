@@ -12,7 +12,7 @@ public class KeyListenPlayer implements Serializable {
 	private int id, health;
 	private ImageIcon image;
 	private Buff buff;
-	private transient boolean up, down, left, right;
+	private transient boolean up, down, left, right, moving;
 
 	public KeyListenPlayer(int x, int y, int id) {
 		setPosition(x, y);
@@ -59,6 +59,7 @@ public class KeyListenPlayer implements Serializable {
 		down = false;
 		left = false;
 		right = false;
+		moving = true;
 	}
 
 	public void goDown() {
@@ -66,6 +67,7 @@ public class KeyListenPlayer implements Serializable {
 		down = true;
 		left = false;
 		right = false;
+		moving = true;
 	}
 
 	public void goLeft() {
@@ -73,6 +75,7 @@ public class KeyListenPlayer implements Serializable {
 		down = false;
 		left = true;
 		right = false;
+		moving = true;
 	}
 
 	public void goRight() {
@@ -80,22 +83,27 @@ public class KeyListenPlayer implements Serializable {
 		down = false;
 		left = false;
 		right = true;
+		moving = true;
+	}
+
+	public Bullet shoot() {
+		return new Bullet(x, y, up, down, left, right);
 	}
 
 	/**
 	* Stops all movement;
 	*/
 	public void stopMoving() {
-		up = false;
-		down = false;
-		left = false;
-		right = false;
+		moving = false;
 	}
 
 	/**
 	* Moves based on the direction variables.
 	*/
 	public void move() {
+		if(!moving) {
+			return;
+		}
 		if (up)
 			y--;
 		if (down)

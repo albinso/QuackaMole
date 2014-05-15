@@ -15,10 +15,13 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	Queue<KeyListenPackage> actions;
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<Buff> buffs;
+	private LinkedList<Bullet> bullets;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 	public KeyListenClient(InetSocketAddress adr) throws IOException {
 		actions = new LinkedList<KeyListenPackage>();
 		buffs = new LinkedList<Buff>();
+		bullets = new LinkedList<Bullet>();
+
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = (int)client.getObject();
 		System.out.println(playerID);
@@ -92,6 +95,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						p.move();
 						checkCollision(p);
 					}
+					for(Bullet b : bullets) {
+						b.move();
+					}
 					try {
 						sleep(20);
 					} catch(InterruptedException e) {
@@ -140,6 +146,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 				buff.paint(g);
 			}
 		}
+
 		for(int i = 0; i < players.length; i++) {
 			KeyListenPlayer player = players[i];
 			if(player == null) {
@@ -147,6 +154,12 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			}
 			if(Math.abs(player.getX() - players[playerID].getX()) < 100 && Math.abs(player.getY() - players[playerID].getY()) < 100) {
 				player.paint(g);
+			}
+		}
+
+		for(Bullet bullet : bullets) {
+			if(bullet != null) {
+				bullet.paint(g);
 			}
 		}
 
@@ -166,7 +179,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			direction = 1;
 		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			direction = 2;
-		} 
+		} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			bullets.add(players[playerID].shoot());
+			return;
+		}
 
 		MovePackage p = new MovePackage(playerID, direction);
 		client.sendObject(p);
@@ -177,6 +193,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN && e.getKeyCode() != KeyEvent.VK_LEFT && e.getKeyCode() != KeyEvent.VK_RIGHT) {
+			return;
+		}
 		isMoving = false;
 		StopPackage p = new StopPackage(playerID, players[playerID]);
 		client.sendObject(p);
