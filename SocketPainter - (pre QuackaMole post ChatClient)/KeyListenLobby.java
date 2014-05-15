@@ -163,8 +163,7 @@ public class KeyListenLobby extends Thread implements Serializable {
 /*DEBUGG*/		for(int i = 0; i < outputList.size(); i++) {
 					try {
 						outputList.get(i).writeObject(poll);
-						System.out.println("Sent " + poll + " to " + i);
-						outputList.get(i).flush();
+						//outputList.get(i).flush();
 					} catch(IOException e) {
 						e.printStackTrace();
 					}
