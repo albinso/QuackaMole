@@ -169,7 +169,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			//}
 		}
 
-		for(Bullet bullet : bullets) {
+		for(int i = 0; i < bullets.size(); i++) {
+			Bullet bullet = bullets.get(i);
 			if(bullet != null) {
 				bullet.paint(g);
 			}
