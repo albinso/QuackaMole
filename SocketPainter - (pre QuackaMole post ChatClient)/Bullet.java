@@ -6,7 +6,7 @@ public class Bullet implements Serializable {
 	private int x, y, ownerID;
 	private final int SIZE;
 	private final int SPEED = 2;
-	private int damage = 25;
+	private int damage = 100;
 	public Bullet(int x, int y, boolean up, boolean down, boolean left, boolean right, int ownerID) {
 		this.up = up;
 		this.down = down;
@@ -41,10 +41,10 @@ public class Bullet implements Serializable {
 	/**
 	* Tells if the given point is contained in the bullet.
 	*/
-	public boolean inBounds(int x, int y) {
+	public boolean inBounds(int x, int y, int size) {
 		// TODO: Make test for this
-		return this.x <= x && x < this.x + SIZE && 
-				this.y <= y && y < this.y + SIZE;
+		return x >= this.x && this.x < x + size && 
+				y >= this.y && this.y < y + size;
 	}
 
 	public boolean collidedWithBlock(Obstacle obs) {
