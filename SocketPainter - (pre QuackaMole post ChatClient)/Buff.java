@@ -59,10 +59,13 @@ public class Buff implements Serializable {
 	public boolean inBounds(int playerX, int playerY, int size) {
 		int x = this.x + adjust;
 		int y = this.y + adjust;
-		return coordinateInBounds(x, y, playerX, playerY, size)
+/*		return coordinateInBounds(x, y, playerX, playerY, size)
 			|| coordinateInBounds(x + diameter, y, playerX, playerY, size)
 			|| coordinateInBounds(x, y + diameter, playerX, playerY, size)
 			|| coordinateInBounds(x + diameter, y + diameter, playerX, playerY, size);
+*/
+		return (playerX < x && x < (playerX + size)) || (playerX < (x + diameter) && (x + diameter) < (playerX + size))
+			&& (playerY < y && y < (playerY + size)) || (playerY < (y + diameter) && (y + diameter) < (playerY + size));
 	}
 
 	// help-method for finding inBounds
