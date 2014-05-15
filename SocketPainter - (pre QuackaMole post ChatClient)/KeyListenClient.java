@@ -113,7 +113,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	* Compares the location of p to all obstacles and "shoves" the player away from the obstacle.
 	* Handles damage dealt to obstacles.
 	*/
-	private void checkCollision(KeyListenPlayer p) {
+	private void checkPlayerCollision(KeyListenPlayer p) {
 		for(int i = 0; i < obstacles.size(); i++) {
 			Obstacle block = obstacles.get(i);
 			if(block != null && p.collided(block) && block.takeDamage(p.getDamage())) {
@@ -152,9 +152,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			if(player == null) {
 				continue;
 			}
-			if(Math.abs(player.getX() - players[playerID].getX()) < 100 && Math.abs(player.getY() - players[playerID].getY()) < 100) {
+			//if(Math.abs(player.getX() - players[playerID].getX()) < 100 && Math.abs(player.getY() - players[playerID].getY()) < 100) {
 				player.paint(g);
-			}
+			//}
 		}
 
 		for(Bullet bullet : bullets) {
