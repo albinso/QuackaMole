@@ -148,7 +148,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			if(player == null) {
 				continue;
 			}
-			player.paint(g);
+			if(Math.abs(player.getX() - players[playerID].getX()) < 100 && Math.abs(player.getY() - players[playerID].getY()) < 100) {
+				player.paint(g);
+			}
 		}
 
 		requestFocus();

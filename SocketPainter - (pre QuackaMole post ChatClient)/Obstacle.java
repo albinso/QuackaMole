@@ -16,12 +16,14 @@ public class Obstacle implements Serializable {
 	public Obstacle(int x, int y, ImageIcon[] imgs) {
 		this.x = x;
 		this.y = y;
-		this.durability = imgs.length + 2;
+		this.durability = imgs.length;
 		BREAK_STAGES = imgs;
+		for(int i = 0; i < BREAK_STAGES.length; i++) {
+			BREAK_STAGES[i] = resizeIcon(BREAK_STAGES[i], SIZE, SIZE);
+		}
 
 		if (imgs.length > 0)
 			image = BREAK_STAGES[imgs.length - 1];
-		image = resizeIcon(image, SIZE, SIZE);
 	}
 
 	/**
