@@ -207,7 +207,7 @@ public class KeyListenPlayer implements Serializable {
 			if (direction == 1)
 				x = block.getLeftSide() - SIZE;
 			else if (direction == 2)
-				x = block.getUpSide() - SIZE;
+				y = block.getUpSide() - SIZE;
 			return true;
 		}
 /*	if(block.inBounds(x + SIZE, y + SIZE)) {
