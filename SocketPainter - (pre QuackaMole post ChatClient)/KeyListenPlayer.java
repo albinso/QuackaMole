@@ -201,6 +201,8 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public boolean takeDamage(int damage) {
+		if (shield)
+			return false;
 		health -= damage;
 		return health <= 0;
 	}
