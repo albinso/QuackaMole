@@ -49,7 +49,7 @@ public class KeyListenPlayer implements Serializable {
 		if (buff == null)
 			return;
 
-		if (buff.tickBuff() == 0) {
+		if (buff.duration() == 0) {
 			digDamage = 1;
 			shield = false;
 			buff = null;
