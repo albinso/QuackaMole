@@ -28,7 +28,7 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 	private JPanel buttonPanel;
 	private JButton startButton;
 
-	public KeyListenServer() {
+	public ServerControlFrame() {
 		serverStatus = new JLabel("Server offline");
 		portNumberLabel = new JLabel("Port number");
 		portNumberField = new JTextField("8080");
@@ -60,6 +60,7 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 
 	/**
 	* Starts a server which will host the game.
+	* 
 	*/
 	public void startServer() {
 		int portNumber = 0;
@@ -72,10 +73,11 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 
 		final int port = portNumber;
 
-		new Thread() { // By multithreading we allow for potential future support for multiple games on one host.
+		new Thread() { 
+			// By multithreading we allow for potential future support for multiple games on one host.
 			public void run() {
 				try {
-					new KeyListenServerBackend(port);
+					new QuackaMoleBackendServer(port);
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Something went wrong. Please restart the server.");
 				}
@@ -92,7 +94,8 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 				serverStatus.setText("Server online");
 				startButton.setText("Stop server!");
 				startServer();
-			} else {
+			} else { // Kills the server and allows for a new instance to be created.
+				MAKE THIS WORK
 				serverStatus.setText("Server offline");
 				startButton.setText("Start server!");
 			}

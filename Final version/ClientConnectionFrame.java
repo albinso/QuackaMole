@@ -13,8 +13,9 @@ import javax.swing.JTextField;
 
 /**
  * Asks user for ip and port number of the desired server.
- * Will request a connection to said server and if successful
- * join or start a game.
+ * Will allow the user to request a connection to said server and will, if successful, join or start a game.
+ * If request fails a popup will appear with information and the user may try new input.
+ * @author Per Nyberg, Albin Söderholm
  */
 public class ClientConnectionFrame extends JFrame implements ActionListener {
 	private JLabel usernameLabel, serverAddressLabel, portNumberLabel;
@@ -81,6 +82,7 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 			port = Integer.parseInt(portNumberText);
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "Please enter a numerical port number.");
+			return;
 		}
 
 		InetSocketAddress adr = new InetSocketAddress(ipAddress, port);
