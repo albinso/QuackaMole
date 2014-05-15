@@ -1,13 +1,9 @@
 /**
- * 
- * 
- * @author Per Nyberg, Albin Söderholm
- */
-
-/**
  * This is a package containing a signal that
  * says that the given player (through the ID)
- * should start moving.
+ * should stop moving. The players position is 
+ * then altered to coincide with the given 
+ * position in the package.
  * 
  * @author Per Nyberg, Albin Söderholm
  */
