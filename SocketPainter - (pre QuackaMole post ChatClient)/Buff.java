@@ -21,12 +21,10 @@ public class Buff implements Serializable {
 		if (type == SHIELD) {
 			color = Color.pink;
 			duration = 500;
-		}
-		else if (type == DIGGER) {
+		} else if (type == DIGGER) {
 			color = Color.gray;
 			duration = 500;
-		}
-		else {
+		} else {
 			color = Color.black;
 			duration = 0;
 		}
