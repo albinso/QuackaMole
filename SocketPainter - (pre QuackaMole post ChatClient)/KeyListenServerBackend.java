@@ -3,9 +3,20 @@ import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class KeyListenServerBackend extends ServerSocket implements Serializable {
+/**
+ * This class handles the backend of the server
+ * which in this cases means starting the lobby
+ * and endlessly trying to find clients to join
+ * the lobby.
+ * 
+ * @author Per Nyberg, Albin Söderholm
+ */
+public class KeyListenServerBackend extends ServerSocket {
 	private KeyListenLobby lobby;
 
+	/**
+	 * Initiates the backend server
+	 */
 	public KeyListenServerBackend(int port) throws IOException {
 		super(port);
 
@@ -25,8 +36,5 @@ public class KeyListenServerBackend extends ServerSocket implements Serializable
 
 			lobby.addClient(s);
 		}
-	}
-
-	public static void main(String[] arg) {
 	}
 }
