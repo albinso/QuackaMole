@@ -88,7 +88,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			public void run() {
 				while(true) {
 					int count = 0;
-					for(KeyListenPlayer p : players) {
+					for(int i = 0; i < players.length; i++) {
+						KeyListenPlayer p = players[i];
 						if(p == null) {
 							continue;
 						}
@@ -96,7 +97,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						p.move();
 						checkPlayerCollision(p);
 					}
-					for(Bullet b : bullets) {
+					for(int i = 0; i < bullets.size(); i++) {
+						Bullet b = bullets.get(i);
 						b.move();
 						checkObstacleBulletCollision(b);
 					}
