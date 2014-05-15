@@ -55,7 +55,7 @@ public class Obstacle implements Serializable {
 		return y + SIZE;
 	}
 
-	private static ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
+	public static ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
 		Image img = icon.getImage();
 		return new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH));
 	}

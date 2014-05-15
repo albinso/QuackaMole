@@ -31,6 +31,7 @@ public class KeyListenBackendClient extends Socket {
 	* Gets the next object that is sent from the server.
 	*/
 	public Object getObject() {
+		// TODO: Make test for this
 		Object o = null;
 		try {
 			o = inputStream.readObject();

@@ -70,10 +70,7 @@ public class KeyListenLobby extends Thread implements Serializable {
 	* @return the player's unique ID.
 	*/
 	public int addPlayer() {
-		// if the game hasen't started yet
-		// TODO start timer when all players are ready?
-		// creates a player (with random coordinates)
-		// TODO set position realtive to the map
+		// TODO: Make test for this
 		int x = 0;
 		int y = 0;
 		int id = players.size();

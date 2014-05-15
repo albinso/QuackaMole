@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
-	private final int 	SIZE = 24, MAXIMALHEALTH = 100;
+	private final int 	SIZE = 32, MAXIMALHEALTH = 100;
 	public int digCooldown, digCount;
 	public int x, y;
 	private int id, health;
@@ -23,7 +23,7 @@ public class KeyListenPlayer implements Serializable {
 		this.id = id;
 		health = MAXIMALHEALTH;
 		digCooldown = 20;
-		image = new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png"));
+		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);
 	}
 
 	public void setPosition(int x, int y) {
