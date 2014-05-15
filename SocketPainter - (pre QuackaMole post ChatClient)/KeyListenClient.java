@@ -223,9 +223,6 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			direction = 3;
 		}
 
-		if(playerID != players[playerID].getID()) {
-			System.out.println(playerID + " : " + players[playerID].getID());
-		}
 		if(direction != -1) {
 			isMoving = true;
 			MovePackage p = new MovePackage(playerID, direction);
@@ -238,12 +235,25 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() != KeyEvent.VK_UP && e.getKeyCode() != KeyEvent.VK_DOWN && e.getKeyCode() != KeyEvent.VK_LEFT && e.getKeyCode() != KeyEvent.VK_RIGHT) {
+		if(!isMoving) {
 			return;
 		}
-		isMoving = false;
-		StopPackage p = new StopPackage(playerID, players[playerID]);
-		client.sendObject(p);
+		int direction = -1;
+		if(e.getKeyCode() == KeyEvent.VK_UP) {
+			direction = 0;
+		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			direction = 1;
+		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			direction = 2;
+		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			direction = 3;
+		}
+
+		if(direction != -1) {
+			isMoving = false;
+			StopPackage p = new StopPackage(players[playerID], direction);
+			client.sendObject(p);
+		}
 	}
 
 	public static void main(String[] args) {
