@@ -22,11 +22,11 @@ public class KeyListenLobby extends Thread implements Serializable {
 	public LinkedList<StartPlace> startPlaces;
 
 	public KeyListenLobby() {
-		obstacles = initMap();
 		startPlaces = new LinkedList<StartPlace>();
 		outputList = new ArrayList<ObjectOutputStream>();
 		queue = new LinkedList<Object>();
 		players = new LinkedList<KeyListenPlayer>();
+		obstacles = initMap();
 	}
 
 	/**
