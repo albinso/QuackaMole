@@ -14,10 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class KeyListenPanel extends JPanel implements Serializable {
-	private boolean updated;
-
 	public KeyListenPanel() {
-		updated = false;
 		// a new thread that handles the server
 		new Thread() {
 			public void run() {
@@ -29,17 +26,5 @@ public class KeyListenPanel extends JPanel implements Serializable {
 				}
 			}
 		}.start();
-	}
-
-	/**
-	* if not updated return false
-	* if updated, set updated to false and return true
-	*/
-	public boolean updated() {
-		if (!updated)
-			return false;
-
-		updated = false;
-		return true;
 	}
 }

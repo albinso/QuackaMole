@@ -11,8 +11,7 @@ public class KeyListenServer extends ServerSocket implements Serializable {
 
 		lobby = new KeyListenLobby();
 
-		lobby.start(); // starts the lobbyyy
-
+		lobby.start(); // starts the lobby
 		findClient();
 	}
 
