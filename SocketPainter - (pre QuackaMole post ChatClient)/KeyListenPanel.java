@@ -27,8 +27,6 @@ public class KeyListenPanel extends JPanel implements Serializable {
 		startPlaces = new LinkedList<StartPlace>();
 		updated = false;
 
-		final KeyListenPanel panel = this;
-
 		// a new thread that handles the server
 		new Thread() {
 			public void run() {
@@ -47,7 +45,6 @@ public class KeyListenPanel extends JPanel implements Serializable {
 	* "Initialises" the map. This means an ImageIcon is retrieved and obstacles are generated from a map.
 	*/
 	public LinkedList<Obstacle> initMap() {
-		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("stripes.jpg");
 		gamefield = new ImageIcon(gamefieldImage);
 
@@ -61,6 +58,8 @@ public class KeyListenPanel extends JPanel implements Serializable {
 			System.exit(-2);
 		}
 
+		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
+
 		int x = 0;
 		int y = 0;
 		while (fileScanner.hasNext()) {
@@ -73,8 +72,10 @@ public class KeyListenPanel extends JPanel implements Serializable {
 					obstacles.add(new KeyListenDirt(x, y));
 				else if (token.equals("*"))
 					obstacles.add(new KeyListenStone(x, y));
-				else if (isNumeric(token))
-					startPlaces.add(new StartPlace(x, y));
+				else if (isNumeric(token)) {
+					int startNumber = Integer.parseInt(token);
+					startPlaces.add(new StartPlace(x, y, startNumber));
+				}
 				else if (token.equals("$"))
 					obstacles.add(new KeyListenCrate(x, y));
 
@@ -85,11 +86,19 @@ public class KeyListenPanel extends JPanel implements Serializable {
 
 		width = x;
 		height = y;
+
 		return obstacles;
 	}
 
 	private boolean isNumeric(String str) {
 		return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+	}
+
+	public StartPlace getStartPlace(int startNumber) {
+		for (int i = 0 ; i < startPlaces.size() ; i++)
+			if (startPlaces.get(i).getStartNumber() == startNumber)
+				return startPlaces.remove(i);
+		return null;
 	}
 
 	/**
@@ -122,7 +131,5 @@ public class KeyListenPanel extends JPanel implements Serializable {
 			obstacle.paint(g);
 		for (StartPlace startPlace : startPlaces)
 			startPlace.paint(g);
-
-//		repaint();
 	}
 }

@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 public class StartPlace implements Serializable {
 	private final int diameter = 20;
-	private int x, y;
 
-	public StartPlace(int x, int y) {
+	private int x, y, startNumber;
+
+	public StartPlace(int x, int y, int startNumber) {
 		this.x = x;
 		this.y = y;
+		this.startNumber = startNumber;
 	}
 
 	public int getX() {
@@ -17,6 +19,10 @@ public class StartPlace implements Serializable {
 
 	public int getY() {
 		return y;
+	}
+
+	public int getStartNumber() {
+		return startNumber;
 	}
 
 	public void paint(Graphics g) {

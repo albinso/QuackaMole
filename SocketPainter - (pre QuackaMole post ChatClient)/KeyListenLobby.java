@@ -72,7 +72,7 @@ public class KeyListenLobby extends Thread implements Serializable {
 		int y = 0;
 		int id = players.size();
 		if (panel.startPlaces.size() > 0) {
-			StartPlace startPlace = panel.startPlaces.remove(0);
+			StartPlace startPlace = panel.getStartPlace(id);
 			x = startPlace.getX();
 			y = startPlace.getY();
 		} else {
