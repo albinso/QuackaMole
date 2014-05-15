@@ -3,6 +3,7 @@ import java.awt.Graphics;
 public class Bullet {
 	private final boolean up, down, left, right;
 	private int x, y;
+	private final int SIZE;
 	private final int SPEED = 2;
 	public Bullet(int x, int y, boolean up, boolean down, boolean left, boolean right) {
 		this.up = up;
@@ -11,10 +12,23 @@ public class Bullet {
 		this.right = right;
 		this.x = x;
 		this.y = y;
+		SIZE = 15;
 	}
 
 	public void paint(Graphics g) {
-		g.drawOval(x, y, 15, 15);
+		g.fillOval(x, y, SIZE, SIZE);
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getSize() {
+		return SIZE;
 	}
 
 	public void move() {
