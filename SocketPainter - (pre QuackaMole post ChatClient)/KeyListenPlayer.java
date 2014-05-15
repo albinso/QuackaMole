@@ -241,6 +241,9 @@ public class KeyListenPlayer implements Serializable {
 		if (shield) {
 			g.setColor(lePink);
 			g.fillOval(x, y, SIZE, SIZE);
+		} else if (buff.getType() == Buff.DIGGER) {
+			g.setColor(Color.gray);
+			g.fillOval(x, y, SIZE, SIZE);
 		}
 	}
 }
