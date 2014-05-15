@@ -194,6 +194,13 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	}
 
 	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Bullet bullet = players[playerID].shoot();
+			if(bullet != null) {
+				client.sendObject(bullet);
+			}
+			return;
+		}
 		if(isMoving) {
 			return;
 		}
@@ -206,13 +213,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			direction = 2;
 		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			direction = 3;
-		} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			Bullet bullet = players[playerID].shoot();
-			if(bullet != null) {
-				client.sendObject(bullet);
-			}
-			return;
 		}
+
 		if(playerID != players[playerID].getID()) {
 			System.out.println(playerID + " : " + players[playerID].getID());
 		}
