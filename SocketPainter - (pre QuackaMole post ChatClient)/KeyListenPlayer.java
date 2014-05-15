@@ -1,15 +1,17 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.io.Serializable;
 import java.awt.Toolkit;
+import java.io.Serializable;
 import javax.swing.ImageIcon;
 
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
+	private final Color lePink = new Color(255, 20, 147, 150);
 	private final int 	SIZE = 32, MAXIMALHEALTH = 100;
-	public int digCooldown, digCount;
+	public int digCooldown, digCount, digDamage;
 	public int x, y;
 	private int id, health;
+	private boolean shield;
 	private ImageIcon image;
 	private Buff buff;
 	private transient boolean up, down, left, right, moving;
@@ -23,6 +25,8 @@ public class KeyListenPlayer implements Serializable {
 		this.id = id;
 		health = MAXIMALHEALTH;
 		digCooldown = 20;
+		digDamage = 1;
+		shield = false;
 		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);
 	}
 
@@ -33,21 +37,23 @@ public class KeyListenPlayer implements Serializable {
 
 	public void setBuff(Buff buff) {
 		this.buff = buff;
+
+		if (buff.getType() == Buff.SHIELD) {
+			shield = true;
+		} else if (buff.getType() == Buff.DIGGER) {
+			digDamage = 2;				
+		}
 	}
 
-	/**
-	* The damage the player will do to an object. 
-	* Has a cooldown between uses. If on cooldown damage returned will be 0.
-	*/
-	public int getDamage() {
-		// TODO: Make test for this
-		if(digCount > digCooldown) {
-			digCount = 0;
-			System.out.println("RETURNED DAMAGE");
-			return 1;
+	public void handleBuff()  {
+		if (buff == null)
+			return;
+
+		if (buff.tickBuff() == 0) {
+			digDamage = 1;
+			shield = false;
+			buff = null;
 		}
-		digCount++;
-		return 0;
 	}
 
 	/**
@@ -86,10 +92,6 @@ public class KeyListenPlayer implements Serializable {
 		moving = true;
 	}
 
-	public Bullet shoot() {
-		return new Bullet(x, y, up, down, left, right);
-	}
-
 	/**
 	* Stops all movement;
 	*/
@@ -114,6 +116,10 @@ public class KeyListenPlayer implements Serializable {
 			x++;
 	}
 
+	public Bullet shoot() {
+		return new Bullet(x, y, up, down, left, right);
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -127,6 +133,20 @@ public class KeyListenPlayer implements Serializable {
 	*/
 	public int getID() {
 		return id;
+	}
+
+	/**
+	* The damage the player will do to an object. 
+	* Has a cooldown between uses. If on cooldown damage returned will be 0.
+	*/
+	public int getDigDamage() {
+		// TODO: Make test for this
+		if(digCount > digCooldown) {
+			digCount = 0;
+			return digDamage;
+		}
+		digCount++;
+		return 0;
 	}
 
 	/**
@@ -176,10 +196,15 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.red);
-		g.fillRect(x, y, SIZE, SIZE);
-		g.setColor(Color.black);
-		g.drawRect(x, y, SIZE, SIZE);
+//		g.setColor(Color.red);
+//		g.fillRect(x, y, SIZE, SIZE);
+//		g.setColor(Color.black);
+//		g.drawRect(x, y, SIZE, SIZE);
 		image.paintIcon(null, g, x, y);
+
+		if (shield) {
+			g.setColor(lePink);
+			g.fillOval(x, y, SIZE, SIZE);
+		}
 	}
 }

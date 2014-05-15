@@ -9,6 +9,7 @@ public class Buff implements Serializable{
 	private final int diameter = 30;
 	private int x, y;
 	private int type;
+	private int duration;
 	private Color color;
 
 	public Buff(int x, int y, int type) {
@@ -16,18 +17,32 @@ public class Buff implements Serializable{
 		this.y = y;
 		this.type = type;
 
-		if (type == SHIELD)
+		if (type == SHIELD) {
 			color = Color.pink;
-		else if (type == DIGGER)
+			duration = 500;
+		}
+		else if (type == DIGGER) {
 			color = Color.gray;
-		else
+			duration = 500;
+		}
+		else {
 			color = Color.black;
+			duration = 0;
+		}
+	}
+
+	public int duration() {
+		return duration > 0 ? duration-- : duration;
+	}
+
+	public int getType() {
+		return type;
 	}
 
 	public void paint(Graphics g) {
 		g.setColor(color);
-		g.fillOval(x, y, diameter, diameter);
+		g.fillOval(5 + x, 5 + y, diameter, diameter);
 		g.setColor(Color.black);
-		g.drawOval(x, y, diameter, diameter);
+		g.drawOval(5 + x, 5 + y, diameter, diameter);
 	}
 }
