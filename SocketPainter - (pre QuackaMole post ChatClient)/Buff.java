@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Buff implements Serializable{
 	public static final int SHIELD = 0,
 							DIGGER = 1;
+	public static final int BUFFTYPES = 2;
 
 	private final int diameter = 30;
 	private int x, y;

@@ -2,8 +2,19 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
 public class KeyListenCrate extends Obstacle {
+	private int buffType;
+
 	public KeyListenCrate(int x, int y) {
+		this(x, y, ((int)Math.random() * 10) % Buff.BUFFTYPES);
+	}
+
+	public KeyListenCrate(int x, int y, int buffType) {
 		super(x, y, getImages());
+		this.buffType = buffType;
+	}
+
+	public Buff destroyCrate() {
+		return Buff(x, y, buffType);
 	}
 
 	/**
