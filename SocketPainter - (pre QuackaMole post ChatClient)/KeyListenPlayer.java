@@ -143,6 +143,7 @@ public class KeyListenPlayer implements Serializable {
 		// TODO: Make test for this
 		if(digCount > digCooldown) {
 			digCount = 0;
+			buff.durate();
 			return digDamage;
 		}
 		digCount++;
@@ -194,10 +195,8 @@ public class KeyListenPlayer implements Serializable {
 		int xDiff = Math.abs(left) < Math.abs(right) ? left : right;
 		int yDiff = Math.abs(up) < Math.abs(down) ? up : down;
 
-		if (xDiff <= 0 && yDiff <= 0)
-			return;
-
-		if((xDiff != 0 && Math.abs(xDiff) < Math.abs(yDiff)) || yDiff == 0) {
+//		if((xDiff != 0 && Math.abs(xDiff) < Math.abs(yDiff)) || yDiff == 0) {
+		if(Math.abs(xDiff) < Math.abs(yDiff)) {
 			x += xDiff;
 		} else {
 			y += yDiff;
@@ -205,8 +204,10 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public boolean takeDamage(int damage) {
-		if (shield)
+		if (shield) {
+			buff.durate();			
 			return false;
+		}
 
 		health -= damage;
 		return health <= 0;

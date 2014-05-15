@@ -20,21 +20,25 @@ public class Buff implements Serializable {
 
 		if (type == SHIELD) {
 			color = Color.pink;
-			duration = 500;
+			duration = 5;
 		} else if (type == DIGGER) {
 			color = Color.gray;
-			duration = 500;
+			duration = 10;
 		} else {
 			color = Color.black;
 			duration = 0;
 		}
 	}
 
+	public void durate() {
+		duration -= duration > 0 ? 1 : 0;
+	}
+
 	/**
 	 * Ticks the duration of the buff
 	 */
 	public int duration() {
-		return duration > 0 ? duration-- : duration;
+		return duration;
 	}
 
 	/**
