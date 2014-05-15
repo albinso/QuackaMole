@@ -30,7 +30,6 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		requestFocus();
 		obstacles = (LinkedList<Obstacle>) client.getObject();
 		receiver().start();
-
 		actionHandler(10).start();
 
 		moveHandler().start();
@@ -103,7 +102,6 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					} catch(InterruptedException e) {
 						e.printStackTrace();
 					}
-					System.out.println(count);
 				}
 			}
 		};
