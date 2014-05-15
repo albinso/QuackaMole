@@ -6,6 +6,9 @@ public class KeyListenStone extends Obstacle {
 		super(x, y, getImages());
 	}
 
+	/**
+	* KeyListenStone is unbreakable. No damage should be taken.
+	*/
 	public boolean takeDamage(int damage) {
 		// DO NOTHING (mohaha)
 		return false;

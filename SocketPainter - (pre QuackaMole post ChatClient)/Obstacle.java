@@ -29,13 +29,10 @@ public class Obstacle implements Serializable {
 	* @return true if durability drops to 0.
 	*/
 	public boolean takeDamage(int damage) {
-		//durability -= durability >= damage ? damage : durability;
-		durability -= damage;
-		if(durability < 0) {
-			durability = 0;
-		}
+		// TODO: Make test for this
+		durability -= durability >= damage ? damage : durability;
 		if(durability > 0) {
-			image = BREAK_STAGES[0];
+			image = BREAK_STAGES[durability-1]; // Fix once we have longer arrays.
 		}
 		return durability == 0;
 	}
@@ -65,6 +62,7 @@ public class Obstacle implements Serializable {
 	* Tells if the given point is contained in the block.
 	*/
 	public boolean inBounds(int x, int y) {
+		// TODO: Make test for this
 		return this.x <= x && x < getRightSide() && 
 				this.y <= y && y < getDownSide();
 	}

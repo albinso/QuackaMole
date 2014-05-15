@@ -80,6 +80,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	* Creates a Thread that will handle all movement and subsequent collision detection for the client.
 	*/
 	private Thread moveHandler() {
+		// TODO: Reduce nestling if at all possible
 		return new Thread() {
 			public void run() {
 				while(true) {
@@ -90,17 +91,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						}
 						count++;
 						p.move();
-						for(int i = 0; i < obstacles.size(); i++) {
-							Obstacle block = obstacles.get(i);
-							if(block != null && p.collided(block)) {
-								if(block.takeDamage(p.getDamage())) {
-									if(block instanceof KeyListenCrate) {
-										buffs.add(randomBuff(block.getLeftSide(), block.getUpSide()));
-									}
-									obstacles.set(i, null);
-								}
-							}
-						}
+						checkCollision(p);
 					}
 					try {
 						sleep(20);
@@ -111,6 +102,24 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 				}
 			}
 		};
+	}
+
+	/**
+	* Compares the location of p to all obstacles and "shoves" the player away from the obstacle.
+	* Handles damage dealt to obstacles.
+	*/
+	private void checkCollision(KeyListenPlayer p) {
+		for(int i = 0; i < obstacles.size(); i++) {
+			Obstacle block = obstacles.get(i);
+			if(block != null && p.collided(block)) {
+				if(block.takeDamage(p.getDamage())) {
+					if(block instanceof KeyListenCrate) {
+						buffs.add(randomBuff(block.getLeftSide(), block.getUpSide()));
+					}
+					obstacles.set(i, null);
+				}
+			}
+		}
 	}
 
 	/**

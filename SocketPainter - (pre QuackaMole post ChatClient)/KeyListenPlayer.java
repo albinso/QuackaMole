@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
 	private final int 	SIZE = 24, MAXIMALHEALTH = 100;
-	public int digCooldown;
+	public int digCooldown, digCount;
 	public int x, y;
 	private int id, health;
 	private ImageIcon image;
@@ -22,6 +22,7 @@ public class KeyListenPlayer implements Serializable {
 		right = false;
 		this.id = id;
 		health = MAXIMALHEALTH;
+		digCooldown = 20;
 		image = new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png"));
 	}
 
@@ -39,12 +40,13 @@ public class KeyListenPlayer implements Serializable {
 	* Has a cooldown between uses. If on cooldown damage returned will be 0.
 	*/
 	public int getDamage() {
-		if(digCooldown > 20) {
-			digCooldown = 0;
+		// TODO: Make test for this
+		if(digCount > digCooldown) {
+			digCount = 0;
 			System.out.println("RETURNED DAMAGE");
 			return 1;
 		}
-		digCooldown++;
+		digCount++;
 		return 0;
 	}
 
@@ -127,6 +129,7 @@ public class KeyListenPlayer implements Serializable {
 	*/
 	public boolean collided(Obstacle block) {
 		// TODO: Make it bloody work.
+		// TODO: Make test for this
 		if(block.inBounds(x, y)) {
 			moveCornerOutsideBlock(block, x, y);
 			return true;
