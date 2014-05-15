@@ -97,7 +97,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						}
 						count++;
 						p.move();
-						p.handleBuff();
+						p.tick();
 						checkPlayerCollision(p);
 					}
 					for(int i = 0; i < bullets.size(); i++) {
@@ -207,7 +207,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			direction = 3;
 		} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			client.sendObject(players[playerID].shoot());
+			Bullet bullet = players[playerID].shoot();
+			if(bullet != null) {
+				client.sendObject(bullet);
+			}
 			return;
 		}
 		if(playerID != players[playerID].getID()) {

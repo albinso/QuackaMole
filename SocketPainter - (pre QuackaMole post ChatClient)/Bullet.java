@@ -4,7 +4,7 @@ import java.io.Serializable;
 public class Bullet implements Serializable {
 	private final boolean up, down, left, right;
 	private int x, y, ownerID;
-	private final int SIZE;
+	public final static int SIZE = 15;
 	private final int SPEED = 2;
 	private int damage = 100;
 	public Bullet(int x, int y, boolean up, boolean down, boolean left, boolean right, int ownerID) {
@@ -15,7 +15,6 @@ public class Bullet implements Serializable {
 		this.x = x;
 		this.y = y;
 		this.ownerID = ownerID;
-		SIZE = 15;
 	}
 
 	public void paint(Graphics g) {

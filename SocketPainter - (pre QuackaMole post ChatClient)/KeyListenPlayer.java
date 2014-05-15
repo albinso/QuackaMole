@@ -8,7 +8,8 @@ public class KeyListenPlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
 	private final Color lePink = new Color(255, 20, 147, 150);
 	private final int 	SIZE = 32, MAXIMALHEALTH = 100;
-	public int digCooldown, digCount, digDamage;
+	private int digCooldown, digCount, digDamage;
+	private int shootCooldown, shootCount;
 	public int x, y;
 	private int id, health, movement;
 	private boolean shield;
@@ -27,6 +28,7 @@ public class KeyListenPlayer implements Serializable {
 		health = MAXIMALHEALTH;
 		digCooldown = 10;
 		digDamage = 1;
+		shootCooldown = 40;
 		shield = false;
 		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);
 	}
@@ -49,7 +51,12 @@ public class KeyListenPlayer implements Serializable {
 		}
 	}
 
-	public void handleBuff()  {
+	public void tick() {
+		shootTick();
+		buffTick();
+	}
+
+	public void buffTick()  {
 		if (buff == null)
 			return;
 
@@ -57,6 +64,10 @@ public class KeyListenPlayer implements Serializable {
 			resetBuff();
 			buff = null;
 		}
+	}
+
+	private void shootTick() {
+		shootCount++;
 	}
 
 	private void resetBuff() {
@@ -129,7 +140,12 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public Bullet shoot() {
-		return new Bullet(x, y, up, down, left, right, getID());
+		if(shootCount >= shootCooldown) {
+			shootCount = 0;
+			int adjustment = SIZE/2 - Bullet.SIZE/2;
+			return new Bullet(x + adjustment, y + adjustment, up, down, left, right, getID());
+		}
+		return null;
 	}
 
 	public int getX() {
