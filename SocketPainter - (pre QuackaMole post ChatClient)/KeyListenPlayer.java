@@ -215,8 +215,8 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public boolean collidedWithBullet(Bullet bullet) {
-		return bullet.inBounds(x, y) || bullet.inBounds(x + SIZE, y) || 
-			   bullet.inBounds(x, y + SIZE) || bullet.inBounds(x + SIZE, y + SIZE);
+		return bullet.inBounds(x, y, SIZE) || bullet.inBounds(x + SIZE, y, SIZE) || 
+			   bullet.inBounds(x, y + SIZE, SIZE) || bullet.inBounds(x + SIZE, y + SIZE, SIZE);
 	}
 
 	public boolean collidedWithBuff(Buff buff) {
