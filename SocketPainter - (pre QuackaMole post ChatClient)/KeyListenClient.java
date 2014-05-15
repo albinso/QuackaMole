@@ -34,7 +34,7 @@ public class KeyListenClient extends JFrame implements ActionListener {
 		portNumberPanel = new JPanel();
 
 		buttonPanel = new JPanel();
-		startButton = new JButton("Start server!");
+		startButton = new JButton("Connect to server!");
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
@@ -64,38 +64,42 @@ public class KeyListenClient extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
-	public void startServer() {
-		new Thread() {
-			public void run() {
-				try {
-					new KeyListenServerBackend(port);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
-	}
+	public void connectToServer() {
+		JFrame frame = new JFrame("QuackaMole!");
+		String ipAddress = serverAddressField.getText();
+		int port = 0;
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == startButton)
-			startServer();
-	}
-
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Send key inputs");
-		InetSocketAddress adr = new InetSocketAddress("192.168.0.100", 8080);
-		frame.setSize(600, 400);
-		if(args.length == 2) {
-			adr = new InetSocketAddress(args[0], Integer.parseInt(args[1]));
+		try {
+			String portNumberText = portNumberField.getText();
+			port = Integer.parseInt(portNumberText);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.exit(-1);
 		}
+
+		InetSocketAddress adr = new InetSocketAddress(ipAddress, port);
+
 		try {
 			frame.add(new KeyListenClientBackend(adr));
 		} catch(IOException e) {
 			System.exit(1);
 		}
-		frame.setVisible(true);
+
+		frame.setSize(1200, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		frame.requestFocus();
+
+		setVisible(false);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == startButton)
+			connectToServer();
+	}
+
+
+	public static void main(String[] args) {
+		new KeyListenClient();
 	}
 }
