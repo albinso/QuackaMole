@@ -13,6 +13,7 @@ public class Bullet implements Serializable {
 		this.right = right;
 		this.x = x;
 		this.y = y;
+		this.ownerID = ownerID;
 		SIZE = 15;
 	}
 
