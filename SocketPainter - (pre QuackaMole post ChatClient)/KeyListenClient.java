@@ -132,12 +132,14 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//panel.getImage().paintIcon(null, g, 0, 0);
-		for(Obstacle obstacle : obstacles) {
+		for(int i = 0; i < obstacles.size(); i++) {
+			Obstacle obstacle = obstacles.get(i);
 			if(obstacle != null) {
 				obstacle.paint(g);
 			}
 		}
-		for(Buff buff : buffs) {
+		for(int i = 0; i < buffs.size(); i++) {
+			Buff buff = buffs.get(i);
 			if(buff != null) {
 				buff.paint(g);
 			}
