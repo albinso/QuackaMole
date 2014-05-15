@@ -24,7 +24,7 @@ public class KeyListenPlayer implements Serializable {
 		right = false;
 		this.id = id;
 		health = MAXIMALHEALTH;
-		digCooldown = 20;
+		digCooldown = 10;
 		digDamage = 1;
 		shield = false;
 		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);
@@ -181,6 +181,11 @@ public class KeyListenPlayer implements Serializable {
 	public boolean collidedWithBullet(Bullet bullet) {
 		return bullet.inBounds(x, y) || bullet.inBounds(x + SIZE, y) || 
 			   bullet.inBounds(x, y + SIZE) || bullet.inBounds(x + SIZE, y + SIZE);
+	}
+
+	public boolean collidedWithBuff(Buff buff) {
+		return buff.inBounds(x, y) || buff.inBounds(x + SIZE, y) || 
+			   buff.inBounds(x, y + SIZE) || buff.inBounds(x + SIZE, y + SIZE);
 	}
 
 	/**
