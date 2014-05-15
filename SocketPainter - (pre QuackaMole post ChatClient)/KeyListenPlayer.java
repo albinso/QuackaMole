@@ -214,6 +214,7 @@ public class KeyListenPlayer implements Serializable {
 		int xDiff = Math.abs(left) < Math.abs(right) ? left : right;
 		int yDiff = Math.abs(up) < Math.abs(down) ? up : down;
 
+		System.out.println("re-moving!");
 		if(Math.abs(xDiff) < Math.abs(yDiff)) {
 			x += xDiff;
 		} else {
@@ -241,7 +242,7 @@ public class KeyListenPlayer implements Serializable {
 		if (shield) {
 			g.setColor(lePink);
 			g.fillOval(x, y, SIZE, SIZE);
-		} else if (buff.getType() == Buff.DIGGER) {
+		} else if (buff != null && buff.getType() == Buff.DIGGER) {
 			g.setColor(Color.gray);
 			g.fillOval(x, y, SIZE, SIZE);
 		}
