@@ -19,7 +19,7 @@ public class KeyListenClientBackend extends JPanel implements KeyListener, Seria
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<Buff> buffs;
 	private LinkedList<Bullet> bullets;
-	private int result = WON;
+	private int result = RUNNING;
 	private Font endScreenFont;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 
@@ -218,7 +218,7 @@ public class KeyListenClientBackend extends JPanel implements KeyListener, Seria
 		if(result == WON) {
 			g.drawString("Victory!", 100, 400);
 		} else if(result == LOST) {
-			g.drawString("LOST", 300, 200);
+			g.drawString("LOST", 200, 400);
 		}
 
 		requestFocus();
