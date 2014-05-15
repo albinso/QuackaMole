@@ -134,7 +134,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			Buff buff = buffs.get(i);
 			if(buff != null && p.collidedWithBuff(buff)) {
 				players[p.getID()].setBuff(buff);
-				buffs.remove(buff);
+				buffs.set(i, null);
 			}
 		}
 	}
@@ -147,12 +147,17 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			}
 		}
 
-		KeyListenPlayer p = players[playerID];
-		if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
-			if(p.takeDamage(bullet.getDamage())) {
-				client.sendObject(new PlayerDeath(playerID));
+		for(int i = 0; i < players.length; i++) {
+			KeyListenPlayer p = players[i];
+			if(p == null) {
+				continue;
 			}
-			bullets.remove(bullet);
+			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
+				if(i == playerID && p.takeDamage(bullet.getDamage())) {
+					client.sendObject(new PlayerDeath(playerID));
+				}
+				bullets.remove(bullet);
+			}
 		}
 	}
 
@@ -169,6 +174,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			Buff buff = buffs.get(i);
 			if(buff != null) {
 				buff.paint(g);
+			} else {
+				buffs.remove(i);
+				i--;
 			}
 		}
 
