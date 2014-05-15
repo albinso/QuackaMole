@@ -116,6 +116,7 @@ public class KeyListenPlayer implements Serializable {
 	* Sets the movement in the given direction to keepMoving.
 	*/
 	public void setMoving(int direction, boolean keepMoving) {
+		boolean oldUp = up, oldDown = down, oldLeft = left, oldRight = right;
 		switch(direction) {
 			case MovePackage.UP:
 				up = keepMoving;
@@ -130,7 +131,7 @@ public class KeyListenPlayer implements Serializable {
 				right = keepMoving;
 				break;
 		}
-		moving = up || down || left || right;
+		moving = keepMoving;
 	}
 
 	/**
