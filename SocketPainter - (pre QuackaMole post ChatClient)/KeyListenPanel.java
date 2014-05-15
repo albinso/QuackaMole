@@ -74,7 +74,7 @@ public class KeyListenPanel extends JPanel implements Serializable {
 				else if (token.equals("*"))
 					obstacles.add(new KeyListenStone(x, y));
 				else if (isNumeric(token))
-					startPlaces.add(Integer.parseInt(token), new StartPlace(x, y));
+					startPlaces.add(new StartPlace(x, y));
 				else if (token.equals("$"))
 					obstacles.add(new KeyListenCrate(x, y));
 
