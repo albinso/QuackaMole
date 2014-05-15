@@ -153,7 +153,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 				continue;
 			}
 			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
-				if(i == playerID && p.takeDamage(bullet.getDamage())) {
+				if(p.takeDamage(bullet.getDamage()) && i == playerID) {
 					client.sendObject(new PlayerDeath(playerID));
 				}
 				bullets.remove(bullet);
