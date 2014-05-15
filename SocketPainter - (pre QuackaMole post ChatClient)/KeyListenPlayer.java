@@ -41,7 +41,7 @@ public class KeyListenPlayer implements Serializable {
 		if (buff.getType() == Buff.SHIELD) {
 			shield = true;
 		} else if (buff.getType() == Buff.DIGGER) {
-			digDamage = 2;				
+			digDamage = 2;			
 		}
 	}
 
@@ -178,7 +178,8 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public boolean collidedWithBullet(Bullet bullet) {
-		return true;
+		return bullet.inBounds(x, y) || bullet.inBounds(x + SIZE, y) || 
+			   bullet.inBounds(x, y + SIZE) || bullet.inBounds(x + SIZE, y + SIZE);
 	}
 
 	/**

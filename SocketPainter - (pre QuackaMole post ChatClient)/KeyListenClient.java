@@ -116,7 +116,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 	private void checkPlayerCollision(KeyListenPlayer p) {
 		for(int i = 0; i < obstacles.size(); i++) {
 			Obstacle block = obstacles.get(i);
-			if(block != null && p.collidedWithBlock(block) && block.takeDamage(p.getDamage())) {
+			if(block != null && p.collidedWithBlock(block) && block.takeDamage(p.getDigDamage())) {
 				if(block instanceof KeyListenCrate) {
 					buffs.add(randomBuff(block.getLeftSide(), block.getUpSide()));
 				}
