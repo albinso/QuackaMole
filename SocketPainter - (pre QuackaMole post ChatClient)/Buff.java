@@ -39,6 +39,11 @@ public class Buff implements Serializable{
 		return type;
 	}
 
+	public boolean inBounds(int x, int y) {
+		return this.x <= x && x < (this.x + diameter) && 
+				this.y <= y && y < (this.y + diameter);
+	}
+
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.fillOval(5 + x, 5 + y, diameter, diameter);
