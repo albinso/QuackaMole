@@ -65,8 +65,8 @@ public class Obstacle implements Serializable {
 	*/
 	public boolean inBounds(int x, int y) {
 		// TODO: Make test for this
-		return this.x <= x && x < getRightSide() && 
-				this.y <= y && y < getDownSide();
+		return this.x < x && x < getRightSide() && 
+				this.y < y && y < getDownSide();
 	}
 
 	public void paint(Graphics g) {

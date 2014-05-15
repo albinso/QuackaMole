@@ -182,6 +182,7 @@ public class KeyListenPlayer implements Serializable {
 			direction = 2;
 		else if (left)
 			direction = 3;
+
 		if(block.inBounds(x, y)) {
 			if (direction == 0)
 				y = block.getDownSide();
