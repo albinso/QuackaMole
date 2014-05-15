@@ -31,6 +31,15 @@ public class Bullet {
 		return SIZE;
 	}
 
+	/**
+	* Tells if the given point is contained in the bullet.
+	*/
+	public boolean inBounds(int x, int y) {
+		// TODO: Make test for this
+		return this.x <= x && x < getRightSide() && 
+				this.y <= y && y < getDownSide();
+	}
+
 	public void move() {
 		if(up) {
 			y -= SPEED;
