@@ -170,25 +170,40 @@ public class KeyListenPlayer implements Serializable {
 	* @param block must always have a size larger than or equal to that of this. 
 	* @return true if player is currently colliding with the given obstacle.
 	*/
-	public boolean collidedWithBlock(Obstacle block) {
-		// TODO: Make it bloody work.
-		// TODO: Make test for this
+	public boolean collidedWithBlock(Obstacle block, int direction) {
+		// TODO: 0 = north, 1 = east, 2 = south, 3 = west.
 		if(block.inBounds(x, y)) {
-			moveCornerOutsideBlock(block, x, y);
+			if (direction == 0)
+				y = block.getDownSide();
+			else if (direction == 3)
+				x = block.getRightSide();
 			return true;
 		} 
 		if(block.inBounds(x + SIZE, y)) {
-			moveCornerOutsideBlock(block, x + SIZE, y);
+			if (direction == 0)
+				y = block.getDownSide();
+			else if (direction == 1)
+				x = block.getLeftSide() - SIZE;
 			return true;
 		} 
 		if(block.inBounds(x, y + SIZE)) {
-			moveCornerOutsideBlock(block, x, y + SIZE);
+			if (direction == 2)
+				y = block.getUpSide() - SIZE;
+			else if (direction == 3)
+				x = block.getRightSide();
 			return true;
 		} 
 		if(block.inBounds(x + SIZE, y + SIZE)) {
-			moveCornerOutsideBlock(block, x + SIZE, y + SIZE);
+			if (direction == 1)
+				x = block.getLeftSide() - SIZE;
+			else if (direction == 2)
+				x = block.getUpSide() - SIZE;
 			return true;
 		}
+/*	if(block.inBounds(x + SIZE, y + SIZE)) {
+			moveCornerOutsideBlock(block, x + SIZE, y + SIZE);
+			return true;
+		}*/
 		return false;
 	}
 
@@ -214,7 +229,6 @@ public class KeyListenPlayer implements Serializable {
 		int xDiff = Math.abs(left) < Math.abs(right) ? left : right;
 		int yDiff = Math.abs(up) < Math.abs(down) ? up : down;
 
-		System.out.println("re-moving!");
 		if(Math.abs(xDiff) < Math.abs(yDiff)) {
 			x += xDiff;
 		} else {
