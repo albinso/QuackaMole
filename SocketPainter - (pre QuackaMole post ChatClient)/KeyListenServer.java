@@ -30,6 +30,10 @@ public class KeyListenServer extends JFrame implements ActionListener {
 
 		add(usernameLabel);
 		add(usernameField);
+//		add(serverAdressLabel);
+//		add(serverAdressField);
+
+		startButton.addActionListener(this);
 
 		buttonPanel.add(startButton);
 
