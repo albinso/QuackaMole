@@ -95,6 +95,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						}
 						count++;
 						p.move();
+						p.handleBuff();
 						checkPlayerCollision(p);
 					}
 					for(int i = 0; i < bullets.size(); i++) {
