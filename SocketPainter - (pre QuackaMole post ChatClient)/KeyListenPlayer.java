@@ -135,7 +135,7 @@ public class KeyListenPlayer implements Serializable {
 	* @param block must always have a size larger than or equal to that of this. 
 	* @return true if player is currently colliding with the given obstacle.
 	*/
-	public boolean collided(Obstacle block) {
+	public boolean collidedWithBlock(Obstacle block) {
 		// TODO: Make it bloody work.
 		// TODO: Make test for this
 		if(block.inBounds(x, y)) {
@@ -157,6 +157,10 @@ public class KeyListenPlayer implements Serializable {
 		return false;
 	}
 
+	public boolean collidedWithBullet(Bullet bullet) {
+		return true;
+	}
+
 	/**
 	* Helps identify which way to move the player and then adjusts the position accordingly.
 	*/
@@ -173,6 +177,11 @@ public class KeyListenPlayer implements Serializable {
 		} else {
 			y += yDiff;
 		}
+	}
+
+	public boolean takeDamage(int damage) {
+		health -= damage;
+		return health <= 0;
 	}
 
 	public void paint(Graphics g) {

@@ -31,4 +31,8 @@ public class Bullet {
 			x += SPEED;
 		}
 	}
+
+	public int getDamage() {
+		return 1;
+	}
 }
