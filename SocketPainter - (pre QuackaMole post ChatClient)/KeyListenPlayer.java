@@ -170,8 +170,18 @@ public class KeyListenPlayer implements Serializable {
 	* @param block must always have a size larger than or equal to that of this. 
 	* @return true if player is currently colliding with the given obstacle.
 	*/
-	public boolean collidedWithBlock(Obstacle block, int direction) {
-		// TODO: 0 = north, 1 = east, 2 = south, 3 = west.
+	public boolean collidedWithBlock(Obstacle block) {
+		// TODO: nicer direction-variable/s
+		int	direction = -1;
+
+		if (up)
+			direction = 0;
+		else if (right)
+			direction = 1;
+		else if (down)
+			direction = 2;
+		else if (left)
+			direction = 3;
 		if(block.inBounds(x, y)) {
 			if (direction == 0)
 				y = block.getDownSide();
