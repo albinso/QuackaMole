@@ -206,6 +206,9 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			client.sendObject(players[playerID].shoot());
 			return;
 		}
+		if(playerID != players[playerID].getID()) {
+			System.out.println(playerID + " : " + players[playerID].getID());
+		}
 		isMoving = true;
 
 		MovePackage p = new MovePackage(playerID, direction);
