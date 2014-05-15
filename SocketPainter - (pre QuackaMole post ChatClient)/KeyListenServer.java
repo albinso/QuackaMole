@@ -1,42 +1,30 @@
+import javax.swing.JFrame;
 import java.io.IOException;
-import java.io.Serializable;
-import java.net.ServerSocket;
-import java.net.Socket;
 
-public class KeyListenServer extends ServerSocket implements Serializable {
-	private KeyListenLobby lobby;
+public class KeyListenServer extends JFrame {
+	final int port = 8080; // the port used for the server
 
-	public KeyListenServer(int port) throws IOException {
-		super(port);
+	public KeyListenServer() {
+		startServer();
 
-		lobby = new KeyListenLobby();
-
-		lobby.start(); // starts the lobby
-		findClient();
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(600, 600);
+		setVisible(true);
 	}
 
-	/**
-	* Waits for a client to connect, add it to the lobby and then repeats the process.
-	*/
-	public void findClient() throws IOException {
-		while(true) {
-			Socket s = accept(); // find a socket (client)
-			System.out.println("Found a client, connecting!");
-
-			lobby.addClient(s);
-		}
-	}
-
-	public static void main(String[] arg) {
-		final int port = 8080; // the port used for the server
+	public void startServer() {
 		new Thread() {
 			public void run() {
 				try {
-					new KeyListenServer(port);
+					new KeyListenServerBackend(port);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}.start();
+	}
+
+	public static void main(String[] arg) {
+		new KeyListenServer();
 	}
 }
