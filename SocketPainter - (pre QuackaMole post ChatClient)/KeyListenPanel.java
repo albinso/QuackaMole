@@ -69,13 +69,13 @@ public class KeyListenPanel extends JPanel implements Serializable {
 			while (lineScanner.hasNext()) {
 				String token = lineScanner.next();
 
-				if (token.equals("1"))
+				if (token.equals("#"))
 					obstacles.add(new KeyListenDirt(x, y));
-				else if (token.equals("2"))
+				else if (token.equals("*"))
 					obstacles.add(new KeyListenStone(x, y));
-				else if (token.equals("3"))
-					startPlaces.add(new StartPlace(x, y));
-				else if (token.equals("4"))
+				else if (isNumeric(token))
+					startPlaces.add(Integer.parseInt(token), new StartPlace(x, y));
+				else if (token.equals("$"))
 					obstacles.add(new KeyListenCrate(x, y));
 
 				x += Obstacle.SIZE;
@@ -87,6 +87,12 @@ public class KeyListenPanel extends JPanel implements Serializable {
 		height = y;
 		return obstacles;
 	}
+
+	private boolean isNumeric(String str)
+	{
+		return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+	}
+
 	/**
 	* if not updated return false
 	* if updated, set updated to false and return true
