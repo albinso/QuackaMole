@@ -1,260 +1,86 @@
-
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.Graphics;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.*;
-import java.io.*;
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.Queue;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class KeyListenClient extends JPanel implements KeyListener, Serializable {
-	KeyListenBackendClient client;
-	int playerID;
-	boolean isMoving = true;
-	Queue<KeyListenPackage> actions;
-	private LinkedList<Obstacle> obstacles;
-	private LinkedList<Buff> buffs;
-	private LinkedList<Bullet> bullets;
-	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
-	public KeyListenClient(InetSocketAddress adr) throws IOException {
-		actions = new LinkedList<KeyListenPackage>();
-		buffs = new LinkedList<Buff>();
-		bullets = new LinkedList<Bullet>();
+public class KeyListenClient extends JFrame implements ActionListener {
+	final int port = 8080; // the port used for the server
 
-		this.client = new KeyListenBackendClient(adr, "Rick Astley");
-		this.playerID = (int)client.getObject();
-		System.out.println(playerID);
-		addKeyListener(this);
-		setFocusable(true);
-		requestFocus();
-		obstacles = (LinkedList<Obstacle>) client.getObject();
-		receiver().start();
-		actionHandler(10).start();
+	private JLabel usernameLabel, serverAddressLabel, portNumberLabel;
+	private JPanel usernamePanel, serverAddressPanel, portNumberPanel;
+	private JTextField usernameField, serverAddressField, portNumberField;
+	private JPanel buttonPanel;
+	private JButton startButton;
 
-		moveHandler().start();
-		
-		repaint();
+	public KeyListenClient() {
+		usernameLabel = new JLabel("Username");
+		serverAddressLabel = new JLabel("Server address");
+		portNumberLabel = new JLabel("Port number");
+
+		usernameField = new JTextField("Per");
+		serverAddressField = new JTextField("localhost");
+		portNumberField = new JTextField("8080");
+
+		usernamePanel = new JPanel();
+		serverAddressPanel = new JPanel();
+		portNumberPanel = new JPanel();
+
+		buttonPanel = new JPanel();
+		startButton = new JButton("Start server!");
+
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+		usernameField.setColumns(9);
+		serverAddressField.setColumns(11);
+		portNumberField.setColumns(6);
+
+		usernamePanel.add(usernameField);
+		serverAddressPanel.add(serverAddressField);
+		portNumberPanel.add(portNumberField);
+
+		add(usernameLabel);
+		add(usernamePanel);
+		add(serverAddressLabel);
+		add(serverAddressPanel);
+		add(portNumberLabel);
+		add(portNumberPanel);
+
+		startButton.addActionListener(this);
+
+		buttonPanel.add(startButton);
+
+		add(buttonPanel);
+
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(200, 250);
+		setVisible(true);
 	}
 
-	/**
-	* Receives actions and players from the Server. Will put them at appropriate places.
-	*/
-	public Thread receiver() {
-		return new Thread() {
+	public void startServer() {
+		new Thread() {
 			public void run() {
-				while(true) {
-					Object temp = client.getObject();
-					if(temp instanceof KeyListenPackage) {
-						actions.add((KeyListenPackage)temp);
-					} else if (temp instanceof KeyListenPlayer){
-						KeyListenPlayer tempPlay = (KeyListenPlayer)temp;
-						players[tempPlay.getID()] = tempPlay;
-					} else if(temp instanceof Bullet) {
-						bullets.add((Bullet)temp);
-					} else if(temp instanceof PlayerDeath) {
-						players[((PlayerDeath)temp).getID()] = null;
-					}
+				try {
+					new KeyListenServerBackend(port);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
-		};
+		}.start();
 	}
 
-	/**
-	* Creates a Thread that will iterate over all incoming actions and perform them.
-	* @param pause Amount of milliseconds that the Thread will sleep between each action. Needed to avoid certain sychronization issues.
-	*/
-	public Thread actionHandler(final long pause) {
-		return new Thread() {
-			public void run() {
-				while(true) {
-					KeyListenPackage poll = actions.poll();
-					if(poll != null) {
-						poll.doAction(players[poll.getPlayerID()]);
-					}
-					try {
-						sleep(pause);
-					} catch(InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == startButton)
+			startServer();
 	}
 
-	/**
-	* Creates a Thread that will handle all movement and subsequent collision detection for the client.
-	*/
-	private Thread moveHandler() {
-		return new Thread() {
-			public void run() {
-				while(true) {
-					int count = 0;
-					for(int i = 0; i < players.length; i++) {
-						KeyListenPlayer p = players[i];
-						if(p == null) {
-							continue;
-						}
-						count++;
-						p.move();
-						p.tick();
-						checkPlayerCollision(p);
-					}
-					for(int i = 0; i < bullets.size(); i++) {
-						Bullet b = bullets.get(i);
-						b.move();
-						checkBulletCollision(b);
-					}
-					try {
-						sleep(20);
-					} catch(InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-	}
-
-	/**
-	* Compares the location of p to all obstacles and "shoves" the player away from the obstacle.
-	* Handles damage dealt to obstacles.
-	*/
-	private void checkPlayerCollision(KeyListenPlayer p) {
-		for(int i = 0; i < obstacles.size(); i++) {
-			Obstacle block = obstacles.get(i);
-			if(block != null && p.collidedWithBlock(block) && block.takeDamage(p.getDigDamage())) {
-				if(block instanceof KeyListenCrate) {
-					buffs.add(((KeyListenCrate)block).destroyCrate());
-				}
-				obstacles.set(i, null);
-			}
-		}
-
-		for(int i = 0; i < buffs.size(); i++) {
-			Buff buff = buffs.get(i);
-			if(buff != null && p.collidedWithBuff(buff)) {
-				players[p.getID()].setBuff(buff);
-				buffs.set(i, null);
-			}
-		}
-	}
-
-	private void checkBulletCollision(Bullet bullet) {
-		for(int i = 0; i < obstacles.size(); i++) {
-			Obstacle block = obstacles.get(i);
-			if(block != null && bullet.collidedWithBlock(block)) {
-				bullets.remove(bullet);
-			}
-		}
-
-		for(int i = 0; i < players.length; i++) {
-			KeyListenPlayer p = players[i];
-			if(p == null) {
-				continue;
-			}
-			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
-				if(p.takeDamage(bullet.getDamage()) && i == playerID) {
-					client.sendObject(new PlayerDeath(playerID));
-				}
-				bullets.remove(bullet);
-			}
-		}
-	}
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		//panel.getImage().paintIcon(null, g, 0, 0);
-		for(int i = 0; i < obstacles.size(); i++) {
-			Obstacle obstacle = obstacles.get(i);
-			if(obstacle != null) {
-				obstacle.paint(g);
-			}
-		}
-		for(int i = 0; i < buffs.size(); i++) {
-			Buff buff = buffs.get(i);
-			if(buff != null) {
-				buff.paint(g);
-			} else {
-				buffs.remove(i);
-				i--;
-			}
-		}
-
-		for(int i = 0; i < players.length; i++) {
-			KeyListenPlayer player = players[i];
-			if(player == null) {
-				continue;
-			}
-			//if(Math.abs(player.getX() - players[playerID].getX()) < 100 && Math.abs(player.getY() - players[playerID].getY()) < 100) {
-				player.paint(g);
-			//}
-		}
-
-		for(int i = 0; i < bullets.size(); i++) {
-			Bullet bullet = bullets.get(i);
-			if(bullet != null) {
-				bullet.paint(g);
-			}
-		}
-
-		requestFocus();
-		repaint();
-	}
-
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			Bullet bullet = players[playerID].shoot();
-			if(bullet != null) {
-				client.sendObject(bullet);
-			}
-			return;
-		}
-		if(isMoving) {
-			return;
-		}
-		int direction = -1;
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			direction = 0;
-		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-			direction = 1;
-		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			direction = 2;
-		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			direction = 3;
-		}
-
-		if(direction != -1) {
-			isMoving = true;
-			MovePackage p = new MovePackage(playerID, direction);
-			client.sendObject(p);
-		}
-	}
-
-	public void keyTyped(KeyEvent e) {
-
-	}
-
-	public void keyReleased(KeyEvent e) {
-		if(!isMoving) {
-			return;
-		}
-		int direction = -1;
-		if(e.getKeyCode() == KeyEvent.VK_UP) {
-			direction = 0;
-		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-			direction = 1;
-		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-			direction = 2;
-		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			direction = 3;
-		}
-
-		if(direction != -1) {
-			isMoving = false;
-			StopPackage p = new StopPackage(players[playerID], direction);
-			client.sendObject(p);
-		}
-	}
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Send key inputs");
@@ -264,7 +90,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			adr = new InetSocketAddress(args[0], Integer.parseInt(args[1]));
 		}
 		try {
-			frame.add(new KeyListenClient(adr));
+			frame.add(new KeyListenClientBackend(adr));
 		} catch(IOException e) {
 			System.exit(1);
 		}

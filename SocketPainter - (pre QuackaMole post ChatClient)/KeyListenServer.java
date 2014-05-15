@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,45 +10,36 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * TODO: 
+ * - fix portNumberLabel-position
+ * - fix BindException (start, stop, start)
+ */
 public class KeyListenServer extends JFrame implements ActionListener {
-	final int port = 8080; // the port used for the server
-
-	private JLabel usernameLabel, serverAddressLabel, portNumberLabel;
-	private JPanel usernamePanel, serverAddressPanel, portNumberPanel;
-	private JTextField usernameField, serverAddressField, portNumberField;
+	private JLabel portNumberLabel, serverStatus;
+	private JPanel portNumberPanel;
+	private JTextField portNumberField;
 	private JPanel buttonPanel;
 	private JButton startButton;
 
 	public KeyListenServer() {
-		usernameLabel = new JLabel("Username");
-		serverAddressLabel = new JLabel("Server address");
+		serverStatus = new JLabel("Server offline");
 		portNumberLabel = new JLabel("Port number");
-
-		usernameField = new JTextField("Per");
-		serverAddressField = new JTextField("localhost");
 		portNumberField = new JTextField("8080");
-
-		usernamePanel = new JPanel();
-		serverAddressPanel = new JPanel();
 		portNumberPanel = new JPanel();
 
 		buttonPanel = new JPanel();
 		startButton = new JButton("Start server!");
 
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+ 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-		usernameField.setPreferredSize(new Dimension(50, 20));
+		portNumberField.setColumns(6);
 
-		usernamePanel.add(usernameField);
-		serverAddressPanel.add(serverAddressField);
 		portNumberPanel.add(portNumberField);
 
-		add(usernameLabel);
-		add(usernamePanel);
-		add(serverAddressLabel);
-		add(serverAddressPanel);
 		add(portNumberLabel);
 		add(portNumberPanel);
+		add(serverStatus);
 
 		startButton.addActionListener(this);
 
@@ -56,11 +48,22 @@ public class KeyListenServer extends JFrame implements ActionListener {
 		add(buttonPanel);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(200, 100);
+		setSize(250, 150);
 		setVisible(true);
 	}
 
 	public void startServer() {
+		int portNumber = 0;
+		try {
+			String text = portNumberField.getText();
+			portNumber = Integer.parseInt(text);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+
+		final int port = portNumber;
+
 		new Thread() {
 			public void run() {
 				try {
@@ -73,8 +76,16 @@ public class KeyListenServer extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == startButton)
-			startServer();
+		if (e.getSource() == startButton) {
+			if (serverStatus.getText().equals("Server offline")) {
+				serverStatus.setText("Server online");
+				startButton.setText("Stop server!");
+				startServer();
+			} else {
+				serverStatus.setText("Server offline");
+				startButton.setText("Start server!");
+			}
+		}
 	}
 
 	public static void main(String[] arg) {
