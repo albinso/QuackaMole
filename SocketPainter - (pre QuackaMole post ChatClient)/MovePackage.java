@@ -9,6 +9,6 @@ public class MovePackage extends KeyListenPackage {
 	
 	@Override
 	public void doAction(KeyListenPlayer p) {
-		boolean up = false, down = false, left = false, right = false;
+		p.setMoving(direction, true);
 	}
 }
