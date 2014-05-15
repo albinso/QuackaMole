@@ -142,8 +142,10 @@ public class KeyListenPlayer implements Serializable {
 	public int getDigDamage() {
 		// TODO: Make test for this
 		if(digCount > digCooldown) {
+			if (buff != null)
+				buff.durate();
+
 			digCount = 0;
-			buff.durate();
 			return digDamage;
 		}
 		digCount++;
