@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 
 public class KeyListenPlayer implements Serializable {
+	public static final long serialVersionUID = 41L;
 	public int x, y;
 	public int id;
 	private transient boolean up, down, left, right;
@@ -68,5 +69,18 @@ public class KeyListenPlayer implements Serializable {
 		g.fillRect(x, y, 20, 20);
 		g.setColor(Color.black);
 		g.drawRect(x, y, 20, 20);
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 }
