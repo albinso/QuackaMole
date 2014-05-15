@@ -193,7 +193,7 @@ public class KeyListenPlayer implements Serializable {
 
 		int xDiff = Math.abs(left) < right ? left : right;
 		int yDiff = Math.abs(up) < down ? up : down;
-		if(Math.abs(xDiff) < Math.abs(yDiff) || yDiff == 0) {
+		if((xDiff != 0 && Math.abs(xDiff) < Math.abs(yDiff)) || yDiff == 0) {
 			x += xDiff;
 		} else {
 			y += yDiff;
