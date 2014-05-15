@@ -39,6 +39,7 @@ public class KeyListenPlayer implements Serializable {
 	public void setBuff(Buff buff) {
 		this.buff = buff;
 
+		resetBuff();
 		if (buff.getType() == Buff.SHIELD) {
 			shield = true;
 		} else if (buff.getType() == Buff.DIGGER) {
@@ -53,11 +54,15 @@ public class KeyListenPlayer implements Serializable {
 			return;
 
 		if (buff.duration() == 0) {
-			digDamage = 1;
-			shield = false;
-			movement = 1;
+			resetBuff();
 			buff = null;
 		}
+	}
+
+	private void resetBuff() {
+		digDamage = 1;
+		shield = false;
+		movement = 1;
 	}
 
 	/**
@@ -109,6 +114,7 @@ public class KeyListenPlayer implements Serializable {
 	public void move() {
 		if (buff != null && buff.getType() == Buff.SPEEDER)
 			buff.durate();
+
 		if(!moving) {
 			return;
 		}
@@ -208,10 +214,9 @@ public class KeyListenPlayer implements Serializable {
 		int xDiff = Math.abs(left) < Math.abs(right) ? left : right;
 		int yDiff = Math.abs(up) < Math.abs(down) ? up : down;
 
-//		if((xDiff != 0 && Math.abs(xDiff) < Math.abs(yDiff)) || yDiff == 0) {
-		if(Math.abs(xDiff) < Math.abs(yDiff) && xDiff != 0) {
+		if(Math.abs(xDiff) < Math.abs(yDiff)) {
 			x += xDiff;
-		} else if (yDiff != 0) {
+		} else {
 			y += yDiff;
 		}
 	}
