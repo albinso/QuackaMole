@@ -26,4 +26,17 @@ public class KeyListenServer extends ServerSocket implements Serializable {
 			lobby.addClient(s);
 		}
 	}
+
+	public static void main(String[] arg) {
+		final int port = 8080; // the port used for the server
+		new Thread() {
+			public void run() {
+				try {
+					new KeyListenServer(port);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
 }
