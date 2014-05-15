@@ -42,7 +42,7 @@ public class KeyListenPlayer implements Serializable {
 		if (buff.getType() == Buff.SHIELD) {
 			shield = true;
 		} else if (buff.getType() == Buff.DIGGER) {
-			digDamage = 2;			
+			digDamage = 5; // TODO: stop debugging
 		} else if (buff.getType() == Buff.SPEEDER) {
 			movement = 2;
 		}
@@ -108,7 +108,7 @@ public class KeyListenPlayer implements Serializable {
 	*/
 	public void move() {
 		if (buff != null && buff.getType() == Buff.SPEEDER)
-		buff.durate();
+			buff.durate();
 		if(!moving) {
 			return;
 		}
