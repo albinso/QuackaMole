@@ -26,7 +26,7 @@ public class KeyListenPanel extends JPanel implements Serializable {
 		obstacles = new LinkedList<Obstacle>();
 		startPlaces = new LinkedList<StartPlace>();
 		updated = false;
-
+		final KeyListenPanel panel = this;
 		// a new thread that handles the server
 		new Thread() {
 			public void run() {
