@@ -52,6 +52,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 						players[tempPlay.getID()] = tempPlay;
 					} else if(temp instanceof Bullet) {
 						bullets.add((Bullet)temp);
+					} else if(temp instanceof PlayerDeath) {
+						players[((PlayerDeath)temp).getID()] = null;
 					}
 				}
 			}
