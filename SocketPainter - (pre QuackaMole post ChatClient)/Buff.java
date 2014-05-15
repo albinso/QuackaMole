@@ -9,7 +9,8 @@ public class Buff implements Serializable {
 	public static final int BUFFTYPES = 3;
 
 	private final int 	diameter = 30,
-						adjust = 5;
+						adjust = 9;
+
 	private int x, y;
 	private int type;
 	private int duration;
@@ -35,12 +36,15 @@ public class Buff implements Serializable {
 		}
 	}
 
+	/**
+	 * Ticking away the duration of the buff
+	 */
 	public void durate() {
 		duration -= duration > 0 ? 1 : 0;
 	}
 
 	/**
-	 * Ticks the duration of the buff
+	 * The duration of the buff
 	 */
 	public int duration() {
 		return duration;
@@ -54,24 +58,14 @@ public class Buff implements Serializable {
 	}
 
 	/**
-	 * @return if one of the players corners is in the buff
+	 * @return if the buff is inside the player
 	 */
 	public boolean inBounds(int playerX, int playerY, int size) {
 		int x = this.x + adjust;
 		int y = this.y + adjust;
-/*		return coordinateInBounds(x, y, playerX, playerY, size)
-			|| coordinateInBounds(x + diameter, y, playerX, playerY, size)
-			|| coordinateInBounds(x, y + diameter, playerX, playerY, size)
-			|| coordinateInBounds(x + diameter, y + diameter, playerX, playerY, size);
-*/
+
 		return ((playerX < x && x < (playerX + size)) || (playerX < (x + diameter) && (x + diameter) < (playerX + size)))
 			&& ((playerY < y && y < (playerY + size)) || (playerY < (y + diameter) && (y + diameter) < (playerY + size)));
-	}
-
-	// help-method for finding inBounds
-	private boolean coordinateInBounds(int x, int y, int playerX, int playerY, int size) {
-		return playerX < x && x < (playerX + size)
-			&& playerY < y && y < (playerY + size);
 	}
 
 	// paints the buff in the given color
