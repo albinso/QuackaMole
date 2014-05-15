@@ -197,13 +197,15 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		if(isMoving) {
 			return;
 		}
-		int direction = 3;
+		int direction = -1;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
 			direction = 0;
 		} else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			direction = 1;
 		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			direction = 2;
+		} else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			direction = 3;
 		} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			client.sendObject(players[playerID].shoot());
 			return;
@@ -211,10 +213,11 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		if(playerID != players[playerID].getID()) {
 			System.out.println(playerID + " : " + players[playerID].getID());
 		}
-		isMoving = true;
-
-		MovePackage p = new MovePackage(playerID, direction);
-		client.sendObject(p);
+		if(direction != -1) {
+			isMoving = true;
+			MovePackage p = new MovePackage(playerID, direction);
+			client.sendObject(p);
+		}
 	}
 
 	public void keyTyped(KeyEvent e) {
