@@ -51,10 +51,7 @@ public class KeyListenLobby extends Thread implements Serializable {
 				try {
 					ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
 					while (true) {
-						queue.add((KeyListenPackage)inputStream.readObject());
-						/**
-						 * Möjligtvis göra alla förflyttningsgrejer här?
-						 */
+						queue.add(inputStream.readObject());
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
