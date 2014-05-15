@@ -118,7 +118,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 			Obstacle block = obstacles.get(i);
 			if(block != null && p.collidedWithBlock(block) && block.takeDamage(p.getDigDamage())) {
 				if(block instanceof KeyListenCrate) {
-					buffs.add((KeyListenCrate)block).destroyCrate());
+					buffs.add(((KeyListenCrate)block).destroyCrate());
 				}
 				obstacles.set(i, null);
 			}
