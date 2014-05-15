@@ -14,91 +14,21 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class KeyListenPanel extends JPanel implements Serializable {
-	public int width;
-	public int height;
-	private ImageIcon gamefield;
-	
-	private LinkedList<Obstacle> obstacles;
-	public LinkedList<StartPlace> startPlaces;
 	private boolean updated;
 
 	public KeyListenPanel() {
-		obstacles = new LinkedList<Obstacle>();
-		startPlaces = new LinkedList<StartPlace>();
 		updated = false;
-		final KeyListenPanel panel = this;
 		// a new thread that handles the server
 		new Thread() {
 			public void run() {
 				int port = 8080; // the port used for the server
 				try {
-					new KeyListenServer(port, panel);
+					new KeyListenServer(port);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}.start();
-	}
-
-	/**
-	* This is bad and should be removed.
-	* "Initialises" the map. This means an ImageIcon is retrieved and obstacles are generated from a map.
-	*/
-	public LinkedList<Obstacle> initMap() {
-		Image gamefieldImage = Toolkit.getDefaultToolkit().getImage("stripes.jpg");
-		gamefield = new ImageIcon(gamefieldImage);
-
-		File mapFile = new File("map.txt");
-		Scanner fileScanner = null;
-
-		try {
-			fileScanner = new Scanner(mapFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(-2);
-		}
-
-		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
-
-		int x = 0;
-		int y = 0;
-		while (fileScanner.hasNext()) {
-			Scanner lineScanner = new Scanner(fileScanner.nextLine());
-			x = 0;
-			while (lineScanner.hasNext()) {
-				String token = lineScanner.next();
-
-				if (token.equals("#"))
-					obstacles.add(new KeyListenDirt(x, y));
-				else if (token.equals("*"))
-					obstacles.add(new KeyListenStone(x, y));
-				else if (isNumeric(token)) {
-					int startNumber = Integer.parseInt(token);
-					startPlaces.add(new StartPlace(x, y, startNumber));
-				}
-				else if (token.equals("$"))
-					obstacles.add(new KeyListenCrate(x, y));
-
-				x += Obstacle.SIZE;
-			}
-			y += Obstacle.SIZE;
-		}
-
-		width = x;
-		height = y;
-
-		return obstacles;
-	}
-
-	private boolean isNumeric(String str) {
-		return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
-	}
-
-	public StartPlace getStartPlace(int startNumber) {
-		for (int i = 0 ; i < startPlaces.size() ; i++)
-			if (startPlaces.get(i).getStartNumber() == startNumber)
-				return startPlaces.remove(i);
-		return null;
 	}
 
 	/**
@@ -111,25 +41,5 @@ public class KeyListenPanel extends JPanel implements Serializable {
 
 		updated = false;
 		return true;
-	}
-
-	public LinkedList<Obstacle> getObstacles() {
-		return obstacles;
-	}
-
-	public ImageIcon getImage() {
-		return gamefield;
-	}
-
-	// TODO: bör inte ritas upp (egentligen)
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		gamefield.paintIcon(null, g, 0, 0);
-
-		for (Obstacle obstacle : obstacles)
-			obstacle.paint(g);
-		for (StartPlace startPlace : startPlaces)
-			startPlace.paint(g);
 	}
 }

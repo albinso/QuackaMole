@@ -15,15 +15,76 @@ public class KeyListenLobby extends Thread implements Serializable {
 	private LinkedList<KeyListenPlayer> players;
 	private LinkedList<Obstacle> obstacles;
 	private Queue<Object> queue;
-/*DEBUGG*/private KeyListenPanel panel;
 
+	public int width;
+	public int height;
+	
+	public LinkedList<StartPlace> startPlaces;
 
-	public KeyListenLobby(KeyListenPanel panel) {
-/*DEBUGG*/this.panel = panel;
-		obstacles = panel.initMap();
+	public KeyListenLobby() {
+		obstacles = initMap();
+		startPlaces = new LinkedList<StartPlace>();
 		outputList = new ArrayList<ObjectOutputStream>();
 		queue = new LinkedList<Object>();
 		players = new LinkedList<KeyListenPlayer>();
+	}
+
+	/**
+	* This is bad and should be removed.
+	* "Initialises" the map. This means an ImageIcon is retrieved and obstacles are generated from a map.
+	*/
+	public LinkedList<Obstacle> initMap() {
+		File mapFile = new File("map.txt");
+		Scanner fileScanner = null;
+
+		try {
+			fileScanner = new Scanner(mapFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(-2);
+		}
+
+		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
+
+		int x = 0;
+		int y = 0;
+		while (fileScanner.hasNext()) {
+			Scanner lineScanner = new Scanner(fileScanner.nextLine());
+			x = 0;
+			while (lineScanner.hasNext()) {
+				String token = lineScanner.next();
+
+				if (token.equals("#"))
+					obstacles.add(new KeyListenDirt(x, y));
+				else if (token.equals("*"))
+					obstacles.add(new KeyListenStone(x, y));
+				else if (isNumeric(token)) {
+					int startNumber = Integer.parseInt(token);
+					startPlaces.add(new StartPlace(x, y, startNumber));
+				}
+				else if (token.equals("$"))
+					obstacles.add(new KeyListenCrate(x, y));
+
+				x += Obstacle.SIZE;
+			}
+			y += Obstacle.SIZE;
+		}
+
+		width = x;
+		height = y;
+
+		return obstacles;
+	}
+
+	private boolean isNumeric(String str) {
+		return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+	}
+
+	public StartPlace getStartPlace(int startNumber) {
+		for (int i = 0 ; i < startPlaces.size() ; i++)
+			if (startPlaces.get(i).getStartNumber() == startNumber)
+				return startPlaces.remove(i);
+		return null;
 	}
 
 	/**
@@ -73,13 +134,13 @@ public class KeyListenLobby extends Thread implements Serializable {
 		int x = 0;
 		int y = 0;
 		int id = players.size();
-		if (panel.startPlaces.size() > 0) {
-			StartPlace startPlace = panel.getStartPlace(id + 1);
+		if (startPlaces.size() > 0) {
+			StartPlace startPlace = getStartPlace(id + 1);
 			x = startPlace.getX() + adjustment;
 			y = startPlace.getY() + adjustment;
 		} else {
-			x = (int)(Math.random() * panel.width);
-			y = (int)(Math.random() * panel.height);
+			x = (int)(Math.random() * width);
+			y = (int)(Math.random() * height);
 		}
 		players.add(new KeyListenPlayer(x, y, id));
 

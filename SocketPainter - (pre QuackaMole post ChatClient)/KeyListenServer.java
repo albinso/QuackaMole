@@ -6,10 +6,10 @@ import java.net.Socket;
 public class KeyListenServer extends ServerSocket implements Serializable {
 	private KeyListenLobby lobby;
 
-	public KeyListenServer(int port, KeyListenPanel panel) throws IOException {
+	public KeyListenServer(int port) throws IOException {
 		super(port);
 
-		lobby = new KeyListenLobby(panel);
+		lobby = new KeyListenLobby();
 
 		lobby.start(); // starts the lobbyyy
 
