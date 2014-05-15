@@ -10,7 +10,7 @@ public class KeyListenPlayer implements Serializable {
 	private final int 	SIZE = 32, MAXIMALHEALTH = 100;
 	public int digCooldown, digCount, digDamage;
 	public int x, y;
-	private int id, health;
+	private int id, health, movement;
 	private boolean shield;
 	private ImageIcon image;
 	private Buff buff;
@@ -23,6 +23,7 @@ public class KeyListenPlayer implements Serializable {
 		left = false;
 		right = false;
 		this.id = id;
+		movement = 1;
 		health = MAXIMALHEALTH;
 		digCooldown = 10;
 		digDamage = 1;
@@ -42,6 +43,8 @@ public class KeyListenPlayer implements Serializable {
 			shield = true;
 		} else if (buff.getType() == Buff.DIGGER) {
 			digDamage = 2;			
+		} else if (buff.getType() == Buff.SPEEDER) {
+			movement = 2;
 		}
 	}
 
@@ -52,6 +55,7 @@ public class KeyListenPlayer implements Serializable {
 		if (buff.duration() == 0) {
 			digDamage = 1;
 			shield = false;
+			movement = 1;
 			buff = null;
 		}
 	}
@@ -103,17 +107,19 @@ public class KeyListenPlayer implements Serializable {
 	* Moves based on the direction variables.
 	*/
 	public void move() {
+		if (buff != null && buff.getType() == Buff.SPEEDER)
+		buff.durate();
 		if(!moving) {
 			return;
 		}
 		if (up)
-			y--;
+			y -= movement;
 		if (down)
-			y++;
+			y += movement;
 		if (left)
-			x--;
+			x -= movement;
 		if (right)
-			x++;
+			x += movement;
 	}
 
 	public Bullet shoot() {
@@ -142,7 +148,7 @@ public class KeyListenPlayer implements Serializable {
 	public int getDigDamage() {
 		// TODO: Make test for this
 		if(digCount > digCooldown) {
-			if (buff != null)
+			if (buff != null && buff.getType() == Buff.DIGGER)
 				buff.durate();
 
 			digCount = 0;

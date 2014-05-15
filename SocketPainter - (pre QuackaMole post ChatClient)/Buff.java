@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 public class Buff implements Serializable {
 	public static final int SHIELD = 0,
-							DIGGER = 1;
-	public static final int BUFFTYPES = 2;
+							DIGGER = 1,
+							SPEEDER = 2;
+	public static final int BUFFTYPES = 3;
 
-	private final int diameter = 30;
+	private final int 	diameter = 30,
+						adjust = 5;
 	private int x, y;
 	private int type;
 	private int duration;
@@ -24,6 +26,9 @@ public class Buff implements Serializable {
 		} else if (type == DIGGER) {
 			color = Color.gray;
 			duration = 10;
+		} else if (type == SPEEDER) {
+			color = Color.blue;
+			duration = 200;
 		} else {
 			color = Color.black;
 			duration = 0;
@@ -52,14 +57,14 @@ public class Buff implements Serializable {
 	 * @return if given coordinate is in bounds
 	 */
 	public boolean inBounds(int x, int y) {
-		return this.x <= x && x < (this.x + diameter) && 
-				this.y <= y && y < (this.y + diameter);
+		return (this.x + adjust) <= x && x < (this.x + adjust + diameter) && 
+				(this.y + adjust) <= y && y < (this.y + adjust + diameter);
 	}
 
 	public void paint(Graphics g) {
 		g.setColor(color);
-		g.fillOval(5 + x, 5 + y, diameter, diameter);
+		g.fillOval(adjust + x, adjust + y, diameter, diameter);
 		g.setColor(Color.black);
-		g.drawOval(5 + x, 5 + y, diameter, diameter);
+		g.drawOval(adjust + x, adjust + y, diameter, diameter);
 	}
 }
