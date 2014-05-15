@@ -64,8 +64,8 @@ public class Buff implements Serializable {
 			|| coordinateInBounds(x, y + diameter, playerX, playerY, size)
 			|| coordinateInBounds(x + diameter, y + diameter, playerX, playerY, size);
 */
-		return (playerX < x && x < (playerX + size)) || (playerX < (x + diameter) && (x + diameter) < (playerX + size))
-			&& (playerY < y && y < (playerY + size)) || (playerY < (y + diameter) && (y + diameter) < (playerY + size));
+		return ((playerX < x && x < (playerX + size)) || (playerX < (x + diameter) && (x + diameter) < (playerX + size)))
+			&& ((playerY < y && y < (playerY + size)) || (playerY < (y + diameter) && (y + diameter) < (playerY + size)));
 	}
 
 	// help-method for finding inBounds
