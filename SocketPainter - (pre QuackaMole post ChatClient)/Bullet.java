@@ -39,12 +39,12 @@ public class Bullet implements Serializable {
 	}
 
 	/**
-	* Tells if the given point is contained in the bullet.
+	* Tells if the square defined by the params contains any of the bullet's corners.
 	*/
 	public boolean inBounds(int x, int y, int size) {
 		// TODO: Make test for this
-		return x >= this.x && this.x < x + size && 
-				y >= this.y && this.y < y + size;
+		return x <= this.x && this.x < x + size && 
+				y <= this.y && this.y < y + size;
 	}
 
 	public boolean collidedWithBlock(Obstacle obs) {

@@ -220,7 +220,7 @@ public class KeyListenPlayer implements Serializable {
 	}
 
 	public boolean collidedWithBuff(Buff buff) {
-		return buff.inBounds(x, y, size);
+		return buff.inBounds(x, y, SIZE);
 	}
 
 	/**
