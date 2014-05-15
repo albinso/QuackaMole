@@ -2,6 +2,8 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Color;
 import java.net.*;
 import java.io.*;
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class KeyListenClientBackend extends JPanel implements KeyListener, Serializable {
+	private static final int LOST = -1, RUNNING = 0, WON = 1;
 	KeyListenBackendClient client;
 	int playerID;
 	boolean isMoving = true;
@@ -16,12 +19,15 @@ public class KeyListenClientBackend extends JPanel implements KeyListener, Seria
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<Buff> buffs;
 	private LinkedList<Bullet> bullets;
+	private int result = WON;
+	private Font endScreenFont;
 	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 
 	public KeyListenClientBackend(InetSocketAddress adr) throws IOException {
 		actions = new LinkedList<KeyListenPackage>();
 		buffs = new LinkedList<Buff>();
 		bullets = new LinkedList<Bullet>();
+		endScreenFont = new Font("Comic Sans", 0, 300);
 
 		this.client = new KeyListenBackendClient(adr, "Rick Astley");
 		this.playerID = (int)client.getObject();
@@ -55,6 +61,15 @@ public class KeyListenClientBackend extends JPanel implements KeyListener, Seria
 						bullets.add((Bullet)temp);
 					} else if(temp instanceof PlayerDeath) {
 						players[((PlayerDeath)temp).getID()] = null;
+						boolean won = true;
+						for(KeyListenPlayer p : players) {
+							if(p != null && p != players[playerID]) {
+								won = false;
+							}
+						}
+						if(won) { // This player won the game!
+							result = WON;
+						}
 					}
 				}
 			}
@@ -156,6 +171,7 @@ public class KeyListenClientBackend extends JPanel implements KeyListener, Seria
 			if(bullet != null && p.collidedWithBullet(bullet) && !bullet.isOwner(p)) {
 				if(p.takeDamage(bullet.getDamage()) && i == playerID) {
 					client.sendObject(new PlayerDeath(playerID));
+					result = LOST;
 				}
 				bullets.remove(bullet);
 			}
@@ -196,6 +212,13 @@ public class KeyListenClientBackend extends JPanel implements KeyListener, Seria
 			if(bullet != null) {
 				bullet.paint(g);
 			}
+		}
+		g.setFont(endScreenFont);
+		g.setColor(new Color(222, 49, 99));
+		if(result == WON) {
+			g.drawString("Victory!", 100, 400);
+		} else if(result == LOST) {
+			g.drawString("LOST", 300, 200);
 		}
 
 		requestFocus();
