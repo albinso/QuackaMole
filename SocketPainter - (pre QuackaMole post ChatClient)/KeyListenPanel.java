@@ -88,8 +88,7 @@ public class KeyListenPanel extends JPanel implements Serializable {
 		return obstacles;
 	}
 
-	private boolean isNumeric(String str)
-	{
+	private boolean isNumeric(String str) {
 		return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
 	}
 
@@ -117,7 +116,6 @@ public class KeyListenPanel extends JPanel implements Serializable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-//		g.drawImage(gamefield, 0, 0, null);
 		gamefield.paintIcon(null, g, 0, 0);
 
 		for (Obstacle obstacle : obstacles)
