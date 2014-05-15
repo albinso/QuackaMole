@@ -50,6 +50,8 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					} else if (temp instanceof KeyListenPlayer){
 						KeyListenPlayer tempPlay = (KeyListenPlayer)temp;
 						players[tempPlay.getID()] = tempPlay;
+					} else if(temp instanceof Bullet) {
+						bullets.add((Bullet)temp);
 					}
 				}
 			}
@@ -96,6 +98,7 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 					}
 					for(Bullet b : bullets) {
 						b.move();
+						checkObstacleBulletCollision(b);
 					}
 					try {
 						sleep(20);
@@ -129,15 +132,26 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		}
 	}
 
+	private void checkObstacleBulletCollision(Bullet bullet) {
+		for(int i = 0; i < obstacles.size(); i++) {
+			Obstacle block = obstacles.get(i);
+			if(block != null && bullet.collidedWithBlock(block)) {
+				bullets.remove(bullet);
+			}
+		}
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//panel.getImage().paintIcon(null, g, 0, 0);
-		for(Obstacle obstacle : obstacles) {
+		for(int i = 0; i < obstacles.size(); i++) {
+			Obstacle obstacle = obstacles.get(i);
 			if(obstacle != null) {
 				obstacle.paint(g);
 			}
 		}
-		for(Buff buff : buffs) {
+		for(int i = 0; i < buffs.size(); i++) {
+			Buff buff = buffs.get(i);
 			if(buff != null) {
 				buff.paint(g);
 			}
@@ -167,7 +181,6 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		if(isMoving) {
 			return;
 		}
-		isMoving = true;
 		int direction = 3;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
 			direction = 0;
@@ -176,9 +189,10 @@ public class KeyListenClient extends JPanel implements KeyListener, Serializable
 		} else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			direction = 2;
 		} else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-			bullets.add(players[playerID].shoot());
+			client.sendObject(players[playerID].shoot());
 			return;
 		}
+		isMoving = true;
 
 		MovePackage p = new MovePackage(playerID, direction);
 		client.sendObject(p);

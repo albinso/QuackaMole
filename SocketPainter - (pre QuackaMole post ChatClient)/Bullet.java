@@ -1,6 +1,7 @@
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Bullet {
+public class Bullet implements Serializable {
 	private final boolean up, down, left, right;
 	private int x, y, ownerID;
 	private final int SIZE;
@@ -42,6 +43,11 @@ public class Bullet {
 		// TODO: Make test for this
 		return this.x <= x && x < this.x + SIZE && 
 				this.y <= y && y < this.y + SIZE;
+	}
+
+	public boolean collidedWithBlock(Obstacle obs) {
+		return obs.inBounds(x, y) || obs.inBounds(x + SIZE, y) || 
+			   obs.inBounds(x, y + SIZE) || obs.inBounds(x + SIZE, y + SIZE);
 	}
 
 	public void move() {
