@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.*; // DEBUGG
 
 public class KeyListenLobby extends Thread implements Serializable {
+	private final int adjustment = 8;
+
 	private static String IMG_PATH;
 	private ArrayList<ObjectOutputStream> outputList;
 	private LinkedList<KeyListenPlayer> players;
@@ -73,8 +75,8 @@ public class KeyListenLobby extends Thread implements Serializable {
 		int id = players.size();
 		if (panel.startPlaces.size() > 0) {
 			StartPlace startPlace = panel.getStartPlace(id + 1);
-			x = startPlace.getX();
-			y = startPlace.getY();
+			x = startPlace.getX() + adjustment;
+			y = startPlace.getY() + adjustment;
 		} else {
 			x = (int)(Math.random() * panel.width);
 			y = (int)(Math.random() * panel.height);
