@@ -54,22 +54,24 @@ public class Buff implements Serializable {
 	}
 
 	/**
-	 * @return if given coordinate is in bounds
+	 * @return if one of the players corners is in the buff
 	 */
 	public boolean inBounds(int playerX, int playerY, int size) {
 		int x = this.x + adjust;
 		int y = this.y + adjust;
 		return coordinateInBounds(x, y, playerX, playerY, size)
-			&& coordinateInBounds(x + diameter, y, playerX, playerY, size)
-			&& coordinateInBounds(x, y + diameter, playerX, playerY, size)
-			&& coordinateInBounds(x + diameter, y + diameter, playerX, playerY, size);
+			|| coordinateInBounds(x + diameter, y, playerX, playerY, size)
+			|| coordinateInBounds(x, y + diameter, playerX, playerY, size)
+			|| coordinateInBounds(x + diameter, y + diameter, playerX, playerY, size);
 	}
 
+	// help-method for finding inBounds
 	private boolean coordinateInBounds(int x, int y, int playerX, int playerY, int size) {
 		return playerX < x && x < (playerX + size)
 			&& playerY < y && y < (playerY + size);
 	}
 
+	// paints the buff in the given color
 	public void paint(Graphics g) {
 		g.setColor(color);
 		g.fillOval(adjust + x, adjust + y, diameter, diameter);
