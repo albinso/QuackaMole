@@ -14,7 +14,7 @@ public class KeyListenCrate extends Obstacle {
 	}
 
 	public Buff destroyCrate() {
-		return Buff(x, y, buffType);
+		return new Buff(x, y, buffType);
 	}
 
 	/**

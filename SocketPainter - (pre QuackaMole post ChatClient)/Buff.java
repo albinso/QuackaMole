@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-public class Buff implements Serializable{
+public class Buff implements Serializable {
 	public static final int SHIELD = 0,
 							DIGGER = 1;
 	public static final int BUFFTYPES = 2;
@@ -32,14 +32,23 @@ public class Buff implements Serializable{
 		}
 	}
 
+	/**
+	 * Ticks the duration of the buff
+	 */
 	public int duration() {
 		return duration > 0 ? duration-- : duration;
 	}
 
+	/**
+	 * @return type of the buff
+	 */
 	public int getType() {
 		return type;
 	}
 
+	/**
+	 * @return if given coordinate is in bounds
+	 */
 	public boolean inBounds(int x, int y) {
 		return this.x <= x && x < (this.x + diameter) && 
 				this.y <= y && y < (this.y + diameter);
