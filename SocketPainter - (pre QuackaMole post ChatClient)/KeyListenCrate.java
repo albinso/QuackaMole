@@ -14,7 +14,6 @@ public class KeyListenCrate extends Obstacle {
 	}
 
 	public Buff destroyCrate() {
-		System.out.println(buffType);
 		return new Buff(x, y, buffType);
 	}
 

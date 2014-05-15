@@ -193,7 +193,7 @@ public class KeyListenPlayer implements Serializable {
 
 		int xDiff = Math.abs(left) < right ? left : right;
 		int yDiff = Math.abs(up) < down ? up : down;
-		if(Math.abs(xDiff) < Math.abs(yDiff)) { // test xDiff != 0
+		if(Math.abs(xDiff) < Math.abs(yDiff) || yDiff == 0) {
 			x += xDiff;
 		} else {
 			y += yDiff;
@@ -203,6 +203,7 @@ public class KeyListenPlayer implements Serializable {
 	public boolean takeDamage(int damage) {
 		if (shield)
 			return false;
+
 		health -= damage;
 		return health <= 0;
 	}
