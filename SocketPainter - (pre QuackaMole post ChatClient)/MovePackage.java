@@ -9,19 +9,6 @@ public class MovePackage extends KeyListenPackage {
 	
 	@Override
 	public void doAction(KeyListenPlayer p) {
-		switch(direction) {
-			case UP:
-				p.goUp();
-				break;
-			case DOWN:
-				p.goDown();
-				break;
-			case LEFT:
-				p.goLeft();
-				break;
-			case RIGHT:
-				p.goRight();
-				break;
-		}
+		p.setMoving(direction, true);
 	}
 }
