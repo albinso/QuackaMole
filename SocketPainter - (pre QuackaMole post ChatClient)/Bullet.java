@@ -41,10 +41,9 @@ public class Bullet implements Serializable {
 	/**
 	* Tells if the square defined by the params contains any of the bullet's corners.
 	*/
-	public boolean inBounds(int x, int y, int size) {
-		// TODO: Make test for this
-		return x <= this.x && this.x < x + size && 
-				y <= this.y && this.y < y + size;
+	public boolean inBounds(int playerX, int playerY, int size) {
+		return ((playerX < x && x < (playerX + size)) || (playerX < (x + SIZE) && (x + SIZE) < (playerX + size)))
+			&& ((playerY < y && y < (playerY + size)) || (playerY < (y + SIZE) && (y + SIZE) < (playerY + size)));
 	}
 
 	public boolean collidedWithBlock(Obstacle obs) {
