@@ -80,58 +80,76 @@ public class KeyListenPlayer implements Serializable {
 	* Sets player direction to straight up.
 	* Equivalent methods for other directions exist.
 	*/
-	public void goUp() {
-		up = true;
-		down = false;
-		left = false;
-		right = false;
-		moving = true;
+	public void setUp(boolean bool) {
+		up = bool;
+		moving = up || down || left || right;
+		if(!moving) {
+			up = !up;
+		} 
+		if(up) {
+			right = false;
+			left = false;
+			down = false;
+		}
 	}
 
-	public void goDown() {
-		up = false;
-		down = true;
-		left = false;
-		right = false;
-		moving = true;
+	public void setDown(boolean bool) {
+		down = bool;
+		moving = up || down || left || right;
+		if(!moving) {
+			down = !down;
+		} 
+		if(down) {
+			up = false;
+			right = false;
+			left = false;
+		}
 	}
 
-	public void goLeft() {
-		up = false;
-		down = false;
-		left = true;
-		right = false;
-		moving = true;
+	public void setLeft(boolean bool) {
+		left = bool;
+		moving = up || down || left || right;
+		if(!moving) {
+			left = !left;
+		} 
+		if(left) {
+			up = false;
+			right = false;
+			down = false;
+		}
 	}
 
-	public void goRight() {
-		up = false;
-		down = false;
-		left = false;
-		right = true;
-		moving = true;
+	public void setRight(boolean bool) {
+		right = bool;
+		moving = up || down || left || right;
+		if(!moving) {
+			right = !right;
+		} 
+		if(right) {
+			up = false;
+			left = false;
+			down = false;
+		}
 	}
 
 	/**
 	* Sets the movement in the given direction to keepMoving.
 	*/
 	public void setMoving(int direction, boolean keepMoving) {
-		boolean oldUp = up, oldDown = down, oldLeft = left, oldRight = right;
 		switch(direction) {
 			case MovePackage.UP:
-				up = keepMoving;
+				setUp(keepMoving);
 				break;
 			case MovePackage.DOWN:
-				down = keepMoving;
+				setDown(keepMoving);
 				break;
 			case MovePackage.LEFT:
-				left = keepMoving;
+				setLeft(keepMoving);
 				break;
 			case MovePackage.RIGHT:
-				right = keepMoving;
+				setRight(keepMoving);
 				break;
 		}
-		moving = keepMoving;
 	}
 
 	/**
@@ -146,11 +164,11 @@ public class KeyListenPlayer implements Serializable {
 		}
 		if (up)
 			y -= movement;
-		if (down)
+		else if (down)
 			y += movement;
-		if (left)
+		else if (left)
 			x -= movement;
-		if (right)
+		else if (right)
 			x += movement;
 	}
 
