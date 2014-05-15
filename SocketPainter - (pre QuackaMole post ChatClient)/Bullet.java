@@ -68,4 +68,8 @@ public class Bullet implements Serializable {
 	public int getDamage() {
 		return 1000;
 	}
+
+	public String toString() {
+		return "Fired by: " + ownerID;
+	}
 }
