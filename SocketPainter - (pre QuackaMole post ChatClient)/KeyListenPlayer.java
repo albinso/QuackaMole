@@ -24,7 +24,7 @@ public class KeyListenPlayer implements Serializable {
 		right = false;
 		this.id = id;
 		health = MAXIMALHEALTH;
-		digCooldown = 20;
+		digCooldown = 10;
 		digDamage = 1;
 		shield = false;
 		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);

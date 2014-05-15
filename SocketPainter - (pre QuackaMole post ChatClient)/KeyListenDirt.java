@@ -11,8 +11,10 @@ public class KeyListenDirt extends Obstacle {
 	* Only for use in constructor of superclass.
 	*/
 	private static ImageIcon[] getImages() {
-		ImageIcon[] images = new ImageIcon[1];
-		images[0] = new ImageIcon(Toolkit.getDefaultToolkit().getImage("dirt_v2.png"));
+		ImageIcon[] images = new ImageIcon[5];
+		for(int i = 0; i < images.length; i++) {
+			images[i] = new ImageIcon(Toolkit.getDefaultToolkit().getImage("dirt_v2.png"));
+		}
 		return images;
 	}
 }
