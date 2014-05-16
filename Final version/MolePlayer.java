@@ -9,12 +9,15 @@ import javax.swing.ImageIcon;
  * Able to destroy Obstacles by colliding with them.
  * Can spawn Bullets but will also take damage by colliding with Bullets spawned by other players.
  * Can be serialized and sent to server.
+ * 
  * @author Per Nyberg, Albin Söderholm
  */
 public class MolePlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
+
 	private final Color lePink = new Color(255, 20, 147, 150);
 	private final int 	SIZE = 32, MAXIMALHEALTH = 100;
+
 	private int digCooldown, digCount, digDamage;
 	private int shootCooldown, shootCount;
 	public int x, y;
@@ -102,8 +105,7 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	 * Sets player direction to straight up.
-	 * Equivalent methods for other directions exist.
+	 * Sets player direction to up.
 	 */
 	public void setUp(boolean bool) {
 		up = bool;
@@ -118,6 +120,9 @@ public class MolePlayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Sets player direction to down.
+	 */
 	public void setDown(boolean bool) {
 		down = bool;
 		moving = up || down || left || right;
@@ -131,6 +136,9 @@ public class MolePlayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Sets player direction to left.
+	 */
 	public void setLeft(boolean bool) {
 		left = bool;
 		moving = up || down || left || right;
@@ -144,6 +152,9 @@ public class MolePlayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Sets player direction to right.
+	 */
 	public void setRight(boolean bool) {
 		right = bool;
 		moving = up || down || left || right;
@@ -178,10 +189,11 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	 * Moves based on the direction variables.
+	 * Movement based on the direction variables.
 	 */
 	public void move() {
-		if (buff != null && buff.getType() == Buff.SPEEDER) // Reduces durability of speed buff.
+		// Reduces durability of speed buff.
+		if (buff != null && buff.getType() == Buff.SPEEDER)
 			buff.durate();
 
 		if(!moving) {
@@ -198,7 +210,7 @@ public class MolePlayer implements Serializable {
 	}
 
 	/** 
-	 * Spawns a Bullet which moves in the player's current facing direction.
+	 * @return a Bullet which moves in the player's current facing direction.
 	 */
 	public Bullet shoot() {
 		if(shootCount >= shootCooldown) {
@@ -209,10 +221,16 @@ public class MolePlayer implements Serializable {
 		return null;
 	}
 
+	/**
+	 * @return the x-value of the player
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * @return the y-value of the player
+	 */
 	public int getY() {
 		return y;
 	}
@@ -229,7 +247,6 @@ public class MolePlayer implements Serializable {
 	 * Has a cooldown between uses. If on cooldown damage returned will be 0.
 	 */
 	public int getDigDamage() {
-		// TODO: Make test for this
 		if(digCount > digCooldown) {
 			if (buff != null && buff.getType() == Buff.DIGGER)
 				buff.durate();
@@ -237,6 +254,7 @@ public class MolePlayer implements Serializable {
 			digCount = 0;
 			return digDamage;
 		}
+
 		digCount++;
 		return 0;
 	}
@@ -248,53 +266,47 @@ public class MolePlayer implements Serializable {
 	 * @return true if player is currently colliding with the given obstacle.
 	 */
 	public boolean collidedWithBlock(Obstacle block) {
-		// TODO: nicer direction-variable/s
-		int	direction = -1;
-
-		if (up)
-			direction = 0;
-		else if (right)
-			direction = 1;
-		else if (down)
-			direction = 2;
-		else if (left)
-			direction = 3;
-
 		if(block.inBounds(x, y)) {
-			if (direction == 0)
+			if (up)
 				y = block.getDownSide();
-			else if (direction == 3)
+			else if (left)
 				x = block.getRightSide();
 			return true;
 		} 
 		if(block.inBounds(x + SIZE, y)) {
-			if (direction == 0)
+			if (up)
 				y = block.getDownSide();
-			else if (direction == 1)
+			else if (right)
 				x = block.getLeftSide() - SIZE;
 			return true;
 		} 
 		if(block.inBounds(x, y + SIZE)) {
-			if (direction == 2)
+			if (down)
 				y = block.getUpSide() - SIZE;
-			else if (direction == 3)
+			else if (left)
 				x = block.getRightSide();
 			return true;
 		} 
 		if(block.inBounds(x + SIZE, y + SIZE)) {
-			if (direction == 1)
+			if (right)
 				x = block.getLeftSide() - SIZE;
-			else if (direction == 2)
+			else if (down)
 				y = block.getUpSide() - SIZE;
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * @return if the player has been hit by the bullet.
+	 */
 	public boolean collidedWithBullet(Bullet bullet) {
 		return bullet.inBounds(x, y, SIZE);
 	}
 
+	/**
+	 * @return if the player can pick up the buff.
+	 */
 	public boolean collidedWithBuff(Buff buff) {
 		return buff.inBounds(x, y, SIZE);
 	}
@@ -332,6 +344,9 @@ public class MolePlayer implements Serializable {
 		return health <= 0;
 	}
 
+	/**
+	 * Paints the player
+	 */
 	public void paint(Graphics g) {
 		image.paintIcon(null, g, x, y);
 
