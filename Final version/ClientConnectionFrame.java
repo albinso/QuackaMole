@@ -90,7 +90,7 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 		InetSocketAddress adr = new InetSocketAddress(ipAddress, port);
 
 		try {
-			frame.add(new ClientConnectionFrame(adr));
+			frame.add(new ClientGamePanel(adr));
 		} catch(IOException e) {
 			JOptionPane.showMessageDialog(null, "Could not find host using given ip and port number.");
 			return;

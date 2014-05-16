@@ -22,7 +22,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 	private QuackaMoleBackendClient client;
 	private int playerID;
 	private boolean isMoving = true;
-	private Queue<CommandPackage> actions;
+	private Queue<QuackaMolePackage> actions;
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<Buff> buffs;
 	private LinkedList<Bullet> bullets;
@@ -31,7 +31,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 	private MolePlayer[] players = new MolePlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 
 	public ClientGamePanel(InetSocketAddress adr) throws IOException {
-		actions = new LinkedList<CommandPackage>();
+		actions = new LinkedList<QuackaMolePackage>();
 		buffs = new LinkedList<Buff>();
 		bullets = new LinkedList<Bullet>();
 		endScreenFont = new Font("Comic Sans", 0, 300);
