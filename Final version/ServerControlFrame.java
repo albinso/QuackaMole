@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
  * @author Per Nyberg, Albin Söderholm
  */
 public class ServerControlFrame extends JFrame implements ActionListener {
+	private static final String mapPath = "map.txt"; // TODO: Allow this to change in GUI.
 	private JLabel portNumberLabel, serverStatus;
 	private JPanel portNumberPanel;
 	private JTextField portNumberField;
@@ -78,7 +80,7 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 			// By multithreading we allow for potential future support for multiple games on one host.
 			public void run() {
 				try {
-					new QuackaMoleBackendServer(port);
+					new QuackaMoleBackendServer(port, mapPath);
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "Something went wrong. Please restart the server.");
 				}
