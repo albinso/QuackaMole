@@ -118,7 +118,8 @@ public class KeyListenLobby extends Thread {
 			}
 			queue.add(players.get(id)); // Queues the new player for distribution.
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Could not connect to client. Shutting down.");
+			System.exit(-1);
 		}
 
 		// This Thread will listen for input from the client and queue it up for distribution.
@@ -130,9 +131,11 @@ public class KeyListenLobby extends Thread {
 						queue.add(inputStream.readObject());
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Information could not be transmitted properly. Shutting down.");
+					System.exit(-1);
 				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
+					e.printStackTrace(); // This should not happen and if it does a stackTrace is more useful than anything we have to say.
+					System.exit(-2);
 				}
 			}
 		}.start();
