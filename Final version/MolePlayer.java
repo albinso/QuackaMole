@@ -40,7 +40,7 @@ public class MolePlayer implements Serializable {
 		digDamage = 1;
 		shootCooldown = 40;
 		shield = false;
-		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);
+		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("mole.png")), SIZE, SIZE);
 	}
 
 	/**

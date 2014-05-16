@@ -28,7 +28,7 @@ public class Obstacle implements Serializable {
 		this.y = y;
 		this.durability = durability;
 
-		this.image = image;
+		this.image = resizeIcon(image, SIZE, SIZE);
 	}
 
 	/**

@@ -123,7 +123,7 @@ public class GameLobby extends Thread {
 			Integer id = addPlayer();
 			outputList.get(outputList.size() - 1).writeObject(id); // Sends new player's id back to them.
 			outputList.get(outputList.size() - 1).writeObject(obstacles); // Sends a list containing all Obstacles.
-
+			outputList.get(outputList.size() - 1).flush();
 			for(int i = 0; i < id; i++) {
 				outputList.get(id).writeObject(players.get(i)); // Sends all other players to the new one.
 			}
@@ -187,8 +187,10 @@ public class GameLobby extends Thread {
 				for(int i = 0; i < outputList.size(); i++) {
 					try {
 						outputList.get(i).writeObject(poll);
+						outputList.get(i).flush();
 					} catch(IOException e) {
-						ErrorHandling.exit("Information could not be transmitted properly. Shutting down.", -1);
+						e.printStackTrace();
+						System.exit(0);
 					}
 				}
  			}

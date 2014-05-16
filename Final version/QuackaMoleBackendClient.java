@@ -34,7 +34,9 @@ public class QuackaMoleBackendClient extends Socket {
 		try {
 			o = inputStream.readObject();
 		} catch(IOException e) {
-			ErrorHandling.exit("Could not communicate with server. Shutting down.", 3);
+			//ErrorHandling.exit("Could not communicate with server. Shutting down.", 3);
+			e.printStackTrace();
+			System.exit(0);
 		} catch(ClassNotFoundException e) {
 			e.printStackTrace(); // Files are lacking or corrupt. A stackTrace is all we've got here.
 			System.exit(4);
