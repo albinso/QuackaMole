@@ -11,14 +11,13 @@ import java.util.LinkedList;
  * Will create a map based on the map.txt file and distribute this among all players.
  * The Lobby will be distributing all information that needs to be shared between clients.
  * This include Player information, map layout and Player commands.
+ *
  * @author Per Nyberg, Albin Söderholm
  */
 public class GameLobby extends Thread {
 	private final int adjustment = 8;
 
 //	private static String IMG_PATH;
-
-	public LinkedList<StartPlace> startPlaces;
 
 	private ArrayList<ObjectOutputStream> outputList;
 	private LinkedList<KeyListenPlayer> players;
