@@ -13,7 +13,7 @@ public class StopPackage extends QuackaMolePackage {
 	private int x, y;
 	private int direction;
 
-	public StopPackage(KeyListenPlayer player, int direction) {
+	public StopPackage(MolePlayer player, int direction) {
 		super(player.getID());
 
 		this.x = player.getX();
@@ -27,7 +27,7 @@ public class StopPackage extends QuackaMolePackage {
 	 * position.
 	 */
 	@Override
-	public void doAction(KeyListenPlayer player) {
+	public void doAction(MolePlayer player) {
 		player.setMoving(direction, false);
 		player.setPosition(x, y);
 	}
