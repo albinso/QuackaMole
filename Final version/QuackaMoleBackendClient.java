@@ -30,7 +30,6 @@ public class QuackaMoleBackendClient extends Socket {
 	 * @return An unidentified Object.
 	 */
 	public Object getObject() {
-		// TODO: Make test for this
 		Object o = null;
 		try {
 			o = inputStream.readObject();
@@ -45,8 +44,8 @@ public class QuackaMoleBackendClient extends Socket {
 	}
 
 	/**
-	* Sends an object to the server. If nothing goes wrong it will be distributed between all other clients.
-	*/
+	 * Sends an object to the server. If nothing goes wrong it will be distributed between all other clients.
+	 */
 	public void sendObject(Object o) {
 		try {
 			outputStream.writeObject(o);
