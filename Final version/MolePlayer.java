@@ -27,7 +27,7 @@ public class MolePlayer implements Serializable {
 	private Buff buff;
 	private transient boolean up, down, left, right, moving;
 
-	public KeyListenPlayer(int x, int y, int id) {
+	public MolePlayer(int x, int y, int id) {
 		setPosition(x, y);
 		up = false;
 		down = false;

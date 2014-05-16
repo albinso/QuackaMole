@@ -1,4 +1,4 @@
-import java.io.*; // TODO
+//import java.io.*; // TODO
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -11,12 +11,16 @@ import java.util.LinkedList;
  * Will create a map based on the map.txt file and distribute this among all players.
  * The Lobby will be distributing all information that needs to be shared between clients.
  * This include Player information, map layout and Player commands.
+ * 
  * @author Per Nyberg, Albin Söderholm
  */
-public class KeyListenLobby extends Thread {
+public class GameLobby extends Thread {
 	private final int adjustment = 8;
 
-	private static String IMG_PATH;
+//	private static String IMG_PATH;
+
+	public LinkedList<StartPlace> startPlaces;
+
 	private ArrayList<ObjectOutputStream> outputList;
 	private LinkedList<KeyListenPlayer> players;
 	private LinkedList<Obstacle> obstacles;
@@ -25,9 +29,7 @@ public class KeyListenLobby extends Thread {
 	public int width;
 	public int height;
 	
-	public LinkedList<StartPlace> startPlaces;
-
-	public KeyListenLobby(String mapPath) {
+	public GameLobby(String mapPath) {
 		startPlaces = new LinkedList<StartPlace>();
 		outputList = new ArrayList<ObjectOutputStream>();
 		queue = new LinkedList<Object>();
@@ -54,12 +56,16 @@ public class KeyListenLobby extends Thread {
 
 		int x = 0;
 		int y = 0;
+
+		// goes through the file.
 		while (fileScanner.hasNext()) {
 			Scanner lineScanner = new Scanner(fileScanner.nextLine());
 			x = 0;
+			// goes through a line in the file.
 			while (lineScanner.hasNext()) {
 				String token = lineScanner.next();
 
+				// creates objects on the map.
 				if (token.equals("#"))
 					obstacles.add(new KeyListenDirt(x, y));
 				else if (token.equals("*"))
@@ -110,12 +116,15 @@ public class KeyListenLobby extends Thread {
 	public void addClient(final Socket socket) {
 		try {
 			outputList.add(new ObjectOutputStream(socket.getOutputStream()));
+
 			Integer id = addPlayer();
 			outputList.get(outputList.size() - 1).writeObject(id); // Sends new player's id back to them.
 			outputList.get(outputList.size() - 1).writeObject(obstacles); // Sends a list containing all Obstacles.
+
 			for(int i = 0; i < id; i++) {
 				outputList.get(id).writeObject(players.get(i)); // Sends all other players to the new one.
 			}
+
 			queue.add(players.get(id)); // Queues the new player for distribution.
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Could not connect to client. Shutting down.");
@@ -127,6 +136,7 @@ public class KeyListenLobby extends Thread {
 			public void run() {
 				try {
 					ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+
 					while (true) {
 						queue.add(inputStream.readObject());
 					}
@@ -160,13 +170,13 @@ public class KeyListenLobby extends Thread {
 		}
 		
 		players.add(new KeyListenPlayer(x, y, id));
+
 		return id;
 	}
 
 	/**
 	 * Relays commands and objects to all clients.
 	 * Will iterate over the queue that contains all incoming commands and send all of them to all clients.
-	 * 
 	 */
 	public void run() {
 		while(true) {
