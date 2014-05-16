@@ -216,7 +216,17 @@ public class MolePlayer implements Serializable {
 		if(shootCount >= shootCooldown) {
 			shootCount = 0;
 			int adjustment = SIZE/2 - Bullet.SIZE/2;
-			return new Bullet(x + adjustment, y + adjustment, up, down, left, right, getID());
+			int direction = 0;
+			if(up) {
+				direction = 0;
+			} else if(down) {
+				direction = 1;
+			} else if(left) {
+				direction = 2;
+			} else if(right) {
+				direction = 3;
+			}
+			return new Bullet(x + adjustment, y + adjustment, direction, getID());
 		}
 		return null;
 	}
