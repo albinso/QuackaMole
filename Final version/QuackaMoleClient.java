@@ -25,6 +25,7 @@ public class QuackaMoleClient extends JFrame implements ActionListener {
 	private JTextField usernameField, serverAddressField, portNumberField;
 	private JPanel buttonPanel;
 	private JButton startButton;
+	private JButton tutorialButton;
 
 	/**
 	 * Creates labels for username, server address and port number.
@@ -47,6 +48,7 @@ public class QuackaMoleClient extends JFrame implements ActionListener {
 
 		buttonPanel = new JPanel();
 		startButton = new JButton("Connect to server!");
+		tutorialButton = new JButton("How to play");
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
@@ -66,8 +68,10 @@ public class QuackaMoleClient extends JFrame implements ActionListener {
 		add(portNumberPanel);
 
 		startButton.addActionListener(this);
+		tutorialButton.addActionListener(this);
 
 		buttonPanel.add(startButton);
+		buttonPanel.add(tutorialButton);
 
 		add(buttonPanel);
 
@@ -117,8 +121,14 @@ public class QuackaMoleClient extends JFrame implements ActionListener {
 	 * Checks if the startbutton has been pressed
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == startButton)
+		if (e.getSource() == startButton) {
 			connectToServer();
+		} else if(e.getSource() == tutorialButton) {
+			String tut = "You are Mole.\nYou dig holes.\nNow other moles come to your land and dig!" +
+						"\nShoot other moles with space bar.\nMove with arrow keys.\nDestroy walls by walking into them." +
+						"\nDestroy boxes to get good stuff.\nWin by being last Mole standing.";
+			JOptionPane.showMessageDialog(null, tut);
+		}
 	}
 
 	/**

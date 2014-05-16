@@ -220,11 +220,11 @@ public class MolePlayer implements Serializable {
 			if(up) {
 				direction = 0;
 			} else if(down) {
-				direction = 1;
-			} else if(left) {
 				direction = 2;
-			} else if(right) {
+			} else if(left) {
 				direction = 3;
+			} else if(right) {
+				direction = 1;
 			}
 			return new Bullet(x + adjustment, y + adjustment, direction, getID());
 		}
