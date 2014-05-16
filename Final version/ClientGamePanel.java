@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Graphics;
@@ -18,14 +17,16 @@ import java.util.Queue;
  * @author Per Nyberg, Albin Söderholm
  */
 public class ClientGamePanel extends JPanel implements KeyListener, Serializable {
-	private static final int LOST = -1, RUNNING = 0, WON = 1; // Determines current state of game
+	// Determines current state of game
+	private static final int LOST = -1, RUNNING = 0, WON = 1;
+
 	private QuackaMoleBackendClient client;
-	private int playerID;
-	private boolean isMoving = true;
 	private Queue<QuackaMolePackage> actions;
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<Buff> buffs;
 	private LinkedList<Bullet> bullets;
+	private int playerID;
+	private boolean isMoving = true;
 	private int result = RUNNING;
 	private Font endScreenFont;
 	private MolePlayer[] players = new MolePlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
@@ -196,9 +197,12 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		}
 	}
 
+	/**
+	 * Paints the gamepanel
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//panel.getImage().paintIcon(null, g, 0, 0);
+
 		for(int i = 0; i < obstacles.size(); i++) {
 			Obstacle obstacle = obstacles.get(i);
 			if(obstacle != null) {
@@ -220,9 +224,8 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 			if(player == null) {
 				continue;
 			}
-			//if(Math.abs(player.getX() - players[playerID].getX()) < 100 && Math.abs(player.getY() - players[playerID].getY()) < 100) {
-				player.paint(g);
-			//}
+
+			player.paint(g);
 		}
 
 		for(int i = 0; i < bullets.size(); i++) {
@@ -231,6 +234,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 				bullet.paint(g);
 			}
 		}
+
 		g.setFont(endScreenFont);
 		g.setColor(new Color(222, 49, 99));
 		if(result == WON) {
@@ -276,8 +280,11 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		}
 	}
 
+	/**
+	 * Checks if any key has been typed, not relevant in our code.
+	 */
 	public void keyTyped(KeyEvent e) {
-
+		// do nothing
 	}
 
 	/**
