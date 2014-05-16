@@ -29,6 +29,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 	private boolean isMoving = true;
 	private int result = RUNNING;
 	private Font endScreenFont;
+	private int refreshPlayerCount, refreshCooldown; // Used to occasionally refresh position in other clients while moving.
 	private MolePlayer[] players = new MolePlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 
 	public ClientGamePanel(InetSocketAddress adr) throws IOException {
@@ -36,6 +37,8 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		buffs = new LinkedList<Buff>();
 		bullets = new LinkedList<Bullet>();
 		endScreenFont = new Font("Comic Sans", 0, 300);
+
+		refreshCooldown = 30;
 
 		this.client = new QuackaMoleBackendClient(adr, "Rick Astley");
 		this.playerID = (int)client.getObject();
@@ -259,9 +262,11 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 			}
 			return;
 		}
-		if(isMoving) {
+		if(isMoving && refreshPlayerCount < refreshCooldown) {
+			refreshPlayerCount++;
 			return;
 		}
+		refreshPlayerCount = 0;
 		int direction = -1;
 		if(e.getKeyCode() == KeyEvent.VK_UP) {
 			direction = 0;
@@ -275,7 +280,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 
 		if(direction != -1) {
 			isMoving = true;
-			MovePackage p = new MovePackage(playerID, direction);
+			MovePackage p = new MovePackage(players[playerID], direction);
 			p.doAction(players[playerID]);
 			client.sendObject(p);
 		}
