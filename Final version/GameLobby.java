@@ -1,10 +1,15 @@
-//import java.io.*; // TODO
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  * Represents one instance of the game.
@@ -17,10 +22,8 @@ import java.util.LinkedList;
 public class GameLobby extends Thread {
 	private final int adjustment = 8;
 
-//	private static String IMG_PATH;
-
 	private ArrayList<ObjectOutputStream> outputList;
-	private LinkedList<KeyListenPlayer> players;
+	private LinkedList<MolePlayer> players;
 	private LinkedList<Obstacle> obstacles;
 	private Queue<Object> queue;
 
@@ -33,7 +36,7 @@ public class GameLobby extends Thread {
 		spawnpoints = new LinkedList<SpawnPoint>();
 		outputList = new ArrayList<ObjectOutputStream>();
 		queue = new LinkedList<Object>();
-		players = new LinkedList<KeyListenPlayer>();
+		players = new LinkedList<MolePlayer>();
 		obstacles = initMap(mapPath);
 	}
 
@@ -75,7 +78,7 @@ public class GameLobby extends Thread {
 					spawnpoints.add(new SpawnPoint(x, y, startNumber));
 				}
 				else if (token.equals("$"))
-					obstacles.add(new KeyListenCrate(x, y));
+					obstacles.add(new Crate(x, y));
 
 				x += Obstacle.SIZE;
 			}
@@ -169,7 +172,7 @@ public class GameLobby extends Thread {
 			y = (int)(Math.random() * height);
 		}
 		
-		players.add(new KeyListenPlayer(x, y, id));
+		players.add(new MolePlayer(x, y, id));
 
 		return id;
 	}
