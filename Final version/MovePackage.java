@@ -21,7 +21,7 @@ public class MovePackage extends QuackaMolePackage {
 	 * of the targeted player.
 	 */
 	@Override
-	public void doAction(KeyListenPlayer p) {
+	public void doAction(MolePlayer p) {
 		p.setMoving(direction, true);
 	}
 }
