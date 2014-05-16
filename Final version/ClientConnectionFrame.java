@@ -3,7 +3,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.*;
+import java.net.InetSocketAddress;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +26,12 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 	private JPanel buttonPanel;
 	private JButton startButton;
 
+	/**
+	 * Creates labels for username, server address and port number.
+	 * The constructor also creates textfields placed on panels with
+	 * some default data for the user.
+	 * They are all placed out using BoxLayout along the Y-axis.
+	 */
 	public ClientConnectionFrame() {
 		usernameLabel = new JLabel("Username");
 		serverAddressLabel = new JLabel("Server address");
@@ -71,14 +77,15 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 	}
 
 	/**
-	* Attempts to connect to a server using the values given by the user.
-	* If failed a popup will inform the user of this and the attempt will be aborted.
-	*/
+	 * Attempts to connect to a server using the values given by the user.
+	 * If failed a popup will inform the user of this and the attempt will be aborted.
+	 */
 	public void connectToServer() {
 		JFrame frame = new JFrame("QuackaMole!");
 		String ipAddress = serverAddressField.getText();
 		int port = 0;
 
+		// get the port number.
 		try {
 			String portNumberText = portNumberField.getText();
 			port = Integer.parseInt(portNumberText);
@@ -96,20 +103,27 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 			return;
 		}
 
+		// fixes the attributes for the frame
 		frame.setSize(1200, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.requestFocus();
 
+		// hides the connect-window
 		setVisible(false);
 	}
 
+	/**
+	 * Checks if the startbutton has been pressed
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == startButton)
 			connectToServer();
 	}
 
-
+	/**
+	 * The engine that starts the client
+	 */
 	public static void main(String[] args) {
 		new ClientConnectionFrame();
 	}
