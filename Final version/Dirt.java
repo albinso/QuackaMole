@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
@@ -8,7 +9,7 @@ import javax.swing.ImageIcon;
  * @author Per Nyberg, Albin Söderholm
  */
 public class Dirt extends Obstacle {
-	private final int durability = 5;
+	private final static int durability = 5;
 
 	/**
 	 * Just redirects the parameters to the constructor 
