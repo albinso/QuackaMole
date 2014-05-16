@@ -17,10 +17,10 @@ public class QuackaMoleBackendServer extends ServerSocket {
 	/**
 	 * Initiates the backend server.
 	 */
-	public QuackaMoleBackendServer(int port) throws IOException {
+	public QuackaMoleBackendServer(int port, String mapPath) throws IOException {
 		super(port);
 
-		lobby = new GameLobby();
+		lobby = new GameLobby(mapPath);
 
 		lobby.start();
 
