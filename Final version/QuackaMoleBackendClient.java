@@ -11,7 +11,7 @@ import java.net.SocketAddress;
  * Will simply fetch and send objects.
  * @author Per Nyberg, Albin Söderholm
  */
-public class KeyListenBackendClient extends Socket {
+public class QuackaMoleBackendClient extends Socket {
 	private ObjectOutputStream outputStream;
 	private ObjectInputStream inputStream;
 	private String name; // For future use.
@@ -26,6 +26,7 @@ public class KeyListenBackendClient extends Socket {
 
 	/**
 	 * Gets the next object that is sent from the server.
+	 * @return An unidentified Object.
 	 */
 	public Object getObject() {
 		// TODO: Make test for this
