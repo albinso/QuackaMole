@@ -281,7 +281,6 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		if(direction != -1) {
 			isMoving = true;
 			MovePackage p = new MovePackage(players[playerID], direction);
-			p.doAction(players[playerID]);
 			client.sendObject(p);
 		}
 	}
