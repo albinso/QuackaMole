@@ -1,4 +1,5 @@
 import java.awt.Toolkit;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**

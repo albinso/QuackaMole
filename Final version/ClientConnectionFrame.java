@@ -15,6 +15,7 @@ import javax.swing.JTextField;
  * Asks user for ip and port number of the desired server.
  * Will allow the user to request a connection to said server and will, if successful, join or start a game.
  * If request fails a popup will appear with information and the user may try new input.
+ *
  * @author Per Nyberg, Albin Söderholm
  */
 public class ClientConnectionFrame extends JFrame implements ActionListener {
@@ -88,7 +89,7 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 		InetSocketAddress adr = new InetSocketAddress(ipAddress, port);
 
 		try {
-			frame.add(new KeyListenClientBackend(adr));
+			frame.add(new ClientConnectionFrame(adr));
 		} catch(IOException e) {
 			JOptionPane.showMessageDialog(null, "Could not find host using given ip and port number.");
 			return;
@@ -109,6 +110,6 @@ public class ClientConnectionFrame extends JFrame implements ActionListener {
 
 
 	public static void main(String[] args) {
-		new KeyListenClient();
+		new ClientConnectionFrame();
 	}
 }

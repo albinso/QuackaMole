@@ -14,28 +14,29 @@ import java.util.Queue;
  * A panel which will display the current state of the game as we know it.
  * This does not necessarily exactly match other clients but will hopefully be close enough.
  * The panel will synchronize certain player input and events with the other clients.
+ *
  * @author Per Nyberg, Albin Söderholm
  */
 public class ClientGamePanel extends JPanel implements KeyListener, Serializable {
 	private static final int LOST = -1, RUNNING = 0, WON = 1; // Determines current state of game
-	KeyListenBackendClient client;
-	int playerID;
-	boolean isMoving = true;
-	Queue<KeyListenPackage> actions;
+	private QuackaMoleBackendClient client;
+	private int playerID;
+	private boolean isMoving = true;
+	private Queue<CommandPackage> actions;
 	private LinkedList<Obstacle> obstacles;
 	private LinkedList<Buff> buffs;
 	private LinkedList<Bullet> bullets;
 	private int result = RUNNING;
 	private Font endScreenFont;
-	private KeyListenPlayer[] players = new KeyListenPlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
+	private MolePlayer[] players = new MolePlayer[4]; // TODO: We don't want a hard coded 4 in here. We don't even want the client to have any say in the number of players.
 
 	public ClientGamePanel(InetSocketAddress adr) throws IOException {
-		actions = new LinkedList<KeyListenPackage>();
+		actions = new LinkedList<CommandPackage>();
 		buffs = new LinkedList<Buff>();
 		bullets = new LinkedList<Bullet>();
 		endScreenFont = new Font("Comic Sans", 0, 300);
 
-		this.client = new KeyListenBackendClient(adr, "Rick Astley");
+		this.client = new QuackaMoleBackendClient(adr, "Rick Astley");
 		this.playerID = (int)client.getObject();
 		System.out.println(playerID);
 		addKeyListener(this);
@@ -57,10 +58,10 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 			public void run() {
 				while(true) {
 					Object temp = client.getObject();
-					if(temp instanceof KeyListenPackage) {
-						actions.add((KeyListenPackage)temp);
-					} else if (temp instanceof KeyListenPlayer){
-						KeyListenPlayer tempPlay = (KeyListenPlayer)temp;
+					if(temp instanceof QuackaMolePackage) {
+						actions.add((QuackaMolePackage)temp);
+					} else if (temp instanceof MolePlayer){
+						MolePlayer tempPlay = (MolePlayer)temp;
 						players[tempPlay.getID()] = tempPlay;
 					} else if(temp instanceof Bullet) {
 						bullets.add((Bullet)temp);
@@ -80,7 +81,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 	 * Checks if this client's player is the only remaining one alive.
 	 */
 	private boolean checkVictory() {
-		for(KeyListenPlayer p : players) {
+		for(MolePlayer p : players) {
 			if(p != null && p != players[playerID]) {
 				return false;
 			}
@@ -96,7 +97,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		return new Thread() {
 			public void run() {
 				while(true) {
-					KeyListenPackage poll = actions.poll();
+					QuackaMolePackage poll = actions.poll();
 					if(poll != null) {
 						poll.doAction(players[poll.getPlayerID()]);
 					}
@@ -119,7 +120,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 				while(true) {
 					int count = 0;
 					for(int i = 0; i < players.length; i++) {
-						KeyListenPlayer p = players[i];
+						MolePlayer p = players[i];
 						if(p == null) {
 							continue;
 						}
@@ -148,12 +149,12 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 	 * Handles damage dealt to and destruction of obstacles.
 	 * Also handles retrieval of buffs.
 	 */
-	private void checkPlayerCollision(KeyListenPlayer p) {
+	private void checkPlayerCollision(MolePlayer p) {
 		for(int i = 0; i < obstacles.size(); i++) {
 			Obstacle block = obstacles.get(i);
 			if(block != null && p.collidedWithBlock(block) && block.takeDamage(p.getDigDamage())) {
-				if(block instanceof KeyListenCrate) {
-					buffs.add(((KeyListenCrate)block).destroyCrate());
+				if(block instanceof Crate) {
+					buffs.add(((Crate)block).destroyCrate());
 				}
 				obstacles.set(i, null);
 			}
@@ -181,7 +182,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		}
 
 		for(int i = 0; i < players.length; i++) {
-			KeyListenPlayer p = players[i];
+			MolePlayer p = players[i];
 			if(p == null) {
 				continue;
 			}
@@ -215,7 +216,7 @@ public class ClientGamePanel extends JPanel implements KeyListener, Serializable
 		}
 
 		for(int i = 0; i < players.length; i++) {
-			KeyListenPlayer player = players[i];
+			MolePlayer player = players[i];
 			if(player == null) {
 				continue;
 			}
