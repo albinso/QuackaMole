@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
@@ -78,17 +79,17 @@ public class Bullet implements Serializable {
 	 * Moves the bullet
 	 */
 	public void move() {
-		if(up) {
+		if(direction == 0) {
 			y -= SPEED;
 		}
-		if(down) {
+		if(direction == 1) {
+			x += SPEED;
+		}
+		if(direction == 2) {
 			y += SPEED;
 		}
-		if(left) {
+		if(direction == 3) {
 			x -= SPEED;
-		}
-		if(right) {
-			x += SPEED;
 		}
 	}
 
