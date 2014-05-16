@@ -4,6 +4,13 @@ import java.awt.Toolkit;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
+/**
+ * A controllable player.
+ * Able to destroy Obstacles by colliding with them.
+ * Can spawn Bullets but will also take damage by colliding with Bullets spawned by other players.
+ * Can be serialized and sent to server.
+ * @author Per Nyberg, Albin Söderholm
+ */
 public class MolePlayer implements Serializable {
 	public static final long serialVersionUID = 41L;
 	private final Color lePink = new Color(255, 20, 147, 150);
@@ -33,11 +40,17 @@ public class MolePlayer implements Serializable {
 		image = Obstacle.resizeIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage("TheMole.png")), SIZE, SIZE);
 	}
 
+	/**
+	 * Forces the player's position to (x, y).
+	 */
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Removes any currently used buffs and grants a new one.
+	 */
 	public void setBuff(Buff buff) {
 		this.buff = buff;
 
@@ -51,12 +64,18 @@ public class MolePlayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Performs regular checks on buffs and shooting.
+	 */
 	public void tick() {
 		shootTick();
 		buffTick();
 	}
 
-	public void buffTick()  {
+	/**
+	 * Checks if buff has run out.
+	 */
+	private void buffTick()  {
 		if (buff == null)
 			return;
 
@@ -66,10 +85,16 @@ public class MolePlayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Counts towards the next available shot.
+	 */
 	private void shootTick() {
 		shootCount++;
 	}
 
+	/**
+	 * Returns all values that can be altered by buffs to normal.
+	 */
 	private void resetBuff() {
 		digDamage = 1;
 		shield = false;
@@ -77,9 +102,9 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	* Sets player direction to straight up.
-	* Equivalent methods for other directions exist.
-	*/
+	 * Sets player direction to straight up.
+	 * Equivalent methods for other directions exist.
+	 */
 	public void setUp(boolean bool) {
 		up = bool;
 		moving = up || down || left || right;
@@ -133,8 +158,8 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	* Sets the movement in the given direction to keepMoving.
-	*/
+	 * Sets the movement in the given direction to keepMoving.
+	 */
 	public void setMoving(int direction, boolean keepMoving) {
 		switch(direction) {
 			case MovePackage.UP:
@@ -153,10 +178,10 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	* Moves based on the direction variables.
-	*/
+	 * Moves based on the direction variables.
+	 */
 	public void move() {
-		if (buff != null && buff.getType() == Buff.SPEEDER)
+		if (buff != null && buff.getType() == Buff.SPEEDER) // Reduces durability of speed buff.
 			buff.durate();
 
 		if(!moving) {
@@ -172,6 +197,9 @@ public class MolePlayer implements Serializable {
 			x += movement;
 	}
 
+	/** 
+	 * Spawns a Bullet which moves in the player's current facing direction.
+	 */
 	public Bullet shoot() {
 		if(shootCount >= shootCooldown) {
 			shootCount = 0;
@@ -190,16 +218,16 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	* @return an id that is used to identify players in both server and client.
-	*/
+	 * @return an id that is used to identify players in both server and client.
+	 */
 	public int getID() {
 		return id;
 	}
 
 	/**
-	* The damage the player will do to an object. 
-	* Has a cooldown between uses. If on cooldown damage returned will be 0.
-	*/
+	 * The damage the player will do to an object. 
+	 * Has a cooldown between uses. If on cooldown damage returned will be 0.
+	 */
 	public int getDigDamage() {
 		// TODO: Make test for this
 		if(digCount > digCooldown) {
@@ -214,11 +242,11 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	* Determines whether or not the player is colliding with the given block.
-	* Will move the player in case collision is detected.
-	* @param block must always have a size larger than or equal to that of this. 
-	* @return true if player is currently colliding with the given obstacle.
-	*/
+	 * Determines whether or not the player is colliding with the given block.
+	 * Will move the player in case collision is detected.
+	 * @param block must always have a size larger than or equal to that of this. 
+	 * @return true if player is currently colliding with the given obstacle.
+	 */
 	public boolean collidedWithBlock(Obstacle block) {
 		// TODO: nicer direction-variable/s
 		int	direction = -1;
@@ -272,8 +300,8 @@ public class MolePlayer implements Serializable {
 	}
 
 	/**
-	* Helps identify which way to move the player and then adjusts the position accordingly.
-	*/
+     * Helps identify which way to move the player and then adjusts the position accordingly.
+	 */
 	private void moveCornerOutsideBlock(Obstacle block, int cornerX, int cornerY) {
 		int right = block.getRightSide() - cornerX;
 		int left = block.getLeftSide() - cornerX;
@@ -290,6 +318,10 @@ public class MolePlayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Takes damage.
+	 * @return true if damage is lethal.
+	 */
 	public boolean takeDamage(int damage) {
 		if (shield) {
 			buff.durate();
