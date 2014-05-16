@@ -11,7 +11,6 @@ import java.util.LinkedList;
  * Will create a map based on the map.txt file and distribute this among all players.
  * The Lobby will be distributing all information that needs to be shared between clients.
  * This include Player information, map layout and Player commands.
- * 
  * @author Per Nyberg, Albin Söderholm
  */
 public class GameLobby extends Thread {
@@ -29,8 +28,10 @@ public class GameLobby extends Thread {
 	public int width;
 	public int height;
 	
+	public LinkedList<SpawnPoint> spawnpoints;
+
 	public GameLobby(String mapPath) {
-		startPlaces = new LinkedList<StartPlace>();
+		spawnpoints = new LinkedList<SpawnPoint>();
 		outputList = new ArrayList<ObjectOutputStream>();
 		queue = new LinkedList<Object>();
 		players = new LinkedList<KeyListenPlayer>();
@@ -67,12 +68,12 @@ public class GameLobby extends Thread {
 
 				// creates objects on the map.
 				if (token.equals("#"))
-					obstacles.add(new KeyListenDirt(x, y));
+					obstacles.add(new Dirt(x, y));
 				else if (token.equals("*"))
-					obstacles.add(new KeyListenStone(x, y));
+					obstacles.add(new Stone(x, y));
 				else if (isNumeric(token)) {
 					int startNumber = Integer.parseInt(token);
-					startPlaces.add(new StartPlace(x, y, startNumber));
+					spawnpoints.add(new SpawnPoint(x, y, startNumber));
 				}
 				else if (token.equals("$"))
 					obstacles.add(new KeyListenCrate(x, y));
@@ -98,10 +99,10 @@ public class GameLobby extends Thread {
 	/**
 	 * Gives information on where to spawn the player.
 	 */
-	private StartPlace getStartPlace(int startNumber) {
-		for (int i = 0 ; i < startPlaces.size() ; i++)
-			if (startPlaces.get(i).getStartNumber() == startNumber)
-				return startPlaces.remove(i);
+	private SpawnPoint getSpawnPoint(int startNumber) {
+		for (int i = 0 ; i < spawnpoints.size() ; i++)
+			if (spawnpoints.get(i).getStartNumber() == startNumber)
+				return spawnpoints.remove(i);
 		return null;
 	}
 
@@ -160,10 +161,10 @@ public class GameLobby extends Thread {
 		int y = 0;
 		int id = players.size();
 
-		if (startPlaces.size() > 0) {
-			StartPlace startPlace = getStartPlace(id + 1);
-			x = startPlace.getX() + adjustment;
-			y = startPlace.getY() + adjustment;
+		if (spawnpoints.size() > 0) {
+			SpawnPoint spawnPoint = getSpawnPoint(id + 1);
+			x = spawnPoint.getX() + adjustment;
+			y = spawnPoint.getY() + adjustment;
 		} else {
 			x = (int)(Math.random() * width);
 			y = (int)(Math.random() * height);

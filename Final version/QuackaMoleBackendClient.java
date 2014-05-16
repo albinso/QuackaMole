@@ -9,6 +9,7 @@ import java.net.SocketAddress;
 /**
  * Handles all actual communication with the server.
  * Will simply fetch and send objects.
+ *
  * @author Per Nyberg, Albin Söderholm
  */
 public class QuackaMoleBackendClient extends Socket {
@@ -16,7 +17,7 @@ public class QuackaMoleBackendClient extends Socket {
 	private ObjectInputStream inputStream;
 	private String name; // For future use.
 
-	public KeyListenBackendClient(SocketAddress adr, String name) throws IOException {
+	public QuackaMoleBackendClient(SocketAddress adr, String name) throws IOException {
 		this.name = name;
 		connect(adr);
 

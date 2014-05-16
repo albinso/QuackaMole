@@ -18,7 +18,8 @@ import javax.swing.JTextField;
 /**
  * This class handles the GUI for the serverside.
  * It will accept a port number to listen on.
- * Control of both starting and closing the server is available.
+ * Control of both starting and closing the server is available. NOTE: Closing does not work at current time.
+ *
  * @author Per Nyberg, Albin Söderholm
  */
 public class ServerControlFrame extends JFrame implements ActionListener {
@@ -94,8 +95,7 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 				serverStatus.setText("Server online");
 				startButton.setText("Stop server!");
 				startServer();
-			} else { // Kills the server and allows for a new instance to be created.
-				MAKE THIS WORK
+			} else { // Kills the server and allows for a new instance to be created. Not functional at current time.
 				serverStatus.setText("Server offline");
 				startButton.setText("Start server!");
 			}
@@ -103,6 +103,6 @@ public class ServerControlFrame extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] arg) {
-		new KeyListenServer();
+		new ServerControlFrame();
 	}
 }

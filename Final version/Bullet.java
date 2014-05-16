@@ -47,7 +47,7 @@ public class Bullet implements Serializable {
 	/**
 	 * @return if the given player is the shooter of the bullet.
 	 */
-	public boolean isOwner(KeyListenPlayer p) {
+	public boolean isOwner(MolePlayer p) {
 		return p.getID() == ownerID;
 	}
 
@@ -75,7 +75,7 @@ public class Bullet implements Serializable {
 	}
 
 	/**
-	 * Moves the player in the given speed if the player is active.
+	 * Moves the bullet
 	 */
 	public void move() {
 		if(up) {
